@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FYA Section — Layout Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+/* ═══ Design Tokens (from chrome.css) ═══ */
+:root, :root[data-theme="light"] {
+  --t1: #0a0a0a; --t2: #27272a; --t3: #52525b; --t4: #a1a1aa; --t5: #d4d4d8;
+  --accent: #4f46e5; --accent-hover: #4338ca; --accent-soft: rgba(79,70,229,.07);
+  --accent-ring: rgba(79,70,229,.25);
+  --surf: #ffffff; --sub: #fafafa; --surf-2: #f6f7f9; --surf-3: #eef0f2;
+  --bg: #f4f4f5; --hover: #f4f4f5;
+  --bdr: rgba(0,0,0,.08); --bdr-l: rgba(0,0,0,.05); --bdr-m: rgba(0,0,0,.12); --bdr-h: rgba(0,0,0,.18);
+  --r: 12px; --r-md: 10px; --r-sm: 8px; --r-xs: 6px; --r-full: 9999px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.03);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.03);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.06), 0 2px 6px rgba(0,0,0,.04);
+  /* Semantic */
+  --red: #b91c1c; --red-bg: rgba(185,28,28,.07); --red-soft: rgba(185,28,28,.05);
+  --amber: #92400e; --amber-ink: #d97706; --amber-bg: rgba(146,64,14,.07); --amber-bg-2: rgba(217,119,6,.13);
+  --green: #065f46; --green-600: #059669; --green-bg: rgba(6,95,70,.07);
+  --blue: #1d4ed8; --blue-bg: rgba(29,78,216,.07);
+  --purple: #7c3aed; --purple-bg: rgba(109,40,217,.07);
+  --orange: #9a3412;
+}
+:root[data-theme="dark"] {
+  --t1: #fafafa; --t2: #d4d4d8; --t3: #a1a1aa; --t4: #71717a; --t5: #3f3f46;
+  --accent: #818cf8; --accent-hover: #6366f1; --accent-soft: rgba(129,140,248,.10);
+  --accent-ring: rgba(129,140,248,.35);
+  --surf: #141416; --sub: #1a1a1d; --surf-2: #1f1f23; --surf-3: #27272a;
+  --bg: #09090b; --hover: #1f1f23;
+  --bdr: rgba(255,255,255,.08); --bdr-l: rgba(255,255,255,.05); --bdr-m: rgba(255,255,255,.12); --bdr-h: rgba(255,255,255,.18);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.2); --shadow-md: 0 2px 8px rgba(0,0,0,.25);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.3);
+  --red: #f87171; --red-bg: rgba(248,113,113,.10); --red-soft: rgba(248,113,113,.06);
+  --amber: #fbbf24; --amber-ink: #fbbf24; --amber-bg: rgba(251,191,36,.10); --amber-bg-2: rgba(251,191,36,.15);
+  --green: #4ade80; --green-600: #4ade80; --green-bg: rgba(74,222,128,.10);
+  --blue: #60a5fa; --blue-bg: rgba(96,165,250,.10);
+  --purple: #a78bfa; --purple-bg: rgba(167,139,250,.10);
+  --orange: #fb923c;
+}
+
+/* ═══ Global ═══ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Fira Sans', -apple-system, system-ui, sans-serif;
+  background: var(--bg); color: var(--t1);
+  padding: 0; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.page-wrap {
+  max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px;
+}
+h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -.02em; }
+.subtitle { font-size: 13px; color: var(--t3); margin-bottom: 32px; }
+.option-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.option-label::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+.option-box {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: var(--r);
+  padding: 20px; margin-bottom: 40px; overflow: hidden;
+}
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 999;
+  background: var(--surf); border: 1px solid var(--bdr-m); border-radius: var(--r-full);
+  padding: 8px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+  color: var(--t2); display: flex; align-items: center; gap: 6px;
+  box-shadow: var(--shadow-md); transition: background .15s;
+}
+.theme-toggle:hover { background: var(--hover); }
+
+/* ═══ Shared FYA Components ═══ */
+
+/* Banner */
+.fya-banner-v2 {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; margin-bottom: 16px;
+  background: var(--accent-soft); border: 1px solid var(--accent-ring);
+  border-radius: var(--r-sm);
+}
+.fya-banner-v2 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.fya-banner-v2 .label { font-size: 10.5px; font-weight: 700; color: var(--accent); letter-spacing: .07em; text-transform: uppercase; }
+
+/* Category header */
+.cat-hdr {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  border-bottom: 1px solid var(--bdr);
+}
+.cat-icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  font-size: 13px;
+}
+.cat-icon.crit { background: var(--red-bg); color: var(--red); }
+.cat-icon.freq { background: var(--green-bg); color: var(--green-600); }
+.cat-icon.long { background: var(--amber-bg-2); color: var(--amber); }
+.cat-icon.feat { background: var(--purple-bg); color: var(--purple); }
+.cat-title { font-size: 13px; font-weight: 600; color: var(--t1); flex: 1; }
+.cat-count {
+  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-full);
+  white-space: nowrap;
+}
+.cat-count.c-red { background: var(--red-bg); color: var(--red); }
+.cat-count.c-green { background: var(--green-bg); color: var(--green-600); }
+.cat-count.c-amber { background: var(--amber-bg); color: var(--amber); }
+.cat-count.c-purple { background: var(--purple-bg); color: var(--purple); }
+
+/* Ticket card */
+.tkt {
+  padding: 12px 16px; border-radius: var(--r-sm);
+  transition: background .15s, box-shadow .15s;
+  cursor: pointer; position: relative;
+}
+.tkt:hover { background: var(--hover); box-shadow: var(--shadow-sm); }
+.tkt + .tkt { border-top: 1px solid var(--bdr-l); }
+.tkt.is-open { background: var(--accent-soft); border: 1px solid var(--accent-ring); border-radius: var(--r-sm); margin-bottom: 2px; }
+.tkt.is-open + .tkt { border-top: none; }
+.tkt-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tkt-id { font-size: 11px; font-weight: 600; color: var(--accent); font-family: 'Fira Code', monospace; }
+.tkt-pill {
+  font-size: 9.5px; font-weight: 700; padding: 2px 8px; border-radius: var(--r-full);
+  text-transform: uppercase; letter-spacing: .03em; white-space: nowrap;
+}
+.pill-high { background: var(--red-bg); color: var(--red); }
+.pill-resolved { background: var(--green-bg); color: var(--green-600); }
+.pill-ongoing { background: var(--amber-bg); color: var(--amber); }
+.pill-closed { background: var(--green-bg); color: var(--green-600); }
+.pill-issue { background: var(--amber-bg); color: var(--amber); }
+.pill-pm { background: var(--purple-bg); color: var(--purple); }
+.pill-must { background: var(--red-bg); color: var(--red); }
+.pill-dur { background: var(--amber-bg); color: var(--amber-ink); font-size: 9px; display: inline-flex; align-items: center; gap: 3px; }
+.pill-agent { background: var(--accent-soft); color: var(--accent); font-size: 9px; font-weight: 500; text-transform: none; letter-spacing: 0; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.pill-noassist { background: var(--red-bg); color: var(--red); font-weight: 600; }
+.tkt-title { font-size: 13px; font-weight: 500; color: var(--t1); margin-top: 6px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tkt-desc { font-size: 11.5px; color: var(--t3); margin-top: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tkt-meta { font-size: 10.5px; color: var(--t4); margin-top: 5px; }
+
+/* Frequent issue card (topic-based) */
+.freq-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; cursor: pointer; transition: background .15s;
+}
+.freq-card:hover { background: var(--hover); }
+.freq-card + .freq-card { border-top: 1px solid var(--bdr-l); }
+.freq-label { font-size: 13px; font-weight: 500; color: var(--t1); flex: 1; line-height: 1.35; }
+.freq-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+.freq-n { font-size: 11px; font-weight: 600; color: var(--t3); white-space: nowrap; }
+.freq-chev { font-size: 10px; color: var(--t4); transition: transform .2s; flex-shrink: 0; }
+
+/* Feature request card */
+.fr-card {
+  padding: 14px 16px; border-radius: var(--r-sm); transition: background .15s, box-shadow .15s;
+  cursor: pointer;
+}
+.fr-card:hover { background: var(--hover); box-shadow: var(--shadow-sm); }
+.fr-card.is-open { background: var(--accent-soft); border: 1px solid var(--accent-ring); }
+.fr-title { font-size: 14px; font-weight: 500; color: var(--t1); margin: 8px 0 6px; line-height: 1.4; }
+.fr-sub { font-size: 11px; color: var(--t3); }
+.fr-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); margin-top: 8px; }
+.fr-badge .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+/* Footer stats */
+.cat-footer {
+  display: flex; align-items: center; gap: 20px; padding: 10px 16px;
+  border-top: 1px solid var(--bdr); background: var(--sub); margin-top: auto;
+}
+.foot-stat { display: flex; flex-direction: column; gap: 1px; }
+.foot-n { font-size: 18px; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+.foot-l { font-size: 10px; color: var(--t3); font-weight: 500; }
+
+/* Card body */
+.cat-body { padding: 4px 0; max-height: 380px; overflow-y: auto; }
+.cat-body::-webkit-scrollbar { width: 4px; }
+.cat-body::-webkit-scrollbar-thumb { background: var(--bdr-m); border-radius: 4px; }
+
+/* Divider between open/closed */
+.section-divider {
+  display: flex; align-items: center; gap: 8px; padding: 6px 16px; flex-shrink: 0;
+}
+.section-divider .line { flex: 1; height: 1px; background: var(--bdr-m); }
+.section-divider .text { font-size: 10px; font-weight: 700; color: var(--t4); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+
+/* ═══════════════════════════════════════════════════
+   OPTION A — 2×2 GRID
+   ═══════════════════════════════════════════════════ */
+.grid-2x2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.grid-2x2 .g-card {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: var(--r);
+  display: flex; flex-direction: column; overflow: hidden; transition: border-color .15s;
+}
+.grid-2x2 .g-card:hover { border-color: var(--bdr-m); }
+@media (max-width: 768px) { .grid-2x2 { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════
+   OPTION B — TABBED SEGMENTS
+   ═══════════════════════════════════════════════════ */
+.tab-bar {
+  display: flex; gap: 4px; padding: 4px; background: var(--sub); border-radius: var(--r-sm);
+  margin-bottom: 16px; overflow-x: auto;
+}
+.tab-btn {
+  padding: 8px 16px; border: none; background: transparent; border-radius: var(--r-xs);
+  font-family: inherit; font-size: 12px; font-weight: 600; color: var(--t3);
+  cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 7px;
+  transition: all .15s;
+}
+.tab-btn:hover { color: var(--t1); background: var(--surf); }
+.tab-btn.active { color: var(--accent); background: var(--surf); box-shadow: var(--shadow-sm); }
+.tab-btn .badge {
+  font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: var(--r-full);
+  background: var(--sub); color: var(--t3);
+}
+.tab-btn.active .badge { background: var(--accent-soft); color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.tab-content {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: var(--r); overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   OPTION C — ACCORDION
+   ═══════════════════════════════════════════════════ */
+.accordion { display: flex; flex-direction: column; gap: 8px; }
+.acc-item {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: var(--r);
+  overflow: hidden; transition: border-color .15s;
+}
+.acc-item:hover { border-color: var(--bdr-m); }
+.acc-hdr {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  cursor: pointer; user-select: none; transition: background .1s;
+}
+.acc-hdr:hover { background: var(--hover); }
+.acc-chev {
+  font-size: 10px; color: var(--t4); transition: transform .2s; margin-left: auto;
+}
+.acc-item.open .acc-chev { transform: rotate(180deg); }
+.acc-body { display: none; border-top: 1px solid var(--bdr); }
+.acc-item.open .acc-body { display: block; }
+/* Summary line in header when collapsed */
+.acc-summary { font-size: 11px; color: var(--t3); margin-left: 4px; }
+.acc-item.open .acc-summary { display: none; }
+
+/* ═══════════════════════════════════════════════════
+   OPTION D — PRIORITY-WEIGHTED
+   ═══════════════════════════════════════════════════ */
+.priority-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.priority-main {
+  grid-row: 1 / 3;
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: var(--r);
+  display: flex; flex-direction: column; overflow: hidden;
+  /* Subtle red accent for critical */
+  border-left: 3px solid var(--red);
+}
+.priority-side {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: var(--r);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+@media (max-width: 768px) {
+  .priority-layout { grid-template-columns: 1fr; }
+  .priority-main { grid-row: auto; border-left-width: 1px; border-left-color: var(--bdr); }
+}
+
+/* ═══ Utilities ═══ */
+.no-items { text-align: center; padding: 20px 16px; font-size: 12px; color: var(--t4); font-style: italic; }
+.more-link { font-size: 10.5px; color: var(--t4); text-align: center; padding: 8px; cursor: pointer; }
+.more-link:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()">
+  <i class="fas fa-circle-half-stroke"></i>
+  <span id="themeLabel">Dark</span>
+</button>
+
+<div class="page-wrap">
+  <h1>FYA Section — Layout Comparison</h1>
+  <p class="subtitle">4 layout variants with realistic data. Toggle dark mode top-right. Pick the one that works best, then we implement.</p>
+
+  <!-- ═══════════════════════════════════════════
+       OPTION A — 2×2 GRID
+       ═══════════════════════════════════════════ -->
+  <div class="option-label">Option A — 2×2 Grid</div>
+  <div class="option-box">
+    <div class="fya-banner-v2">
+      <div class="dot"></div>
+      <span class="label">For your kind attention</span>
+    </div>
+    <div class="grid-2x2">
+      <!-- Critical Issues -->
+      <div class="g-card">
+        <div class="cat-hdr">
+          <div class="cat-icon crit"><i class="fas fa-triangle-exclamation"></i></div>
+          <span class="cat-title">Critical Issues</span>
+          <span class="cat-count c-red">7 tickets</span>
+        </div>
+        <div class="cat-body">
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#120259302</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">Webhook not working causing custom function failures</div>
+            <div class="tkt-desc">WEBHOOK NOT WORKING — customer reports all automations broken since March update</div>
+          </div>
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#156167269</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM sync issue</div>
+            <div class="tkt-desc">Re: Fwd:[## 156119747 ##] Hi Team — sync failures persist after initial fix</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156121827</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">Lead syncing from HubSpot to Zoho CRM is failing</div>
+            <div class="tkt-desc">Urgent issue with HubSpot Leads syncing with Zoho CRM | High priority</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156119747</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM integration sync issue</div>
+          </div>
+          <div class="more-link">+ 3 more tickets</div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t1);">7</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+
+      <!-- Frequent Issues -->
+      <div class="g-card">
+        <div class="cat-hdr">
+          <div class="cat-icon freq"><i class="fas fa-arrow-trend-up"></i></div>
+          <span class="cat-title">Frequent Issues</span>
+          <span class="cat-count c-green">9 issues</span>
+        </div>
+        <div class="cat-body">
+          <div class="no-items">No open tickets</div>
+          <div class="section-divider"><div class="line"></div><span class="text">Closed Tickets</span><div class="line"></div></div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">HubSpot to Zoho CRM sync failures</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">8 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Zoho SalesIQ ChatGPT card configuration</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">8 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Zoho SalesIQ Zobot flow troubleshooting</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">3 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Webhook failures and data sync issues</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">4 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">9</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+
+      <!-- Long-standing Issues -->
+      <div class="g-card">
+        <div class="cat-hdr">
+          <div class="cat-icon long"><i class="fas fa-clock"></i></div>
+          <span class="cat-title">Long-standing Issues</span>
+          <span class="cat-count c-amber">25 tickets</span>
+        </div>
+        <div class="cat-body">
+          <div class="no-items">No open tickets</div>
+          <div class="section-divider"><div class="line"></div><span class="text">Closed Tickets</span><div class="line"></div></div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-noassist">No Assistance Provided</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>2 months</span>
+            </div>
+            <div class="tkt-row" style="margin-top:4px;">
+              <span class="tkt-pill pill-agent"><i class="fas fa-user" style="margin-right:3px;"></i>Agent Sakthi Abisekh K escalated the issue to the…</span>
+            </div>
+            <div class="tkt-title">#156119747 — Escalated sync failure to engineering since March 9th; customer still awaiting resolution.</div>
+            <div class="tkt-meta"><i class="fas fa-lightbulb" style="color:var(--amber-ink);margin-right:4px;"></i>Escalate to engineering to investigate the sync mechanism failure since March 9th</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-closed">Closed</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>3 months</span>
+            </div>
+            <div class="tkt-row" style="margin-top:4px;">
+              <span class="tkt-pill pill-agent"><i class="fas fa-user" style="margin-right:3px;"></i>Agent Shalinipriya M requested an exception to inc…</span>
+            </div>
+            <div class="tkt-title">#155359656 — Data mapping corrections applied but sync still fails intermittently</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-noassist">No Assistance Provided</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>4 months</span>
+            </div>
+            <div class="tkt-title">#154892103 — Custom function webhook returning 500 errors on production</div>
+          </div>
+          <div class="more-link">+ 22 more tickets</div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">25</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+
+      <!-- Pending Feature Requests -->
+      <div class="g-card">
+        <div class="cat-hdr">
+          <div class="cat-icon feat"><i class="fas fa-plus-circle"></i></div>
+          <span class="cat-title">Pending Feature Requests</span>
+          <span class="cat-count c-purple">1 request</span>
+        </div>
+        <div class="cat-body">
+          <div class="fr-card is-open" style="margin:8px;">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-pm">PM Ticket</span>
+              <span class="tkt-pill pill-must">Must Have</span>
+            </div>
+            <div class="fr-title">Enable custom fields for currency values on Project Milestones</div>
+            <div class="fr-sub">#159675834 · Partner Support · Evangeline Princess E</div>
+            <div class="fr-badge"><span class="dot"></span>In backlog</div>
+          </div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--red);">1</span><span class="foot-l">In backlog</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">0</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       OPTION B — TABBED SEGMENTS
+       ═══════════════════════════════════════════ -->
+  <div class="option-label">Option B — Tabbed Segments</div>
+  <div class="option-box">
+    <div class="fya-banner-v2">
+      <div class="dot"></div>
+      <span class="label">For your kind attention</span>
+    </div>
+    <div class="tab-bar" id="tabBar">
+      <button class="tab-btn active" onclick="switchTab('crit')">
+        <i class="fas fa-triangle-exclamation" style="color:var(--red);font-size:11px;"></i>
+        Critical Issues <span class="badge">7</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('freq')">
+        <i class="fas fa-arrow-trend-up" style="color:var(--green-600);font-size:11px;"></i>
+        Frequent Issues <span class="badge">9</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('long')">
+        <i class="fas fa-clock" style="color:var(--amber);font-size:11px;"></i>
+        Long-standing <span class="badge">25</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('feat')">
+        <i class="fas fa-plus-circle" style="color:var(--purple);font-size:11px;"></i>
+        Feature Requests <span class="badge">1</span>
+      </button>
+    </div>
+
+    <!-- Critical tab -->
+    <div class="tab-panel active" id="tab-crit">
+      <div class="tab-content">
+        <div class="cat-body" style="max-height:none;">
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#120259302</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">Webhook not working causing custom function failures</div>
+            <div class="tkt-desc">WEBHOOK NOT WORKING — customer reports all automations broken since March update</div>
+          </div>
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#156167269</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM sync issue</div>
+            <div class="tkt-desc">Re: Fwd:[## 156119747 ##] Hi Team — sync failures persist after initial fix</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156121827</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">Lead syncing from HubSpot to Zoho CRM is failing</div>
+            <div class="tkt-desc">Urgent issue with HubSpot Leads syncing with Zoho CRM | High priority</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156119747</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM integration sync issue</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#155882001</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-closed">Closed</span>
+            </div>
+            <div class="tkt-title">Webhook custom function returning 500 on bulk operations</div>
+          </div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t1);">7</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frequent tab -->
+    <div class="tab-panel" id="tab-freq">
+      <div class="tab-content">
+        <div class="cat-body" style="max-height:none;">
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">HubSpot to Zoho CRM sync failures</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">8 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Zoho SalesIQ ChatGPT card configuration</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">8 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Zoho SalesIQ Zobot flow troubleshooting</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">3 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Webhook failures and data sync issues</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">4 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">9</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Long-standing tab -->
+    <div class="tab-panel" id="tab-long">
+      <div class="tab-content">
+        <div class="cat-body" style="max-height:none;">
+          <div class="no-items">No open tickets</div>
+          <div class="section-divider"><div class="line"></div><span class="text">Closed Tickets</span><div class="line"></div></div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-noassist">No Assistance Provided</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>2 months</span>
+            </div>
+            <div class="tkt-row" style="margin-top:4px;">
+              <span class="tkt-pill pill-agent"><i class="fas fa-user" style="margin-right:3px;"></i>Agent Sakthi Abisekh K escalated the issue to the…</span>
+            </div>
+            <div class="tkt-title">#156119747 — Escalated sync failure to engineering since March 9th</div>
+            <div class="tkt-meta"><i class="fas fa-lightbulb" style="color:var(--amber-ink);margin-right:4px;"></i>Escalate to engineering to investigate the sync mechanism failure</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-closed">Closed</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>3 months</span>
+            </div>
+            <div class="tkt-row" style="margin-top:4px;">
+              <span class="tkt-pill pill-agent"><i class="fas fa-user" style="margin-right:3px;"></i>Agent Shalinipriya M requested an exception to inc…</span>
+            </div>
+            <div class="tkt-title">#155359656 — Data mapping corrections applied but sync still fails</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-noassist">No Assistance Provided</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>4 months</span>
+            </div>
+            <div class="tkt-title">#154892103 — Custom function webhook returning 500 errors on production</div>
+          </div>
+          <div class="more-link">+ 22 more tickets</div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">25</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Requests tab -->
+    <div class="tab-panel" id="tab-feat">
+      <div class="tab-content">
+        <div class="cat-body" style="max-height:none;padding:8px;">
+          <div class="fr-card is-open">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-pm">PM Ticket</span>
+              <span class="tkt-pill pill-must">Must Have</span>
+            </div>
+            <div class="fr-title">Enable custom fields for currency values on Project Milestones</div>
+            <div class="fr-sub">#159675834 · Partner Support · Evangeline Princess E</div>
+            <div class="fr-badge"><span class="dot"></span>In backlog</div>
+          </div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--red);">1</span><span class="foot-l">In backlog</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">0</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       OPTION C — ACCORDION
+       ═══════════════════════════════════════════ -->
+  <div class="option-label">Option C — Accordion Stack</div>
+  <div class="option-box">
+    <div class="fya-banner-v2">
+      <div class="dot"></div>
+      <span class="label">For your kind attention</span>
+    </div>
+    <div class="accordion">
+      <!-- Critical — expanded by default -->
+      <div class="acc-item open">
+        <div class="acc-hdr" onclick="toggleAcc(this)">
+          <div class="cat-icon crit"><i class="fas fa-triangle-exclamation"></i></div>
+          <span class="cat-title">Critical Issues</span>
+          <span class="acc-summary">— 7 tickets (4 HIGH, 2 ongoing)</span>
+          <span class="cat-count c-red">7 tickets</span>
+          <i class="fas fa-chevron-down acc-chev"></i>
+        </div>
+        <div class="acc-body">
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#120259302</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">Webhook not working causing custom function failures</div>
+            <div class="tkt-desc">WEBHOOK NOT WORKING — customer reports all automations broken since March update</div>
+          </div>
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#156167269</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM sync issue</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156121827</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">Lead syncing from HubSpot to Zoho CRM is failing</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156119747</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM integration sync issue</div>
+          </div>
+          <div class="more-link">+ 3 more tickets</div>
+          <div class="cat-footer">
+            <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+            <div class="foot-stat"><span class="foot-n" style="color:var(--t1);">7</span><span class="foot-l">Closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frequent — collapsed -->
+      <div class="acc-item">
+        <div class="acc-hdr" onclick="toggleAcc(this)">
+          <div class="cat-icon freq"><i class="fas fa-arrow-trend-up"></i></div>
+          <span class="cat-title">Frequent Issues</span>
+          <span class="acc-summary">— 9 issues across 4 clusters (all closed)</span>
+          <span class="cat-count c-green">9 issues</span>
+          <i class="fas fa-chevron-down acc-chev"></i>
+        </div>
+        <div class="acc-body">
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">HubSpot to Zoho CRM sync failures</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">8 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Zoho SalesIQ ChatGPT card configuration</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">8 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;">
+              <div class="freq-label">Zoho SalesIQ Zobot flow troubleshooting</div>
+              <div class="freq-tags">
+                <span class="tkt-pill pill-issue">Issue</span>
+                <span class="tkt-pill pill-closed">All Closed</span>
+              </div>
+            </div>
+            <span class="freq-n">3 tickets</span>
+            <i class="fas fa-chevron-down freq-chev"></i>
+          </div>
+          <div class="cat-footer">
+            <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+            <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">9</span><span class="foot-l">Closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Long-standing — collapsed -->
+      <div class="acc-item">
+        <div class="acc-hdr" onclick="toggleAcc(this)">
+          <div class="cat-icon long"><i class="fas fa-clock"></i></div>
+          <span class="cat-title">Long-standing Issues</span>
+          <span class="acc-summary">— 25 tickets, oldest 4 months (all closed)</span>
+          <span class="cat-count c-amber">25 tickets</span>
+          <i class="fas fa-chevron-down acc-chev"></i>
+        </div>
+        <div class="acc-body">
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-noassist">No Assistance Provided</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>2 months</span>
+            </div>
+            <div class="tkt-title">#156119747 — Escalated sync failure to engineering since March 9th</div>
+            <div class="tkt-meta"><i class="fas fa-lightbulb" style="color:var(--amber-ink);margin-right:4px;"></i>Escalate to engineering to investigate the sync mechanism failure</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-closed">Closed</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>3 months</span>
+            </div>
+            <div class="tkt-title">#155359656 — Data mapping corrections applied but sync still fails</div>
+          </div>
+          <div class="more-link">+ 23 more tickets</div>
+          <div class="cat-footer">
+            <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+            <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">25</span><span class="foot-l">Closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Requests — collapsed -->
+      <div class="acc-item">
+        <div class="acc-hdr" onclick="toggleAcc(this)">
+          <div class="cat-icon feat"><i class="fas fa-plus-circle"></i></div>
+          <span class="cat-title">Pending Feature Requests</span>
+          <span class="acc-summary">— 1 request (Must Have, in backlog)</span>
+          <span class="cat-count c-purple">1 request</span>
+          <i class="fas fa-chevron-down acc-chev"></i>
+        </div>
+        <div class="acc-body">
+          <div style="padding:8px;">
+            <div class="fr-card is-open">
+              <div class="tkt-row">
+                <span class="tkt-pill pill-pm">PM Ticket</span>
+                <span class="tkt-pill pill-must">Must Have</span>
+              </div>
+              <div class="fr-title">Enable custom fields for currency values on Project Milestones</div>
+              <div class="fr-sub">#159675834 · Partner Support · Evangeline Princess E</div>
+              <div class="fr-badge"><span class="dot"></span>In backlog</div>
+            </div>
+          </div>
+          <div class="cat-footer">
+            <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+            <div class="foot-stat"><span class="foot-n" style="color:var(--red);">1</span><span class="foot-l">In backlog</span></div>
+            <div class="foot-stat"><span class="foot-n" style="color:var(--green-600);">0</span><span class="foot-l">Closed</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       OPTION D — PRIORITY-WEIGHTED
+       ═══════════════════════════════════════════ -->
+  <div class="option-label">Option D — Priority-Weighted (Critical = 50%, rest stacked)</div>
+  <div class="option-box">
+    <div class="fya-banner-v2">
+      <div class="dot"></div>
+      <span class="label">For your kind attention</span>
+    </div>
+    <div class="priority-layout">
+      <!-- LEFT: Critical Issues (50% width, full height) -->
+      <div class="priority-main">
+        <div class="cat-hdr">
+          <div class="cat-icon crit"><i class="fas fa-triangle-exclamation"></i></div>
+          <span class="cat-title">Critical Issues</span>
+          <span class="cat-count c-red">7 tickets</span>
+        </div>
+        <div class="cat-body" style="max-height:none;">
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#120259302</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">Webhook not working causing custom function failures</div>
+            <div class="tkt-desc">WEBHOOK NOT WORKING — customer reports all automations broken since March update</div>
+          </div>
+          <div class="tkt is-open">
+            <div class="tkt-row">
+              <span class="tkt-id">#156167269</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-resolved">Resolved</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM sync issue</div>
+            <div class="tkt-desc">Re: Fwd:[## 156119747 ##] Hi Team — sync failures persist after initial fix</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156121827</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">Lead syncing from HubSpot to Zoho CRM is failing</div>
+            <div class="tkt-desc">Urgent issue with HubSpot Leads syncing with Zoho CRM | High priority</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#156119747</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-ongoing">Ongoing</span>
+            </div>
+            <div class="tkt-title">HubSpot to Zoho CRM integration sync issue</div>
+          </div>
+          <div class="tkt">
+            <div class="tkt-row">
+              <span class="tkt-id">#155882001</span>
+              <span class="tkt-pill pill-high">High</span>
+              <span class="tkt-pill pill-closed">Closed</span>
+            </div>
+            <div class="tkt-title">Webhook custom function returning 500 on bulk operations</div>
+          </div>
+          <div class="more-link">+ 2 more tickets</div>
+        </div>
+        <div class="cat-footer">
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t2);">0</span><span class="foot-l">Open</span></div>
+          <div class="foot-stat"><span class="foot-n" style="color:var(--t1);">7</span><span class="foot-l">Closed</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT TOP: Frequent Issues (compact) -->
+      <div class="priority-side">
+        <div class="cat-hdr">
+          <div class="cat-icon freq"><i class="fas fa-arrow-trend-up"></i></div>
+          <span class="cat-title">Frequent Issues</span>
+          <span class="cat-count c-green">9 issues</span>
+        </div>
+        <div class="cat-body" style="max-height:200px;">
+          <div class="freq-card">
+            <div style="flex:1;"><div class="freq-label">HubSpot to Zoho CRM sync failures</div></div>
+            <span class="freq-n">8 tix</span>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;"><div class="freq-label">Zoho SalesIQ ChatGPT card config</div></div>
+            <span class="freq-n">8 tix</span>
+          </div>
+          <div class="freq-card">
+            <div style="flex:1;"><div class="freq-label">SalesIQ Zobot flow troubleshooting</div></div>
+            <span class="freq-n">3 tix</span>
+          </div>
+          <div class="more-link">+ 1 more issue</div>
+        </div>
+      </div>
+
+      <!-- RIGHT MIDDLE: Long-standing (compact) -->
+      <div class="priority-side">
+        <div class="cat-hdr">
+          <div class="cat-icon long"><i class="fas fa-clock"></i></div>
+          <span class="cat-title">Long-standing</span>
+          <span class="cat-count c-amber">25</span>
+        </div>
+        <div class="cat-body" style="max-height:160px;">
+          <div class="tkt" style="padding:10px 16px;">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-noassist" style="font-size:8.5px;">No Assist</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>2mo</span>
+            </div>
+            <div class="tkt-title" style="font-size:12px;">#156119747 — Sync failure escalated to engineering</div>
+          </div>
+          <div class="tkt" style="padding:10px 16px;">
+            <div class="tkt-row">
+              <span class="tkt-pill pill-closed">Closed</span>
+              <span class="tkt-pill pill-dur"><i class="fas fa-clock"></i>3mo</span>
+            </div>
+            <div class="tkt-title" style="font-size:12px;">#155359656 — Data mapping corrections, sync still fails</div>
+          </div>
+          <div class="more-link">+ 23 more tickets</div>
+        </div>
+      </div>
+
+      <!-- RIGHT BOTTOM: Feature Requests (compact) -->
+      <div class="priority-side">
+        <div class="cat-hdr">
+          <div class="cat-icon feat"><i class="fas fa-plus-circle"></i></div>
+          <span class="cat-title">Feature Requests</span>
+          <span class="cat-count c-purple">1</span>
+        </div>
+        <div style="padding:10px 14px;">
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span class="tkt-pill pill-pm">PM Ticket</span>
+            <span class="tkt-pill pill-must">Must Have</span>
+          </div>
+          <div style="font-size:12.5px;font-weight:500;color:var(--t1);margin-top:6px;line-height:1.35;">Enable custom fields for currency values on Project Milestones</div>
+          <div style="font-size:10px;color:var(--t4);margin-top:3px;">#159675834 · Partner Support</div>
+          <div class="fr-badge" style="margin-top:6px;"><span class="dot"></span>In backlog</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* Theme toggle */
+  function toggleTheme() {
+    var html = document.documentElement;
+    var curr = html.getAttribute('data-theme') || 'light';
+    var next = curr === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeLabel').textContent = next === 'dark' ? 'Light' : 'Dark';
+  }
+
+  /* Tab switching (Option B) */
+  function switchTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('tab-' + id).classList.add('active');
+    /* Find matching button */
+    var btns = document.querySelectorAll('.tab-btn');
+    var map = { crit: 0, freq: 1, long: 2, feat: 3 };
+    if (btns[map[id]]) btns[map[id]].classList.add('active');
+  }
+
+  /* Accordion toggle (Option C) */
+  function toggleAcc(hdr) {
+    var item = hdr.closest('.acc-item');
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
