@@ -382,7 +382,7 @@
       <p>Layout directions using real nykaa.com data · pick one per section (or mix)</p>
     </div>
     <div class="head-actions">
-      <button class="btn active" id="tabCombo" onclick="showGal('combo')"><i class="fas fa-table-cells-large"></i>Combined (Insights + FYA) (20)</button>
+      <button class="btn active" id="tabCombo" onclick="showGal('combo')"><i class="fas fa-table-cells-large"></i>Combined (Insights + FYA) (10)</button>
       <button class="btn" id="tabScale" onclick="showGal('scale')"><i class="fas fa-layer-group"></i>FYA · Scales w/ Volume (8)</button>
       <button class="btn" id="tabBal" onclick="showGal('bal')"><i class="fas fa-scale-balanced"></i>FYA · All Prominent (10)</button>
       <button class="btn" id="tabFya" onclick="showGal('fya')"><i class="fas fa-shield-halved"></i>FYA · Risk-First (13)</button>
@@ -395,411 +395,407 @@
 
   <!-- ════════════════════ COMBINED (INSIGHTS + FYA) GALLERY ════════════════════ -->
   <div class="wrap" id="galCombo">
-    <p class="gal-intro"><b>Both sections on one screen</b> — Insights Overview + For Your Kind Attention together, so you can judge prominence side-by-side. 20 arrangement directions using real nykaa.com data. <b>Pick one</b> (FYA-dominant options recommended since risk needs attention first).</p>
+    <p class="gal-intro"><b>Insights on top · FYA prominent on the bottom.</b> <b>G1–G5</b> are <b>chart-led</b> directions — donuts, gauges, heatmaps, sparklines and stacked segments instead of plain bars (bars only where a ranked comparison genuinely needs them). <b>F1–F5</b> keep the <b>full insights data</b> but combine related boxes. Every FYA section carries a real preview item. <b>Popups are live</b> — click any "View all N" for the list popup, or a churn / critical item for a rich detail popup. Real nykaa.com data.</p>
 
-    <!-- C1 -->
+    <div class="sec-divider" style="font-size:12px;color:var(--accent);margin:0 0 18px"><i class="fas fa-chart-pie"></i> Chart-led · donuts · gauges · heatmaps · sparklines</div>
+
+    <!-- ════ G1 — Donut Trio + Legend → Hybrid FYA ════ -->
     <div class="sample">
-      <div class="sample-cap"><span class="num">1</span><span class="nm">FYA Top · Insights Below</span><span class="ds">Risk gets the prime fold; insights demoted underneath. Recommended baseline.</span></div>
+      <div class="sample-cap"><span class="num">G1</span><span class="nm">Mixed Charts by Use-Case → Hybrid FYA ★</span><span class="ds">Right chart for each metric: <b>donut</b> for sentiment &amp; channel (part-to-whole), <b>treemap heatmap</b> for products (one dominant value), <b>gauge</b> for peak (time), <b>bars</b> for agents &amp; topics (ranked comparison).</span></div>
       <div class="stage">
-        <span class="lay-label">FYA — prominent</span>
-        <div class="fya-banner" style="margin-bottom:12px"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div><div class="ttl">For Your Kind Attention</div><div style="font-size:11px;color:var(--t3)">5 areas need review</div></div><div class="fya-spills"><span class="pill p-crit">1 Churn</span><span class="pill p-crit">9 Critical</span><span class="pill p-amber">28 Frequent</span><span class="pill p-amber">11 Long</span><span class="pill p-purple">6 Requests</span></div></div>
-        <div class="grid2" style="margin-bottom:12px">
-          <div class="churn"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9 <i class="fas fa-arrow-right"></i></button></div></div>
-        </div>
-        <div class="grid3" style="margin-bottom:16px">
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-repeat"></i> Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Forms Integration</div><div class="sub">7 tickets</div></div><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-clock"></i> Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace issue</div><div class="sub">#153077154 · 4 mo</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-lightbulb"></i> Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export API</div><div class="sub">Under Review</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
-        </div>
-        <span class="lay-label" style="color:var(--t3);background:var(--surf-2)">Insights — secondary</span>
-        <div class="ais-panel"><div class="ais-head"><div class="ti"><i class="fas fa-chart-pie"></i> Insights Overview</div><span class="ais-badge">330 tickets</span></div>
-          <div class="ins-strip" style="padding:14px">
-            <div class="mini-stat"><div class="n">Email</div><div class="l">Channel</div></div>
-            <div class="mini-stat"><div class="n" style="color:var(--green)">62%</div><div class="l">Positive</div></div>
-            <div class="mini-stat"><div class="n">CRM</div><div class="l">Top product</div></div>
-            <div class="mini-stat"><div class="n">Karthik Y</div><div class="l">Go-to agent</div></div>
-            <div class="mini-stat"><div class="n">Tech</div><div class="l">Top type</div></div>
-            <div class="mini-stat"><div class="n">2–4 PM</div><div class="l">Peak window</div></div>
+        <span class="lay-label">Insights — mixed charts</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:12px;margin:6px 0 12px">
+          <div class="card" style="padding:14px 16px;display:flex;gap:14px;align-items:center">
+            <div class="donut" style="width:72px;height:72px;background:conic-gradient(var(--t3) 0 83%,var(--red) 83% 93%,var(--green) 93% 100%)"><div class="hole" style="width:46px;height:46px;font-size:11px">Calm</div></div>
+            <div><div class="ais-col-label">How They Feel <span style="font-weight:500;text-transform:none;letter-spacing:0">· donut</span></div><div style="display:flex;flex-direction:column;gap:3px;font-size:11px"><span><i class="fas fa-circle" style="color:var(--t3);font-size:7px"></i> Neutral 83%</span><span><i class="fas fa-circle" style="color:var(--red);font-size:7px"></i> Negative 10%</span><span><i class="fas fa-circle" style="color:var(--green);font-size:7px"></i> Positive 7%</span></div></div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C2 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">2</span><span class="nm">Insights Strip Top · FYA Dominant</span><span class="ds">One-line insights ticker, then full FYA. Keeps insights but tiny.</span></div>
-      <div class="stage">
-        <div class="ins-strip" style="margin-bottom:14px">
-          <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Channel</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">CRM</div><div class="l">Product</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Karthik Y</div><div class="l">Agent</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Tech</div><div class="l">Type</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">2–4 PM</div><div class="l">Peak</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Ravi K</div><div class="l">Active contact</div></div>
-        </div>
-        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
-        <div class="churn" style="margin:10px 0 12px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647 · Support &amp; Product frustration</span></div><div class="quote">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div></div>
-        <div class="grid4">
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client' error</div><div class="sub">#152479467</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Forms Integration</div><div class="sub">7×</div></div><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace</div><div class="sub">4 mo</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export API</div><div class="sub">Review</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C3 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">3</span><span class="nm">Side-by-side · FYA 60 / Insights 40</span><span class="ds">FYA left and larger; insights as a right rail.</span></div>
-      <div class="stage">
-        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px">
-          <div>
-            <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
-            <div class="churn" style="margin:10px 0 10px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-            <div class="grid2">
-              <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client' error</div><div class="sub">#152479467</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
-              <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Forms Integration</div><div class="sub">7×</div></div><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div>
-              <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace</div><div class="sub">4 mo</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-              <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export API</div><div class="sub">Review</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
-            </div>
+          <div class="card" style="padding:14px 16px;display:flex;gap:14px;align-items:center">
+            <div class="donut" style="width:72px;height:72px;background:conic-gradient(var(--green) 0 50%,var(--accent) 50% 90%,var(--purple) 90% 97%,var(--teal) 97% 100%)"><div class="hole" style="width:46px;height:46px;font-size:11px">Email</div></div>
+            <div><div class="ais-col-label">Channel <span style="font-weight:500;text-transform:none;letter-spacing:0">· donut</span></div><div style="display:flex;flex-direction:column;gap:3px;font-size:11px"><span><i class="fas fa-circle" style="color:var(--green);font-size:7px"></i> Email 50%</span><span><i class="fas fa-circle" style="color:var(--accent);font-size:7px"></i> Chat 40%</span><span><i class="fas fa-circle" style="color:var(--purple);font-size:7px"></i> Phone 7%</span><span><i class="fas fa-circle" style="color:var(--teal);font-size:7px"></i> Web 3%</span></div></div>
           </div>
-          <div class="ais-panel" style="align-self:start">
-            <div class="ais-head"><div class="ti">Insights</div><span class="ais-badge">330</span></div>
-            <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">
-              <div><div class="ais-col-label">Sentiment</div><div class="stack"><span style="width:62%;background:var(--green)"></span><span style="width:24%;background:var(--amber)"></span><span style="width:14%;background:var(--crit)"></span></div></div>
-              <div><div class="ais-col-label">Go-to agents</div><div class="rank-item"><span class="rank-badge r1">1</span><span class="rank-name">Karthik Y</span><span class="rank-count">84</span></div><div class="rank-item"><span class="rank-badge r2">2</span><span class="rank-name">Ravi K</span><span class="rank-count">61</span></div></div>
-              <div><div class="ais-col-label">Top products</div><div class="bar-row"><span style="width:74px">CRM</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div><div class="bar-row"><span style="width:74px">Desk</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div></div></div>
+          <div class="card" style="padding:14px 16px">
+            <div class="ais-col-label">Products Mentioned <span style="font-weight:500;text-transform:none;letter-spacing:0">· heatmap</span></div>
+            <div style="display:flex;gap:4px;height:62px">
+              <div style="flex:84;background:var(--accent);border-radius:6px;color:#fff;padding:7px 9px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-size:10.5px;font-weight:700">Zoho Desk</span><span style="font-size:17px;font-weight:800">84%</span></div>
+              <div style="flex:16;display:flex;flex-direction:column;gap:4px"><div style="flex:5;background:var(--amber);border-radius:5px;color:#fff;padding:2px 6px;font-size:9px;font-weight:700;display:flex;align-items:center">Forms 5%</div><div style="flex:4;background:var(--purple);border-radius:5px;color:#fff;padding:2px 6px;font-size:9px;font-weight:700;display:flex;align-items:center">CRM 4%</div><div style="flex:7;background:var(--bdr-m);border-radius:5px;color:var(--t3);padding:2px 6px;font-size:9px;font-weight:700;display:flex;align-items:center">+5 more</div></div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- C4 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">4</span><span class="nm">Insights Left Rail · FYA Main</span><span class="ds">Narrow insights column, FYA fills the main canvas.</span></div>
-      <div class="stage">
-        <div style="display:grid;grid-template-columns:230px 1fr;gap:14px">
-          <div class="ais-panel" style="align-self:start">
-            <div class="ais-head" style="padding:11px 14px"><div class="ti" style="font-size:13px">Insights</div></div>
-            <div style="padding:12px 14px;display:flex;flex-direction:column;gap:11px">
-              <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive sentiment</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Preferred channel</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">Karthik Y</div><div class="l">Go-to agent</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">2–4 PM</div><div class="l">Peak window</div></div>
-            </div>
-          </div>
-          <div>
-            <div class="fya-banner" style="margin-bottom:10px"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl">For Your Kind Attention</div><div class="fya-spills"><span class="pill p-crit">1 Churn</span><span class="pill p-crit">9 Critical</span><span class="pill p-amber">28 Frequent</span></div></div>
-            <div class="churn" style="margin-bottom:10px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-            <div class="grid3">
-              <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client'</div><div class="sub">#152479467</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">All 9</button></div></div>
-              <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace</div><div class="sub">4 mo</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">All 11</button></div></div>
-              <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export</div><div class="sub">Review</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">All 6</button></div></div>
-            </div>
-          </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:12px;margin-bottom:4px">
+          <div class="card" style="padding:13px 15px;text-align:center"><div class="ais-col-label" style="text-align:left">Peak Window <span style="font-weight:500;text-transform:none;letter-spacing:0">· gauge</span></div><div class="gauge" style="margin:6px auto 2px"><svg viewBox="0 0 130 130"><path d="M10 65 A55 55 0 0 1 120 65" fill="none" stroke="var(--bdr-m)" stroke-width="12" stroke-linecap="round"/><path d="M10 65 A55 55 0 0 1 95 22" fill="none" stroke="var(--amber)" stroke-width="12" stroke-linecap="round"/></svg><div class="gv" style="color:var(--amber);font-size:15px">12–3 PM</div></div><div style="font-size:10px;color:var(--t3);margin-top:2px">35 tickets · Afternoon peak</div></div>
+          <div class="card" style="padding:13px 15px"><div class="ais-col-label">Go-To Agents <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div class="bar-row"><span style="width:42px">Prem</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:11px">24</b></div><div class="bar-row"><span style="width:42px">Theo</span><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--purple)"></div></div><b style="font-size:11px">11</b></div><div class="bar-row"><span style="width:42px">Hilux</span><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--teal)"></div></div><b style="font-size:11px">10</b></div></div>
+          <div class="card" style="padding:13px 15px"><div class="ais-col-label">Most Discussed Topics <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div class="bar-row"><span style="width:150px">Auto-Resolve FR</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:10.5px">32%</b></div><div class="bar-row"><span style="width:150px">Desk Report Cust.</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--amber)"></div></div><b style="font-size:10.5px">16%</b></div><div class="bar-row"><span style="width:150px">Forms Integ. Error</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--purple)"></div></div><b style="font-size:10.5px">11%</b></div><div style="font-size:10px;color:var(--accent);font-weight:600;margin-top:4px">+5 more topics</div></div>
         </div>
-      </div>
-    </div>
-
-    <!-- C5 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">5</span><span class="nm">FYA Bands + Insights Stat Strip</span><span class="ds">Full-width risk bands, insights as a single compact strip below.</span></div>
-      <div class="stage">
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
-          <div class="fya-banner" style="background:linear-gradient(120deg,var(--crit-bg),transparent)"><div class="ic"><i class="fas fa-arrow-trend-down"></i></div><div class="ttl" style="color:var(--crit)">Churn Risk</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">#152021647 · "…leaving Zoho entirely…"</span></div><span class="pill p-crit" style="margin-left:auto">High</span></div>
-          <div class="fya-banner" style="background:linear-gradient(120deg,var(--crit-bg),transparent)"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl" style="color:var(--crit)">Critical Issues</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">'invalid_client' error +8 more</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div>
-          <div class="fya-banner" style="background:linear-gradient(120deg,var(--amber-bg),transparent)"><div class="ic" style="background:var(--amber)"><i class="fas fa-repeat"></i></div><div class="ttl" style="color:var(--amber)">Frequent Issues</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">Forms Integration 7× · Workflow 5×</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div>
-        </div>
-        <div class="ins-strip">
-          <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Channel</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">CRM</div><div class="l">Product</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Karthik Y</div><div class="l">Agent</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Tech</div><div class="l">Type</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">2–4 PM</div><div class="l">Peak</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C6 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">6</span><span class="nm">Featured Risk Left · Insights Mini-grid Right</span><span class="ds">Churn + Critical featured big; insights as a small KPI grid.</span></div>
-      <div class="stage">
-        <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px">
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div class="churn"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · High</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div><div style="margin-top:8px;font-size:11px;color:var(--t3)">#152021647 · ARR ₹48L at risk</div></div>
-            <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical Issues</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High · No workaround</div></div><div class="qa-item"><div class="title">Webhook delivery failures</div><div class="sub">#152470012 · High</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9 critical</button></div></div>
-          </div>
-          <div class="ais-panel" style="align-self:start"><div class="ais-head"><div class="ti">Insights</div><span class="ais-badge">330</span></div>
-            <div style="padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:9px">
-              <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Channel</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">CRM</div><div class="l">Product</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">Karthik Y</div><div class="l">Agent</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">Tech</div><div class="l">Type</div></div>
-              <div class="mini-stat"><div class="n" style="font-size:14px">2–4 PM</div><div class="l">Peak</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C7 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">7</span><span class="nm">FYA Full · Insights Collapsed Header</span><span class="ds">Insights collapsed to a clickable header bar; FYA expanded.</span></div>
-      <div class="stage">
-        <div class="ais-panel" style="margin-bottom:12px"><div class="ais-head" style="cursor:pointer"><div class="ti"><i class="fas fa-chart-pie"></i> Insights Overview <span style="font-weight:500;color:var(--t3);font-size:12px">· 62% positive · Email · CRM · Karthik Y</span></div><i class="fas fa-chevron-down" style="color:var(--t3)"></i></div></div>
-        <div class="fya-banner" style="margin-bottom:10px"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl">For Your Kind Attention</div><div class="fya-spills"><span class="pill p-crit">1 Churn</span><span class="pill p-crit">9 Critical</span><span class="pill p-amber">28 Frequent</span><span class="pill p-amber">11 Long</span><span class="pill p-purple">6 Requests</span></div></div>
-        <div class="grid2" style="margin-bottom:10px">
-          <div class="churn"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client' error</div><div class="sub">#152479467</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention <span style="margin-left:auto;font-size:11px;color:var(--t3);font-weight:600">5 areas</span></div>
+        <div class="grid2" style="margin:12px 0">
+          <div class="churn" style="cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span><span class="pill p-crit" style="margin-left:auto">High</span></div><div class="quote">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View detail →</div></div>
+          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High · No workaround</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9 <i class="fas fa-arrow-right"></i></button></div></div>
         </div>
         <div class="grid3">
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent</span><span class="cnt">28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg);padding:14px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)"><div class="n" style="color:var(--amber);font-size:24px">28</div><div class="l">Frequent →</div></button>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg);padding:14px" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)"><div class="n" style="color:var(--amber);font-size:24px">11</div><div class="l">Long-standing →</div></button>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--purple-bg);padding:14px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)"><div class="n" style="color:var(--purple);font-size:24px">6</div><div class="l">Requests →</div></button>
         </div>
       </div>
     </div>
 
-    <!-- C8 -->
+    <!-- ════ G2 — Gauges & Stacked Segment → Critical-First ════ -->
     <div class="sample">
-      <div class="sample-cap"><span class="num">8</span><span class="nm">Insights KPI Bar · FYA Card Grid</span><span class="ds">Horizontal KPI bar across the top, FYA equal card grid below.</span></div>
+      <div class="sample-cap"><span class="num">G2</span><span class="nm">Gauge + Donut + Heatmap + Area → Critical-First</span><span class="ds">Sentiment as a <b>gauge</b>, channel as a <b>donut</b>, products as a <b>treemap heatmap</b>, raising as a <b>stacked segment</b>, peak as an <b>area sparkline</b> over the day, agents as <b>bars</b>.</span></div>
       <div class="stage">
-        <div class="card" style="display:flex;align-items:stretch;margin-bottom:14px;overflow:hidden">
-          <div style="display:flex;flex:1;divide">
-            <div style="flex:1;padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="lbl">Sentiment</div><div class="hero-v" style="color:var(--green)">62% Positive</div></div>
-            <div style="flex:1;padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="lbl">Channel</div><div class="hero-v">Email</div></div>
-            <div style="flex:1;padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="lbl">Go-to agent</div><div class="hero-v">Karthik Y</div></div>
-            <div style="flex:1;padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="lbl">Top product</div><div class="hero-v">CRM</div></div>
-            <div style="flex:1;padding:12px 16px"><div class="lbl">Peak</div><div class="hero-v">2–4 PM</div></div>
-          </div>
+        <span class="lay-label">Insights — mixed charts</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:12px;margin:6px 0 12px">
+          <div class="card" style="padding:13px;text-align:center"><div class="ais-col-label" style="text-align:left">Sentiment <span style="font-weight:500;text-transform:none;letter-spacing:0">· gauge</span></div><div class="gauge" style="margin:8px auto 2px"><svg viewBox="0 0 130 130"><path d="M10 65 A55 55 0 0 1 120 65" fill="none" stroke="var(--bdr-m)" stroke-width="12" stroke-linecap="round"/><path d="M10 65 A55 55 0 0 1 112 40" fill="none" stroke="var(--t3)" stroke-width="12" stroke-linecap="round"/></svg><div class="gv" style="color:var(--t1);font-size:14px">83%</div></div><div style="font-size:10px;color:var(--t3);margin-top:2px">Neutral · Neg 10 · Pos 7</div></div>
+          <div class="card" style="padding:13px;display:flex;flex-direction:column;align-items:center;justify-content:center"><div class="ais-col-label" style="align-self:flex-start">Channel <span style="font-weight:500;text-transform:none;letter-spacing:0">· donut</span></div><div class="donut" style="width:72px;height:72px;background:conic-gradient(var(--green) 0 50%,var(--accent) 50% 90%,var(--purple) 90% 97%,var(--teal) 97% 100%)"><div class="hole" style="width:46px;height:46px;font-size:10px">Email</div></div><div style="font-size:10px;color:var(--t3);margin-top:6px">Email 50 · Chat 40 · Ph 7</div></div>
+          <div class="card" style="padding:13px 15px"><div class="ais-col-label">Products Mentioned <span style="font-weight:500;text-transform:none;letter-spacing:0">· heatmap</span></div><div style="display:flex;gap:4px;height:62px"><div style="flex:84;background:var(--accent);border-radius:6px;color:#fff;padding:7px 9px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-size:10.5px;font-weight:700">Zoho Desk</span><span style="font-size:17px;font-weight:800">84%</span></div><div style="flex:16;display:flex;flex-direction:column;gap:4px"><div style="flex:5;background:var(--amber);border-radius:5px;color:#fff;padding:2px 6px;font-size:9px;font-weight:700;display:flex;align-items:center">Forms 5%</div><div style="flex:4;background:var(--purple);border-radius:5px;color:#fff;padding:2px 6px;font-size:9px;font-weight:700;display:flex;align-items:center">CRM 4%</div><div style="flex:7;background:var(--bdr-m);border-radius:5px;color:var(--t3);padding:2px 6px;font-size:9px;font-weight:700;display:flex;align-items:center">+5 more</div></div></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px">
+          <div class="card" style="padding:13px 15px"><div class="ais-col-label">Mostly Raising <span style="font-weight:500;text-transform:none;letter-spacing:0">· segment</span></div><div class="stack" style="height:14px;border-radius:7px"><div style="width:55%;background:var(--crit)"></div><div style="width:38%;background:var(--amber)"></div><div style="width:5%;background:var(--purple)"></div><div style="width:2%;background:var(--accent)"></div></div><div style="display:flex;gap:10px;font-size:10px;margin-top:6px;flex-wrap:wrap"><span><i class="fas fa-circle" style="color:var(--crit);font-size:7px"></i> Inquiry 55</span><span><i class="fas fa-circle" style="color:var(--amber);font-size:7px"></i> Issue 38</span><span><i class="fas fa-circle" style="color:var(--purple);font-size:7px"></i> Feature 5</span></div></div>
+          <div class="card" style="padding:13px 15px"><div class="ais-col-label">Peak Through Day <span style="font-weight:500;text-transform:none;letter-spacing:0">· area</span></div><svg viewBox="0 0 100 40" style="width:100%;height:40px"><defs><linearGradient id="g2area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--amber)" stop-opacity=".5"/><stop offset="1" stop-color="var(--amber)" stop-opacity="0"/></linearGradient></defs><path d="M0,34 L14,30 L28,24 L42,12 L56,8 L70,16 L84,22 L100,30 L100,40 L0,40 Z" fill="url(#g2area)"/><polyline points="0,34 14,30 28,24 42,12 56,8 70,16 84,22 100,30" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="font-size:10px;color:var(--t3);margin-top:2px">Peak <b style="color:var(--t1)">12–3 PM</b> · 35 tickets</div></div>
+          <div class="card" style="padding:13px 15px"><div class="ais-col-label">Go-To Agents <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div class="bar-row"><span style="width:42px">Prem</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:11px">24</b></div><div class="bar-row"><span style="width:42px">Theo</span><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--purple)"></div></div><b style="font-size:11px">11</b></div><div class="bar-row"><span style="width:42px">Hilux</span><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--teal)"></div></div><b style="font-size:11px">10</b></div></div>
         </div>
         <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
-        <div class="grid4" style="margin-top:10px">
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Churn + Critical</span><span class="cnt">10</span></div><div class="qa-body"><div class="qa-item"><div class="title">Churn · #152021647</div><div class="sub">High risk</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent</span><span class="cnt">28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C9 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">9</span><span class="nm">FYA Cards · Insights Donut Row</span><span class="ds">FYA risk row on top; insights shown as donut metrics underneath.</span></div>
-      <div class="stage">
-        <div class="grid4" style="margin-bottom:16px">
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client'</div><div class="sub">#152479467</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">All 9</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Forms Integration</div><div class="sub">7×</div></div><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">All 28</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace</div><div class="sub">4 mo</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">All 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export</div><div class="sub">Review</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">All 6</button></div></div>
-        </div>
-        <div class="ais-panel"><div class="ais-head"><div class="ti">Insights Overview</div><span class="ais-badge">330</span></div>
-          <div style="padding:14px;display:flex;gap:24px;justify-content:space-around;flex-wrap:wrap">
-            <div style="text-align:center"><div class="donut" style="background:conic-gradient(var(--green) 0 62%,var(--amber) 62% 86%,var(--crit) 86% 100%)"><div class="hole">62%</div></div><div class="lbl" style="margin-top:6px">Positive</div></div>
-            <div style="text-align:center"><div class="donut" style="background:conic-gradient(var(--accent) 0 70%,var(--bdr-m) 70% 100%)"><div class="hole">Email</div></div><div class="lbl" style="margin-top:6px">Channel</div></div>
-            <div style="text-align:center"><div class="donut" style="background:conic-gradient(var(--purple) 0 55%,var(--bdr-m) 55% 100%)"><div class="hole">CRM</div></div><div class="lbl" style="margin-top:6px">Product</div></div>
-            <div style="text-align:center"><div class="donut" style="background:conic-gradient(var(--teal) 0 45%,var(--bdr-m) 45% 100%)"><div class="hole">Tech</div></div><div class="lbl" style="margin-top:6px">Top type</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C10 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">10</span><span class="nm">Priority Stack (Triage Order)</span><span class="ds">Strict top-down severity: Critical → Churn → Frequent/Long/Feature → Insights last.</span></div>
-      <div class="stage">
-        <div class="fya-banner" style="background:var(--crit);margin-bottom:10px"><div class="ic" style="background:rgba(255,255,255,.2)"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl" style="color:#fff">9 Critical Issues need attention</div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div>
-        <div class="churn" style="margin-bottom:10px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-        <div class="grid3" style="margin-bottom:14px">
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent</span><span class="cnt">28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests</span><span class="cnt">6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
-        </div>
-        <div class="ins-strip">
-          <div class="mini-stat"><div class="n" style="font-size:13px;color:var(--green)">62%</div><div class="l">Positive</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:13px">Email</div><div class="l">Channel</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:13px">CRM</div><div class="l">Product</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:13px">Karthik Y</div><div class="l">Agent</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:13px">2–4 PM</div><div class="l">Peak</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C11 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">11</span><span class="nm">Hero Alert · Insights Chip Footer</span><span class="ds">Big churn/critical hero; insights reduced to a chip strip footer.</span></div>
-      <div class="stage">
-        <div style="background:linear-gradient(135deg,var(--crit),#7f1d1d);border-radius:var(--r-sm);padding:18px 20px;color:#fff;margin-bottom:12px">
-          <div style="font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.85"><i class="fas fa-arrow-trend-down"></i> Highest Risk · Churn</div>
-          <h3 style="font-family:var(--sf-display);font-size:17px;margin:8px 0 6px">Customer threatening to leave over support frustration</h3>
-          <div style="font-style:italic;opacity:.92;font-size:13px">"…consider leaving Zoho entirely if this cannot be resolved today."</div>
-          <div style="display:flex;gap:8px;margin-top:12px"><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">#152021647</span><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">₹48L ARR</span><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">+9 Critical</span></div>
-        </div>
-        <div class="grid3" style="margin-bottom:12px">
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent 28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long 11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Requests 6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all</button></div></div>
-        </div>
-        <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="chip">62% Positive</span><span class="chip">Email channel</span><span class="chip">CRM top product</span><span class="chip">Karthik Y</span><span class="chip">Tech tickets</span><span class="chip">Peak 2–4 PM</span><span class="chip">Ravi K active</span></div>
-      </div>
-    </div>
-
-    <!-- C12 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">12</span><span class="nm">Magazine · FYA Big Left, Insights Column</span><span class="ds">Editorial split: large FYA article + narrow metrics column.</span></div>
-      <div class="stage">
-        <div style="display:grid;grid-template-columns:1fr 220px;gap:16px">
-          <div>
-            <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
-            <div class="churn" style="margin:10px 0 12px;padding:18px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti" style="font-size:15px">Churn Risk — High</span></div><div class="quote" style="font-size:14px;margin-top:12px">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:10px;font-size:12px;color:var(--t3)">#152021647 · Support &amp; Product frustration · ₹48L ARR at risk</div></div>
-            <div class="grid2"><div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical 9</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent 28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div></div></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <div class="lbl">At a glance</div>
-            <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive</div></div>
-            <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Channel</div></div>
-            <div class="mini-stat"><div class="n" style="font-size:14px">CRM</div><div class="l">Product</div></div>
-            <div class="mini-stat"><div class="n" style="font-size:14px">Karthik Y</div><div class="l">Agent</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C13 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">13</span><span class="nm">Insights Thin Sidebar (vertical)</span><span class="ds">Vertical insights rail on the right; FYA takes the body.</span></div>
-      <div class="stage">
-        <div style="display:grid;grid-template-columns:1fr 180px;gap:14px">
-          <div>
-            <div class="fya-banner" style="margin-bottom:10px"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl">For Your Kind Attention</div></div>
-            <div class="grid2"><div class="churn"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn · #152021647</span></div><div class="quote">"…leaving Zoho entirely…"</div></div><div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical 9</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div></div>
-            <div class="grid3" style="margin-top:10px"><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Freq 28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">All</button></div></div><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long 11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">All</button></div></div><div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Req 6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">All</button></div></div></div>
-          </div>
-          <div class="card" style="padding:12px;display:flex;flex-direction:column;gap:11px;align-self:start"><div class="lbl">Insights</div><div><div class="ais-col-label">Sentiment</div><div style="font-weight:700;color:var(--green)">62%</div></div><div><div class="ais-col-label">Channel</div><div style="font-weight:700">Email</div></div><div><div class="ais-col-label">Product</div><div style="font-weight:700">CRM</div></div><div><div class="ais-col-label">Agent</div><div style="font-weight:700">Karthik Y</div></div><div><div class="ais-col-label">Peak</div><div style="font-weight:700">2–4 PM</div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- C14 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">14</span><span class="nm">FYA Count Tiles · Insights Segmented</span><span class="ds">Big tappable count tiles for FYA; insights as a segmented panel.</span></div>
-      <div class="stage">
-        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
-        <div class="grid4" style="margin:10px 0 14px">
-          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--crit-bg)" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)"><div class="n" style="color:var(--crit)">9</div><div class="l">Critical →</div></button>
+        <div class="fya-banner" style="background:var(--crit);margin:12px 0 10px"><div class="ic" style="background:rgba(255,255,255,.2)"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl" style="color:#fff">9 Critical Issues need attention</div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div>
+        <div class="churn" style="margin-bottom:10px;cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
+        <div class="grid3">
           <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg)" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)"><div class="n" style="color:var(--amber)">28</div><div class="l">Frequent →</div></button>
           <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg)" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)"><div class="n" style="color:var(--amber)">11</div><div class="l">Long-standing →</div></button>
           <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--purple-bg)" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)"><div class="n" style="color:var(--purple)">6</div><div class="l">Requests →</div></button>
         </div>
-        <div class="churn" style="margin-bottom:14px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-        <div class="ais-panel"><div class="ais-head"><div class="ti">Insights</div></div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr)">
-            <div style="padding:12px 14px;border-right:1px solid var(--bdr-m)"><div class="ais-col-label">Sentiment</div><div class="hero-v" style="color:var(--green)">62% Pos</div></div>
-            <div style="padding:12px 14px;border-right:1px solid var(--bdr-m)"><div class="ais-col-label">Channel</div><div class="hero-v">Email</div></div>
-            <div style="padding:12px 14px"><div class="ais-col-label">Top product</div><div class="hero-v">CRM</div></div>
+      </div>
+    </div>
+
+    <!-- ════ G3 — Heatmap + Donuts → Full-Width Bands ════ -->
+    <div class="sample">
+      <div class="sample-cap"><span class="num">G3</span><span class="nm">Products Heatmap + Donuts + Gauge → Full-Width Bands</span><span class="ds">Products as a big <b>treemap heatmap</b> (one dominant value); sentiment &amp; channel as <b>donuts</b>; peak as a <b>gauge</b>; topics as ranked <b>bars</b>. FYA as full-width bands.</span></div>
+      <div class="stage">
+        <span class="lay-label">Insights — mixed charts</span>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin:6px 0 12px">
+          <div class="card" style="padding:13px 16px">
+            <div class="ais-col-label">Products Mentioned <span style="font-weight:500;text-transform:none;letter-spacing:0">· heatmap / treemap</span></div>
+            <div style="display:flex;gap:5px;height:120px">
+              <div style="flex:84;background:var(--accent);border-radius:8px;color:#fff;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-size:13px;font-weight:700">Zoho Desk</span><span style="font-size:30px;font-weight:800;line-height:1">84%</span></div>
+              <div style="flex:16;display:flex;flex-direction:column;gap:5px">
+                <div style="flex:5;background:var(--amber);border-radius:6px;color:#fff;padding:5px 8px;font-size:10px;font-weight:700;display:flex;flex-direction:column;justify-content:center">Forms<span style="font-size:12px">5%</span></div>
+                <div style="flex:4;background:var(--purple);border-radius:6px;color:#fff;padding:5px 8px;font-size:10px;font-weight:700;display:flex;flex-direction:column;justify-content:center">CRM<span style="font-size:12px">4%</span></div>
+                <div style="flex:3;background:var(--teal);border-radius:6px;color:#fff;padding:5px 8px;font-size:10px;font-weight:700;display:flex;flex-direction:column;justify-content:center">Creator<span style="font-size:12px">1%</span></div>
+                <div style="flex:4;background:var(--bdr-m);border-radius:6px;color:var(--t3);padding:5px 8px;font-size:10px;font-weight:700;display:flex;align-items:center">+5 more</div>
+              </div>
+            </div>
+            <div style="font-size:10px;color:var(--t3);margin-top:8px">Tile size = mention share · <b style="color:var(--t1)">Zoho Desk dominates</b></div>
           </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="card" style="padding:11px;text-align:center"><div class="ais-col-label" style="text-align:left">Sentiment</div><div class="donut" style="width:58px;height:58px;margin:4px auto 0;background:conic-gradient(var(--t3) 0 83%,var(--red) 83% 93%,var(--green) 93% 100%)"><div class="hole" style="width:36px;height:36px;font-size:10px">83%</div></div><div class="lbl" style="margin-top:6px">Neutral</div></div>
+            <div class="card" style="padding:11px;text-align:center"><div class="ais-col-label" style="text-align:left">Channel</div><div class="donut" style="width:58px;height:58px;margin:4px auto 0;background:conic-gradient(var(--green) 0 50%,var(--accent) 50% 90%,var(--purple) 90% 100%)"><div class="hole" style="width:36px;height:36px;font-size:9px">Email</div></div><div class="lbl" style="margin-top:6px">Email 50%</div></div>
+            <div class="card" style="padding:11px;text-align:center"><div class="ais-col-label" style="text-align:left">Peak</div><div class="gauge" style="width:96px;height:52px;margin:4px auto 0"><svg viewBox="0 0 130 130" style="width:96px;height:96px"><path d="M10 65 A55 55 0 0 1 120 65" fill="none" stroke="var(--bdr-m)" stroke-width="12" stroke-linecap="round"/><path d="M10 65 A55 55 0 0 1 95 22" fill="none" stroke="var(--amber)" stroke-width="12" stroke-linecap="round"/></svg><div class="gv" style="color:var(--amber);font-size:11px">12–3 PM</div></div></div>
+            <div class="card" style="padding:11px"><div class="ais-col-label">Agents</div><div style="font-size:11px;line-height:1.7"><div><span class="rank-badge r1" style="display:inline-flex">1</span> Prem · 24</div><div><span class="rank-badge r2" style="display:inline-flex">2</span> Theo · 11</div></div></div>
+          </div>
+        </div>
+        <div class="card" style="padding:12px 16px;margin-bottom:4px"><div class="ais-col-label">Most Discussed Topics <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 24px"><div class="bar-row"><span style="width:180px">Auto-Resolve Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:10.5px">32%</b></div><div class="bar-row"><span style="width:180px">Zoho Workdrive Widget Issue</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--accent)"></div></div><b style="font-size:10.5px">11%</b></div><div class="bar-row"><span style="width:180px">Desk Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--amber)"></div></div><b style="font-size:10.5px">16%</b></div><div class="bar-row"><span style="width:180px">Ticket Status Management</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--green)"></div></div><b style="font-size:10.5px">11%</b></div><div class="bar-row"><span style="width:180px">Forms Integration Error</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--purple)"></div></div><b style="font-size:10.5px">11%</b></div><div style="display:flex;align-items:center"><span style="font-size:10px;color:var(--accent);font-weight:600">+3 more topics</span></div></div></div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--crit-bg),transparent);cursor:pointer" onclick="openDetail('churn')"><div class="ic"><i class="fas fa-arrow-trend-down"></i></div><div class="ttl" style="color:var(--crit)">Churn Risk</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">#152021647 · "…leaving Zoho entirely…"</span></div><span class="pill p-crit" style="margin-left:auto">High</span></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--crit-bg),transparent)"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl" style="color:var(--crit)">Critical Issues</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">'invalid_client' error +8 more</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--amber-bg),transparent)"><div class="ic" style="background:var(--amber)"><i class="fas fa-repeat"></i></div><div class="ttl" style="color:var(--amber)">Frequent Issues</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">Forms Integration 7× · Workflow 5×</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--purple-bg),transparent)"><div class="ic" style="background:var(--purple)"><i class="fas fa-lightbulb"></i></div><div class="ttl" style="color:var(--purple)">Feature Requests</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">Bulk export API · Custom SLA</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div>
         </div>
       </div>
     </div>
 
-    <!-- C15 -->
+    <!-- ════ G4 — Sparkline Cards + Donut → Hero Churn ════ -->
     <div class="sample">
-      <div class="sample-cap"><span class="num">15</span><span class="nm">Unified Panel · Two Sections Divided</span><span class="ds">Single card, FYA half on top + Insights half below, one border.</span></div>
+      <div class="sample-cap"><span class="num">G4</span><span class="nm">Sparklines + Heatmap + Donut + Bars → Hero Churn</span><span class="ds">Trends as <b>sparklines</b> (volume, sentiment over time), products as a <b>treemap heatmap</b>, channel as a <b>donut</b>, raising as a <b>segment</b>, topics &amp; agents as <b>bars</b>.</span></div>
       <div class="stage">
-        <div class="card" style="overflow:hidden">
-          <div style="padding:14px 16px;background:var(--crit-bg)"><div style="display:flex;align-items:center;gap:8px"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i><span style="font-family:var(--sf-display);font-weight:700;font-size:14px;color:var(--crit)">For Your Kind Attention</span><span class="fya-spills" style="margin-left:auto"><span class="pill p-crit">1 Churn</span><span class="pill p-crit">9 Critical</span><span class="pill p-amber">28 Frequent</span></span></div></div>
-          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--bdr)">
-            <div class="churn" style="background:none;border:none;border-left:3px solid var(--crit);padding:6px 0 6px 12px;border-radius:0"><div class="hd"><span class="ti">Churn · #152021647</span></div><div class="quote" style="margin-top:5px;border:none;padding:0">"…leaving Zoho entirely if this cannot be resolved today."</div></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="chip" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)" style="cursor:pointer;color:var(--crit)">9 Critical →</button><button class="chip" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)" style="cursor:pointer;color:var(--amber)">28 Frequent →</button><button class="chip" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)" style="cursor:pointer;color:var(--amber)">11 Long-standing →</button><button class="chip" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)" style="cursor:pointer;color:var(--purple)">6 Requests →</button></div>
-          </div>
-          <div style="padding:12px 16px"><div class="lbl" style="margin-bottom:8px">Insights Overview</div><div class="ins-strip"><div class="mini-stat"><div class="n" style="font-size:13px;color:var(--green)">62%</div><div class="l">Positive</div></div><div class="mini-stat"><div class="n" style="font-size:13px">Email</div><div class="l">Channel</div></div><div class="mini-stat"><div class="n" style="font-size:13px">CRM</div><div class="l">Product</div></div><div class="mini-stat"><div class="n" style="font-size:13px">Karthik Y</div><div class="l">Agent</div></div><div class="mini-stat"><div class="n" style="font-size:13px">2–4 PM</div><div class="l">Peak</div></div></div></div>
+        <span class="lay-label">Insights — mixed charts</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:10px;margin:6px 0 12px">
+          <div class="card" style="padding:12px 14px"><div class="ais-col-label">Volume Trend <span style="font-weight:500;text-transform:none;letter-spacing:0">· sparkline</span></div><svg viewBox="0 0 100 30" style="width:100%;height:30px"><polyline points="0,22 14,18 28,20 42,12 56,15 70,8 84,11 100,5" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="font-size:11px;color:var(--t2)"><b>102</b> tickets · ↑ 14%</div></div>
+          <div class="card" style="padding:12px 14px"><div class="ais-col-label">Sentiment Trend <span style="font-weight:500;text-transform:none;letter-spacing:0">· sparkline</span></div><svg viewBox="0 0 100 30" style="width:100%;height:30px"><polyline points="0,10 14,12 28,9 42,14 56,11 70,16 84,13 100,18" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="font-size:11px;color:var(--t2)">Calm · <b style="color:var(--green)">7% pos</b></div></div>
+          <div class="card" style="padding:12px 14px"><div class="ais-col-label">Products Mentioned <span style="font-weight:500;text-transform:none;letter-spacing:0">· heatmap</span></div><div style="display:flex;gap:4px;height:48px"><div style="flex:84;background:var(--accent);border-radius:6px;color:#fff;padding:5px 8px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-size:10px;font-weight:700">Zoho Desk</span><span style="font-size:15px;font-weight:800">84%</span></div><div style="flex:16;display:flex;flex-direction:column;gap:3px"><div style="flex:5;background:var(--amber);border-radius:4px;color:#fff;padding:1px 5px;font-size:8.5px;font-weight:700;display:flex;align-items:center">Forms 5%</div><div style="flex:4;background:var(--purple);border-radius:4px;color:#fff;padding:1px 5px;font-size:8.5px;font-weight:700;display:flex;align-items:center">CRM 4%</div><div style="flex:7;background:var(--bdr-m);border-radius:4px;color:var(--t3);padding:1px 5px;font-size:8.5px;font-weight:700;display:flex;align-items:center">+5</div></div></div></div>
         </div>
-      </div>
-    </div>
-
-    <!-- C16 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">16</span><span class="nm">FYA 70 / Insights 30 + Sparkline cards</span><span class="ds">Asymmetric grid; insights cards carry mini trend bars.</span></div>
-      <div class="stage">
-        <div style="display:grid;grid-template-columns:2.3fr 1fr;gap:14px">
-          <div>
-            <div class="fya-banner" style="margin-bottom:10px"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl">For Your Kind Attention</div></div>
-            <div class="grid2" style="margin-bottom:10px"><div class="churn"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn · #152021647</span></div><div class="quote">"…leaving Zoho entirely…"</div></div><div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical 9</span></div><div class="qa-body"><div class="qa-item"><div class="title">'invalid_client'</div><div class="sub">#152479467</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div></div>
-            <div class="grid3"><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Freq 28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">All</button></div></div><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long 11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">All</button></div></div><div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Req 6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">All</button></div></div></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:9px;align-self:start">
-            <div class="mini-stat"><div class="l">Tickets / month</div><div class="bar-row" style="margin-top:6px"><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--accent)"></div></div></div></div>
-            <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive sentiment</div></div>
-            <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Preferred channel</div></div>
-            <div class="mini-stat"><div class="n" style="font-size:14px">CRM</div><div class="l">Top product</div></div>
-          </div>
+        <div style="display:grid;grid-template-columns:0.9fr 1fr 1.1fr;gap:10px;margin-bottom:4px">
+          <div class="card" style="padding:12px 14px"><div class="ais-col-label">Channel <span style="font-weight:500;text-transform:none;letter-spacing:0">· donut</span></div><div style="display:flex;gap:10px;align-items:center"><div class="donut" style="width:54px;height:54px;background:conic-gradient(var(--green) 0 50%,var(--accent) 50% 90%,var(--purple) 90% 100%)"><div class="hole" style="width:34px;height:34px;font-size:9px">Email</div></div><div style="font-size:10px;line-height:1.5"><div>Email 50%</div><div>Chat 40%</div><div>Phone 7%</div></div></div></div>
+          <div class="card" style="padding:12px 14px"><div class="ais-col-label">Mostly Raising <span style="font-weight:500;text-transform:none;letter-spacing:0">· segment</span></div><div class="stack" style="height:12px;border-radius:6px"><div style="width:55%;background:var(--crit)"></div><div style="width:38%;background:var(--amber)"></div><div style="width:7%;background:var(--purple)"></div></div><div style="font-size:10px;color:var(--t3);margin-top:5px">Inquiry 55 · Issue 38 · Feature 5</div><div class="ais-col-label" style="margin-top:10px">Agents <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div class="bar-row"><span style="width:38px">Prem</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:10px">24</b></div><div class="bar-row"><span style="width:38px">Theo</span><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--purple)"></div></div><b style="font-size:10px">11</b></div></div>
+          <div class="card" style="padding:12px 14px"><div class="ais-col-label">Top Topics <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div class="bar-row"><span style="width:120px">Auto-Resolve FR</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:10px">32%</b></div><div class="bar-row"><span style="width:120px">Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--amber)"></div></div><b style="font-size:10px">16%</b></div><div class="bar-row"><span style="width:120px">Forms Integration</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--purple)"></div></div><b style="font-size:10px">11%</b></div><div style="font-size:10px;color:var(--accent);font-weight:600;margin-top:3px">+5 more</div></div>
         </div>
-      </div>
-    </div>
-
-    <!-- C17 -->
-    <div class="sample">
-      <div class="sample-cap"><span class="num">17</span><span class="nm">Insights Ticker · FYA 4-up Grid</span><span class="ds">Single-line scrolling-style insights ticker over a clean FYA grid.</span></div>
-      <div class="stage">
-        <div class="card" style="display:flex;align-items:center;gap:8px;padding:9px 14px;margin-bottom:14px;overflow:hidden;white-space:nowrap"><i class="fas fa-chart-line" style="color:var(--accent)"></i><span style="font-size:12px;color:var(--t2)"><b>62% positive</b> · Email preferred · CRM top product · Go-to: Karthik Y · Tech tickets lead · Peak 2–4 PM · Most active: Ravi K · 330 tickets / 12 mo</span></div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div class="churn" style="margin:12px 0;padding:18px;cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti" style="font-size:15px">Churn Risk — High · #152021647</span><span class="pill p-crit" style="margin-left:auto">₹48L ARR</span></div><div class="quote" style="font-size:14px;margin-top:12px">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View full detail →</div></div>
         <div class="grid4">
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-arrow-trend-down"></i> Churn</span><span class="cnt">1</span></div><div class="qa-body"><div class="qa-item"><div class="title">#152021647</div><div class="sub">High risk</div></div></div></div>
-          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
-          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-clock"></i> Long</span><span class="cnt">11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div></div>
-          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-lightbulb"></i> Requests</span><span class="cnt">6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div></div>
+          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High · No workaround</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9 <i class="fas fa-arrow-right"></i></button></div></div>
+          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-repeat"></i> Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Zoho Forms integration error</div><div class="sub">Recurred 7× this quarter</div></div><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28 <i class="fas fa-arrow-right"></i></button></div></div>
+          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-clock"></i> Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace pending</div><div class="sub">#153077154 · 4mo open</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11 <i class="fas fa-arrow-right"></i></button></div></div>
+          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-lightbulb"></i> Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export API</div><div class="sub">Under Review · 3 asks</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6 <i class="fas fa-arrow-right"></i></button></div></div>
         </div>
       </div>
     </div>
 
-    <!-- C18 -->
+    <!-- ════ G5 — Big Donut Hero + Radial Rail → FYA Grid ════ -->
     <div class="sample">
-      <div class="sample-cap"><span class="num">18</span><span class="nm">Bento · FYA Big Cells + Insights Small</span><span class="ds">Mixed-size bento where risk owns the big cells.</span></div>
+      <div class="sample-cap"><span class="num">G5</span><span class="nm">Donut Hero + Heatmap + Gauge + Bars → FYA Grid</span><span class="ds">A large sentiment <b>donut</b> hero; channel as a small <b>donut</b>; products as a <b>treemap heatmap</b>; peak as a <b>gauge</b>; topics &amp; agents as <b>bars</b>.</span></div>
       <div class="stage">
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(86px,auto);gap:10px">
-          <div class="churn" style="grid-column:span 2;grid-row:span 2"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · High</span></div><div class="quote" style="margin-top:10px">"…consider leaving Zoho entirely if this cannot be resolved today."</div><div style="margin-top:8px;font-size:11px;color:var(--t3)">#152021647</div></div>
-          <div class="qa-col qa-col--crit" style="grid-column:span 2"><div class="qa-col-hdr"><span class="lab">Critical</span><span class="cnt">9</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px;color:var(--green)">62%</div><div class="l">Positive</div></div>
-          <div class="mini-stat"><div class="n" style="font-size:14px">Email</div><div class="l">Channel</div></div>
-          <div class="qa-col qa-col--warn" style="grid-column:span 2"><div class="qa-col-hdr"><span class="lab">Frequent 28 · Long 11 · Req 6</span></div><div class="qa-body" style="flex-direction:row;gap:6px"><button class="view-all" style="padding:6px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">28</button><button class="view-all" style="padding:6px" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">11</button><button class="view-all" style="padding:6px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">6</button></div></div>
+        <span class="lay-label">Insights — mixed charts</span>
+        <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:14px;margin:6px 0 12px">
+          <div class="card" style="padding:16px;display:flex;gap:16px;align-items:center">
+            <div class="donut" style="width:110px;height:110px;background:conic-gradient(var(--t3) 0 83%,var(--red) 83% 93%,var(--green) 93% 100%)"><div class="hole" style="width:70px;height:70px;font-size:13px;flex-direction:column;line-height:1.1">Calm<span style="font-size:9px;color:var(--t3);font-weight:600">83% neutral</span></div></div>
+            <div><div class="ais-col-label">How They Feel <span style="font-weight:500;text-transform:none;letter-spacing:0">· donut</span></div><div style="display:flex;flex-direction:column;gap:6px;font-size:12px"><span><i class="fas fa-circle" style="color:var(--t3);font-size:8px"></i> Neutral <b>83%</b></span><span><i class="fas fa-circle" style="color:var(--red);font-size:8px"></i> Negative <b>10%</b></span><span><i class="fas fa-circle" style="color:var(--green);font-size:8px"></i> Positive <b>7%</b></span></div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:0.85fr 1.3fr 0.85fr;gap:10px">
+            <div class="card" style="padding:11px;text-align:center"><div class="ais-col-label" style="text-align:left">Channel · donut</div><div class="donut" style="width:60px;height:60px;margin:4px auto 0;background:conic-gradient(var(--green) 0 50%,var(--accent) 50% 90%,var(--purple) 90% 100%)"><div class="hole" style="width:38px;height:38px;font-size:9px">Email</div></div><div class="lbl" style="margin-top:6px">Email 50%</div></div>
+            <div class="card" style="padding:11px 13px"><div class="ais-col-label">Products · heatmap</div><div style="display:flex;gap:4px;height:62px"><div style="flex:84;background:var(--accent);border-radius:6px;color:#fff;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-size:10px;font-weight:700">Zoho Desk</span><span style="font-size:16px;font-weight:800">84%</span></div><div style="flex:16;display:flex;flex-direction:column;gap:3px"><div style="flex:5;background:var(--amber);border-radius:4px;color:#fff;padding:1px 5px;font-size:8.5px;font-weight:700;display:flex;align-items:center">Forms 5%</div><div style="flex:4;background:var(--purple);border-radius:4px;color:#fff;padding:1px 5px;font-size:8.5px;font-weight:700;display:flex;align-items:center">CRM 4%</div><div style="flex:7;background:var(--bdr-m);border-radius:4px;color:var(--t3);padding:1px 5px;font-size:8.5px;font-weight:700;display:flex;align-items:center">+5</div></div></div></div>
+            <div class="card" style="padding:11px;text-align:center"><div class="ais-col-label" style="text-align:left">Peak · gauge</div><div class="gauge" style="width:90px;height:48px;margin:2px auto 0"><svg viewBox="0 0 130 130" style="width:90px;height:90px"><path d="M10 65 A55 55 0 0 1 120 65" fill="none" stroke="var(--bdr-m)" stroke-width="12" stroke-linecap="round"/><path d="M10 65 A55 55 0 0 1 95 22" fill="none" stroke="var(--amber)" stroke-width="12" stroke-linecap="round"/></svg><div class="gv" style="color:var(--amber);font-size:11px">12–3 PM</div></div></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px">
+          <div class="card" style="padding:12px 15px"><div class="ais-col-label">Most Discussed Topics <span style="font-weight:500;text-transform:none;letter-spacing:0">· bars</span></div><div class="bar-row"><span style="width:150px">Auto-Resolve FR</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:10.5px">32%</b></div><div class="bar-row"><span style="width:150px">Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--amber)"></div></div><b style="font-size:10.5px">16%</b></div><div class="bar-row"><span style="width:150px">Forms Integration</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--purple)"></div></div><b style="font-size:10.5px">11%</b></div><div style="font-size:10px;color:var(--accent);font-weight:600;margin-top:3px">+5 more topics</div></div>
+          <div class="card" style="padding:12px 15px"><div class="ais-col-label">Agents · Mostly Raising</div><div style="display:flex;gap:18px"><div style="flex:1"><div style="font-size:9.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Agents · bars</div><div class="bar-row"><span style="width:38px">Prem</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent)"></div></div><b style="font-size:10px">24</b></div><div class="bar-row"><span style="width:38px">Theo</span><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--purple)"></div></div><b style="font-size:10px">11</b></div><div class="bar-row"><span style="width:38px">Hilux</span><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--teal)"></div></div><b style="font-size:10px">10</b></div></div><div style="flex:1"><div style="font-size:9.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Raising · segment</div><div class="stack" style="height:10px;border-radius:5px;margin-top:4px"><div style="width:55%;background:var(--crit)"></div><div style="width:38%;background:var(--amber)"></div><div style="width:7%;background:var(--purple)"></div></div><div style="font-size:10px;color:var(--t3);margin-top:5px">Inquiry 55 · Issue 38 · Feature 5</div></div></div></div>
+        </div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div class="grid2" style="margin:12px 0">
+          <div class="churn" style="cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span><span class="pill p-crit" style="margin-left:auto">High</span></div><div class="quote">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View detail →</div></div>
+          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
+        </div>
+        <div class="grid3">
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg);padding:14px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)"><div class="n" style="color:var(--amber);font-size:24px">28</div><div class="l">Frequent →</div></button>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg);padding:14px" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)"><div class="n" style="color:var(--amber);font-size:24px">11</div><div class="l">Long-standing →</div></button>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--purple-bg);padding:14px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)"><div class="n" style="color:var(--purple);font-size:24px">6</div><div class="l">Requests →</div></button>
         </div>
       </div>
     </div>
 
-    <!-- C19 -->
+    <div class="sec-divider" style="font-size:12px;color:var(--accent);margin:30px 0 18px"><i class="fas fa-layer-group"></i> Full insights (no data loss) · combined boxes</div>
+
+    <!-- ════ F1 — Full Bento → Hybrid FYA ════ -->
     <div class="sample">
-      <div class="sample-cap"><span class="num">19</span><span class="nm">Tabbed Shell · FYA active / Insights tab</span><span class="ds">One panel with tabs — FYA shown by default, Insights one click away.</span></div>
+      <div class="sample-cap"><span class="num">F1</span><span class="nm">Full Bento (3 merged panels) → Hybrid FYA ★</span><span class="ds">All 7 insight groups kept; merged into 3 dense panels + a full-width Topics strip. FYA leads with churn + critical inline and three count tiles.</span></div>
       <div class="stage">
-        <div class="card" style="overflow:hidden">
-          <div style="display:flex;gap:4px;padding:10px 14px 0;border-bottom:1px solid var(--bdr-m)"><span style="font-size:12.5px;font-weight:700;padding:8px 14px;border-bottom:2px solid var(--crit);color:var(--crit)"><i class="fas fa-triangle-exclamation"></i> For Your Kind Attention</span><span style="font-size:12.5px;font-weight:600;padding:8px 14px;color:var(--t3)"><i class="fas fa-chart-pie"></i> Insights Overview</span></div>
-          <div style="padding:14px">
-            <div class="churn" style="margin-bottom:10px"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div></div>
-            <div class="grid4"><div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab">Critical 9</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">All 9</button></div></div><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Frequent 28</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">All 28</button></div></div><div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab">Long 11</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">All 11</button></div></div><div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab">Req 6</span></div><div class="qa-body"><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">All 6</button></div></div></div>
+        <span class="lay-label">Insights — full data, combined boxes</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:6px 0 12px">
+          <div class="card" style="padding:13px 15px">
+            <div class="ais-col-label">How They Feel · What They Raise</div>
+            <div class="hero-v" style="margin-bottom:6px">Calm &amp; steady</div>
+            <div class="stack"><div style="width:83%;background:var(--t3)"></div><div style="width:10%;background:var(--red)"></div><div style="width:7%;background:var(--green)"></div></div>
+            <div style="display:flex;gap:11px;font-size:10px;margin:5px 0 12px"><span>Neutral 83%</span><span style="color:var(--red)">Neg 10%</span><span style="color:var(--green)">Pos 7%</span></div>
+            <div class="ais-col-label">Mostly Raising</div>
+            <div class="bar-row"><span style="width:96px">Inquiry</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--crit)"></div></div><b style="font-size:11px">55%</b></div>
+            <div class="bar-row"><span style="width:96px">Issue</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--amber)"></div></div><b style="font-size:11px">38%</b></div>
+            <div class="bar-row"><span style="width:96px">Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--purple)"></div></div><b style="font-size:11px">5%</b></div>
+            <div class="bar-row"><span style="width:96px">Account Access</span><div class="bar-track"><div class="bar-fill" style="width:2%;background:var(--accent)"></div></div><b style="font-size:11px">2%</b></div>
+          </div>
+          <div class="card" style="padding:13px 15px">
+            <div class="ais-col-label">How They Contact</div>
+            <div class="hero-v" style="margin-bottom:8px">Email leads, with backups</div>
+            <div class="bar-row"><span style="width:54px">Email</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--green)"></div></div><b style="font-size:11px">50%</b></div>
+            <div class="bar-row"><span style="width:54px">Chat</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--accent)"></div></div><b style="font-size:11px">40%</b></div>
+            <div class="bar-row"><span style="width:54px">Phone</span><div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--purple)"></div></div><b style="font-size:11px">7%</b></div>
+            <div class="bar-row"><span style="width:54px">Web</span><div class="bar-track"><div class="bar-fill" style="width:3%;background:var(--teal)"></div></div><b style="font-size:11px">3%</b></div>
+            <div class="ais-col-label" style="margin-top:12px">Peak Timings · 35 tickets</div>
+            <div class="bar-row"><span style="width:86px">Afternoon</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--amber)"></div></div><b style="font-size:11px">34%</b></div>
+            <div class="bar-row"><span style="width:86px">Late Aftn</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--purple)"></div></div><b style="font-size:11px">26%</b></div>
+            <div class="bar-row"><span style="width:86px">Morning</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--accent)"></div></div><b style="font-size:11px">20%</b></div>
+          </div>
+          <div class="card" style="padding:13px 15px">
+            <div class="ais-col-label">Go-To Agents</div>
+            <div class="rank-item"><span class="rank-badge r1">1</span><span class="rank-name">Prem</span><span class="rank-count">24</span></div>
+            <div class="rank-item"><span class="rank-badge r2">2</span><span class="rank-name">Theo</span><span class="rank-count">11</span></div>
+            <div class="rank-item"><span class="rank-badge r3">3</span><span class="rank-name">Hilux</span><span class="rank-count">10</span></div>
+            <div class="ais-col-label" style="margin-top:12px">Products Mentioned</div>
+            <div class="bar-row"><span style="width:78px">Zoho Desk</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--accent)"></div></div><b style="font-size:11px">84%</b></div>
+            <div class="bar-row"><span style="width:78px">Zoho Forms</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--amber)"></div></div><b style="font-size:11px">5%</b></div>
+            <div class="bar-row"><span style="width:78px">Zoho CRM</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--purple)"></div></div><b style="font-size:11px">4%</b></div>
+            <div style="font-size:10.5px;color:var(--accent);font-weight:600;margin-top:6px">+5 more products</div>
+          </div>
+        </div>
+        <div class="card" style="padding:13px 15px;margin-bottom:4px">
+          <div class="ais-col-label">Most Discussed Topics</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px">
+            <div class="bar-row"><span style="width:184px">Auto-Resolve Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--accent)"></div></div><b style="font-size:11px">32%</b></div>
+            <div class="bar-row"><span style="width:184px">Zoho Forms Integration Error</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple)"></div></div><b style="font-size:11px">11%</b></div>
+            <div class="bar-row"><span style="width:184px">Zoho Desk Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--amber)"></div></div><b style="font-size:11px">16%</b></div>
+            <div class="bar-row"><span style="width:184px">Zoho Workdrive Widget Issue</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--accent)"></div></div><b style="font-size:11px">11%</b></div>
+            <div class="bar-row"><span style="width:184px">Ticket Status Management</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--green)"></div></div><b style="font-size:11px">11%</b></div>
+            <div style="display:flex;align-items:center"><span style="font-size:10.5px;color:var(--accent);font-weight:600">+3 more topics</span></div>
+          </div>
+        </div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention <span style="margin-left:auto;font-size:11px;color:var(--t3);font-weight:600">5 areas</span></div>
+        <div class="grid2" style="margin:12px 0">
+          <div class="churn" style="cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span><span class="pill p-crit" style="margin-left:auto">High</span></div><div class="quote">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View detail →</div></div>
+          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High · No workaround</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9 <i class="fas fa-arrow-right"></i></button></div></div>
+        </div>
+        <div class="grid3">
+          <button class="qa-col qa-col--warn" style="cursor:pointer;border:1px solid var(--bdr);text-align:left;padding:0" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-repeat"></i> Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Forms Integration</div><div class="sub">7 tickets · View all →</div></div></div></button>
+          <button class="qa-col qa-col--warn" style="cursor:pointer;border:1px solid var(--bdr);text-align:left;padding:0" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-clock"></i> Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace issue</div><div class="sub">#153077154 · 4 mo · View all →</div></div></div></button>
+          <button class="qa-col qa-col--violet" style="cursor:pointer;border:1px solid var(--bdr);text-align:left;padding:0" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-lightbulb"></i> Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export API</div><div class="sub">Under Review · View all →</div></div></div></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ F2 — Two Split Cards → Critical-First FYA ════ -->
+    <div class="sample">
+      <div class="sample-cap"><span class="num">F2</span><span class="nm">Two Big Split Cards → Critical-First FYA</span><span class="ds">Insights folded into two wide cards — "How They Engage" (channel + peak + agents) and "What They Care About" (products + raising + topics) — plus a sentiment strip. No data lost.</span></div>
+      <div class="stage">
+        <span class="lay-label">Insights — full data, combined boxes</span>
+        <div class="ins-strip" style="margin:6px 0 12px">
+          <div class="mini-stat" style="text-align:left"><div class="ais-col-label" style="margin:0 0 4px">How They Feel</div><div class="hero-v">Calm &amp; steady</div><div class="stack" style="margin-top:6px"><div style="width:83%;background:var(--t3)"></div><div style="width:10%;background:var(--red)"></div><div style="width:7%;background:var(--green)"></div></div><div style="display:flex;gap:10px;font-size:10px;margin-top:5px"><span>Neutral 83%</span><span style="color:var(--red)">Neg 10%</span><span style="color:var(--green)">Pos 7%</span></div></div>
+        </div>
+        <div class="grid2" style="margin-bottom:12px">
+          <div class="card" style="padding:14px 16px">
+            <div class="sec-title" style="font-size:13px;margin-bottom:10px"><i class="fas fa-plug" style="color:var(--accent)"></i> How They Engage</div>
+            <div class="ais-col-label">Preferred Channel</div>
+            <div class="bar-row"><span style="width:54px">Email</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--green)"></div></div><b style="font-size:11px">50%</b></div>
+            <div class="bar-row"><span style="width:54px">Chat</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--accent)"></div></div><b style="font-size:11px">40%</b></div>
+            <div class="bar-row"><span style="width:54px">Phone</span><div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--purple)"></div></div><b style="font-size:11px">7%</b></div>
+            <div class="bar-row"><span style="width:54px">Web</span><div class="bar-track"><div class="bar-fill" style="width:3%;background:var(--teal)"></div></div><b style="font-size:11px">3%</b></div>
+            <div style="display:flex;gap:20px;margin-top:12px">
+              <div style="flex:1"><div class="ais-col-label">Peak · 35 tickets</div><div class="bar-row"><span style="width:74px">Afternoon</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--amber)"></div></div><b style="font-size:11px">34%</b></div><div class="bar-row"><span style="width:74px">Late Aftn</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--purple)"></div></div><b style="font-size:11px">26%</b></div><div class="bar-row"><span style="width:74px">Morning</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--accent)"></div></div><b style="font-size:11px">20%</b></div></div>
+              <div style="width:130px"><div class="ais-col-label">Go-To Agents</div><div class="rank-item"><span class="rank-badge r1">1</span><span class="rank-name">Prem</span><span class="rank-count">24</span></div><div class="rank-item"><span class="rank-badge r2">2</span><span class="rank-name">Theo</span><span class="rank-count">11</span></div><div class="rank-item"><span class="rank-badge r3">3</span><span class="rank-name">Hilux</span><span class="rank-count">10</span></div></div>
+            </div>
+          </div>
+          <div class="card" style="padding:14px 16px">
+            <div class="sec-title" style="font-size:13px;margin-bottom:10px"><i class="fas fa-bullseye" style="color:var(--purple)"></i> What They Care About</div>
+            <div style="display:flex;gap:20px">
+              <div style="flex:1"><div class="ais-col-label">Products</div><div class="bar-row"><span style="width:70px">Zoho Desk</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--accent)"></div></div><b style="font-size:11px">84%</b></div><div class="bar-row"><span style="width:70px">Zoho Forms</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--amber)"></div></div><b style="font-size:11px">5%</b></div><div class="bar-row"><span style="width:70px">Zoho CRM</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--purple)"></div></div><b style="font-size:11px">4%</b></div></div>
+              <div style="flex:1"><div class="ais-col-label">Mostly Raising</div><div class="bar-row"><span style="width:62px">Inquiry</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--crit)"></div></div><b style="font-size:11px">55%</b></div><div class="bar-row"><span style="width:62px">Issue</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--amber)"></div></div><b style="font-size:11px">38%</b></div><div class="bar-row"><span style="width:62px">Feature</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--purple)"></div></div><b style="font-size:11px">5%</b></div></div>
+            </div>
+            <div class="ais-col-label" style="margin-top:12px">Most Discussed Topics</div>
+            <div class="bar-row"><span style="width:200px">Auto-Resolve Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--accent)"></div></div><b style="font-size:11px">32%</b></div>
+            <div class="bar-row"><span style="width:200px">Zoho Desk Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--amber)"></div></div><b style="font-size:11px">16%</b></div>
+            <div class="bar-row"><span style="width:200px">Zoho Forms Integration Error</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple)"></div></div><b style="font-size:11px">11%</b></div>
+            <div style="font-size:10.5px;color:var(--accent);font-weight:600;margin-top:6px">+5 more topics</div>
+          </div>
+        </div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div class="fya-banner" style="background:var(--crit);margin:12px 0 10px"><div class="ic" style="background:rgba(255,255,255,.2)"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl" style="color:#fff">9 Critical Issues need attention</div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div>
+        <div class="grid2" style="margin-bottom:12px">
+          <div class="churn" style="cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span><span class="pill p-crit" style="margin-left:auto">₹48L</span></div><div class="quote">"…consider leaving Zoho entirely if this cannot be resolved today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View detail →</div></div>
+          <div style="display:grid;grid-template-rows:1fr 1fr 1fr;gap:8px">
+            <button class="fya-banner" style="background:linear-gradient(120deg,var(--amber-bg),transparent);cursor:pointer;border:1px solid var(--bdr)" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)"><div class="ic" style="background:var(--amber);width:26px;height:26px"><i class="fas fa-repeat"></i></div><div class="ttl" style="color:var(--amber);font-size:13px">Frequent · 28</div><span style="margin-left:auto;font-size:11px;color:var(--accent);font-weight:700">View all →</span></button>
+            <button class="fya-banner" style="background:linear-gradient(120deg,var(--amber-bg),transparent);cursor:pointer;border:1px solid var(--bdr)" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)"><div class="ic" style="background:var(--amber);width:26px;height:26px"><i class="fas fa-clock"></i></div><div class="ttl" style="color:var(--amber);font-size:13px">Long-standing · 11</div><span style="margin-left:auto;font-size:11px;color:var(--accent);font-weight:700">View all →</span></button>
+            <button class="fya-banner" style="background:linear-gradient(120deg,var(--purple-bg),transparent);cursor:pointer;border:1px solid var(--bdr)" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)"><div class="ic" style="background:var(--purple);width:26px;height:26px"><i class="fas fa-lightbulb"></i></div><div class="ttl" style="color:var(--purple);font-size:13px">Feature Requests · 6</div><span style="margin-left:auto;font-size:11px;color:var(--accent);font-weight:700">View all →</span></button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- C20 -->
+    <!-- ════ F3 — Unified 4-Col Panel → FYA Grid ════ -->
     <div class="sample">
-      <div class="sample-cap"><span class="num">20</span><span class="nm">Risk Spotlight Banner + Insights Cards</span><span class="ds">Wide gradient risk summary banner, then balanced insights cards. FYA reads first.</span></div>
+      <div class="sample-cap"><span class="num">F3</span><span class="nm">Single Divided Panel (4 cols) → FYA Grid</span><span class="ds">All insights inside one bordered panel split into 4 columns, each stacking two metric groups. Most compact — zero data loss.</span></div>
       <div class="stage">
-        <div style="background:linear-gradient(120deg,var(--crit-bg),var(--amber-bg) 70%,transparent);border:1px solid var(--bdr);border-radius:var(--r-sm);padding:14px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px">
-          <div style="display:flex;align-items:center;gap:10px"><div style="width:38px;height:38px;border-radius:var(--r-sm);background:var(--crit);color:#fff;display:flex;align-items:center;justify-content:center"><i class="fas fa-triangle-exclamation"></i></div><div><div style="font-family:var(--sf-display);font-weight:700;font-size:14px">5 areas need your attention</div><div style="font-size:11px;color:var(--t3)">Churn #152021647 · 9 critical · 28 frequent · 11 long-standing · 6 requests</div></div></div>
-          <div style="display:flex;gap:6px;margin-left:auto;flex-wrap:wrap"><button class="view-all" style="width:auto;padding:7px 12px" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">9 Critical</button><button class="view-all" style="width:auto;padding:7px 12px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">28 Frequent</button><button class="view-all" style="width:auto;padding:7px 12px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">6 Requests</button></div>
+        <span class="lay-label">Insights — full data, combined boxes</span>
+        <div class="ais-panel" style="margin:6px 0 12px">
+          <div class="ais-head"><div class="ti"><i class="fas fa-chart-pie"></i> Account Insights</div><span class="ais-badge">102 tickets</span></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr)">
+            <div style="padding:14px 16px;border-right:1px solid var(--bdr-m)">
+              <div class="ais-col-label">How They Feel</div><div class="hero-v" style="font-size:13px">Calm &amp; steady</div><div class="stack" style="margin:6px 0"><div style="width:83%;background:var(--t3)"></div><div style="width:10%;background:var(--red)"></div><div style="width:7%;background:var(--green)"></div></div><div style="font-size:10px;color:var(--t3)">N 83 · Neg 10 · Pos 7</div>
+              <div class="ais-col-label" style="margin-top:14px">Go-To Agents</div><div class="rank-item"><span class="rank-badge r1">1</span><span class="rank-name">Prem</span><span class="rank-count">24</span></div><div class="rank-item"><span class="rank-badge r2">2</span><span class="rank-name">Theo</span><span class="rank-count">11</span></div><div class="rank-item"><span class="rank-badge r3">3</span><span class="rank-name">Hilux</span><span class="rank-count">10</span></div>
+            </div>
+            <div style="padding:14px 16px;border-right:1px solid var(--bdr-m)">
+              <div class="ais-col-label">Products</div><div class="bar-row"><span style="width:64px">Desk</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--accent)"></div></div><b style="font-size:10.5px">84%</b></div><div class="bar-row"><span style="width:64px">Forms</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--amber)"></div></div><b style="font-size:10.5px">5%</b></div><div class="bar-row"><span style="width:64px">CRM</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--purple)"></div></div><b style="font-size:10.5px">4%</b></div>
+              <div class="ais-col-label" style="margin-top:14px">Mostly Raising</div><div class="bar-row"><span style="width:64px">Inquiry</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--crit)"></div></div><b style="font-size:10.5px">55%</b></div><div class="bar-row"><span style="width:64px">Issue</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--amber)"></div></div><b style="font-size:10.5px">38%</b></div><div class="bar-row"><span style="width:64px">Feature</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--purple)"></div></div><b style="font-size:10.5px">5%</b></div>
+            </div>
+            <div style="padding:14px 16px;border-right:1px solid var(--bdr-m)">
+              <div class="ais-col-label">Channel</div><div class="bar-row"><span style="width:54px">Email</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--green)"></div></div><b style="font-size:10.5px">50%</b></div><div class="bar-row"><span style="width:54px">Chat</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--accent)"></div></div><b style="font-size:10.5px">40%</b></div><div class="bar-row"><span style="width:54px">Phone</span><div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--purple)"></div></div><b style="font-size:10.5px">7%</b></div>
+              <div class="ais-col-label" style="margin-top:14px">Peak · 35</div><div class="bar-row"><span style="width:60px">Aftn</span><div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--amber)"></div></div><b style="font-size:10.5px">34%</b></div><div class="bar-row"><span style="width:60px">Late</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--purple)"></div></div><b style="font-size:10.5px">26%</b></div><div class="bar-row"><span style="width:60px">Morning</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--accent)"></div></div><b style="font-size:10.5px">20%</b></div>
+            </div>
+            <div style="padding:14px 16px">
+              <div class="ais-col-label">Most Discussed Topics</div>
+              <div class="bar-row"><span style="width:118px">Auto-Resolve FR</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--accent)"></div></div><b style="font-size:10.5px">32%</b></div>
+              <div class="bar-row"><span style="width:118px">Desk Report Cust.</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--amber)"></div></div><b style="font-size:10.5px">16%</b></div>
+              <div class="bar-row"><span style="width:118px">Forms Integ. Error</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple)"></div></div><b style="font-size:10.5px">11%</b></div>
+              <div class="bar-row"><span style="width:118px">Workdrive Widget</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--accent)"></div></div><b style="font-size:10.5px">11%</b></div>
+              <div class="bar-row"><span style="width:118px">Ticket Status Mgmt</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--green)"></div></div><b style="font-size:10.5px">11%</b></div>
+              <div style="font-size:10px;color:var(--accent);font-weight:600;margin-top:5px">+3 more</div>
+            </div>
+          </div>
         </div>
-        <div class="grid4">
-          <div class="ais-panel"><div style="padding:12px 14px"><div class="ais-col-label">Sentiment</div><div class="hero-v" style="color:var(--green)">62% Positive</div><div class="stack" style="margin-top:8px"><span style="width:62%;background:var(--green)"></span><span style="width:24%;background:var(--amber)"></span><span style="width:14%;background:var(--crit)"></span></div></div></div>
-          <div class="ais-panel"><div style="padding:12px 14px"><div class="ais-col-label">Go-to agents</div><div class="rank-item"><span class="rank-badge r1">1</span><span class="rank-name">Karthik Y</span><span class="rank-count">84</span></div><div class="rank-item"><span class="rank-badge r2">2</span><span class="rank-name">Ravi K</span><span class="rank-count">61</span></div></div></div>
-          <div class="ais-panel"><div style="padding:12px 14px"><div class="ais-col-label">Top products</div><div class="bar-row"><span style="width:54px">CRM</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div><div class="bar-row"><span style="width:54px">Desk</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div></div></div></div>
-          <div class="ais-panel"><div style="padding:12px 14px"><div class="ais-col-label">Channel · Peak</div><div class="hero-v">Email</div><div style="font-size:12px;color:var(--t3);margin-top:4px">Peak 2–4 PM · Tech tickets</div></div></div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div class="grid2" style="margin:12px 0">
+          <div class="churn" style="cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti">Churn Risk · #152021647</span><span class="pill p-crit" style="margin-left:auto">High</span></div><div class="quote">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View detail →</div></div>
+          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High</div></div><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">Webhook delivery failures</div><div class="sub">#152470012 · High</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div></div>
+        </div>
+        <div class="grid3">
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg);padding:14px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)"><div class="n" style="color:var(--amber);font-size:24px">28</div><div class="l">Frequent →</div></button>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--amber-bg);padding:14px" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)"><div class="n" style="color:var(--amber);font-size:24px">11</div><div class="l">Long-standing →</div></button>
+          <button class="mini-stat" style="cursor:pointer;border:none;text-align:left;background:var(--purple-bg);padding:14px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)"><div class="n" style="color:var(--purple);font-size:24px">6</div><div class="l">Requests →</div></button>
         </div>
       </div>
     </div>
+
+    <!-- ════ F4 — Paired Strips → Full-Width Risk Bands ════ -->
+    <div class="sample">
+      <div class="sample-cap"><span class="num">F4</span><span class="nm">Paired Strips → Full-Width Risk Bands</span><span class="ds">Each row pairs two related groups with a divider (Sentiment | Channel, Products | Raising, Agents | Peak), then Topics full-width. FYA as full-width bands.</span></div>
+      <div class="stage">
+        <span class="lay-label">Insights — full data, combined boxes</span>
+        <div style="display:flex;flex-direction:column;gap:8px;margin:6px 0 12px">
+          <div class="card" style="display:grid;grid-template-columns:1fr 1fr;padding:0;overflow:hidden">
+            <div style="padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="ais-col-label">How They Feel</div><div style="display:flex;align-items:center;gap:10px"><span class="hero-v" style="font-size:13px">Calm &amp; steady</span><span style="font-size:10.5px;color:var(--t3)">Neutral 83 · Neg 10 · Pos 7</span></div><div class="stack" style="margin-top:6px"><div style="width:83%;background:var(--t3)"></div><div style="width:10%;background:var(--red)"></div><div style="width:7%;background:var(--green)"></div></div></div>
+            <div style="padding:12px 16px"><div class="ais-col-label">Channel</div><div style="display:flex;gap:7px;flex-wrap:wrap"><span class="chip">Email 50%</span><span class="chip">Chat 40%</span><span class="chip">Phone 7%</span><span class="chip">Web 3%</span></div></div>
+          </div>
+          <div class="card" style="display:grid;grid-template-columns:1fr 1fr;padding:0;overflow:hidden">
+            <div style="padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="ais-col-label">Products</div><div class="bar-row"><span style="width:74px">Zoho Desk</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--accent)"></div></div><b style="font-size:11px">84%</b></div><div class="bar-row"><span style="width:74px">Zoho Forms</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--amber)"></div></div><b style="font-size:11px">5%</b></div><div class="bar-row"><span style="width:74px">Zoho CRM</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--purple)"></div></div><b style="font-size:11px">4%</b></div><div style="font-size:10px;color:var(--accent);font-weight:600">+5 more</div></div>
+            <div style="padding:12px 16px"><div class="ais-col-label">Mostly Raising</div><div class="bar-row"><span style="width:96px">Inquiry</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--crit)"></div></div><b style="font-size:11px">55%</b></div><div class="bar-row"><span style="width:96px">Issue</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--amber)"></div></div><b style="font-size:11px">38%</b></div><div class="bar-row"><span style="width:96px">Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--purple)"></div></div><b style="font-size:11px">5%</b></div></div>
+          </div>
+          <div class="card" style="display:grid;grid-template-columns:1fr 1fr;padding:0;overflow:hidden">
+            <div style="padding:12px 16px;border-right:1px solid var(--bdr-m)"><div class="ais-col-label">Go-To Agents</div><div style="display:flex;gap:18px"><div class="rank-item" style="padding:2px 0"><span class="rank-badge r1">1</span><span class="rank-name">Prem</span><span class="rank-count">24</span></div><div class="rank-item" style="padding:2px 0"><span class="rank-badge r2">2</span><span class="rank-name">Theo</span><span class="rank-count">11</span></div><div class="rank-item" style="padding:2px 0"><span class="rank-badge r3">3</span><span class="rank-name">Hilux</span><span class="rank-count">10</span></div></div></div>
+            <div style="padding:12px 16px"><div class="ais-col-label">Peak Timings · 35 tickets</div><div style="display:flex;gap:7px;flex-wrap:wrap"><span class="chip">Afternoon 34%</span><span class="chip">Late Aftn 26%</span><span class="chip">Morning 20%</span></div></div>
+          </div>
+          <div class="card" style="padding:12px 16px">
+            <div class="ais-col-label">Most Discussed Topics</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 24px">
+              <div class="bar-row"><span style="width:184px">Auto-Resolve Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--accent)"></div></div><b style="font-size:11px">32%</b></div>
+              <div class="bar-row"><span style="width:184px">Zoho Workdrive Widget Issue</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--accent)"></div></div><b style="font-size:11px">11%</b></div>
+              <div class="bar-row"><span style="width:184px">Zoho Desk Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--amber)"></div></div><b style="font-size:11px">16%</b></div>
+              <div class="bar-row"><span style="width:184px">Ticket Status Management</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--green)"></div></div><b style="font-size:11px">11%</b></div>
+              <div class="bar-row"><span style="width:184px">Zoho Forms Integration Error</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple)"></div></div><b style="font-size:11px">11%</b></div>
+              <div style="display:flex;align-items:center"><span style="font-size:10px;color:var(--accent);font-weight:600">+3 more topics</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--crit-bg),transparent);cursor:pointer" onclick="openDetail('churn')"><div class="ic"><i class="fas fa-arrow-trend-down"></i></div><div class="ttl" style="color:var(--crit)">Churn Risk</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">#152021647 · "…leaving Zoho entirely…"</span></div><span class="pill p-crit" style="margin-left:auto">High</span></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--crit-bg),transparent)"><div class="ic"><i class="fas fa-triangle-exclamation"></i></div><div class="ttl" style="color:var(--crit)">Critical Issues</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">'invalid_client' error +8 more</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9</button></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--amber-bg),transparent)"><div class="ic" style="background:var(--amber)"><i class="fas fa-repeat"></i></div><div class="ttl" style="color:var(--amber)">Frequent Issues</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">Forms Integration 7× · Workflow 5×</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28</button></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--amber-bg),transparent)"><div class="ic" style="background:var(--amber)"><i class="fas fa-clock"></i></div><div class="ttl" style="color:var(--amber)">Long-standing</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">Eng trace · 4 mo +10 more</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11</button></div>
+          <div class="fya-banner" style="background:linear-gradient(120deg,var(--purple-bg),transparent)"><div class="ic" style="background:var(--purple)"><i class="fas fa-lightbulb"></i></div><div class="ttl" style="color:var(--purple)">Feature Requests</div><div class="fya-spills"><span style="font-size:12px;color:var(--t2)">Bulk export API · Custom SLA</span></div><button class="view-all" style="width:auto;margin:0 0 0 auto;padding:6px 12px" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ F5 — Magazine 2-Col → Hero Churn + Grid ════ -->
+    <div class="sample">
+      <div class="sample-cap"><span class="num">F5</span><span class="nm">Magazine 2-Col (main + rail) → Hero Churn + Grid</span><span class="ds">Wide main column merges products + raising + topics; a narrow rail stacks sentiment, channel, agents &amp; peak. Full data, magazine density.</span></div>
+      <div class="stage">
+        <span class="lay-label">Insights — full data, combined boxes</span>
+        <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:12px;margin:6px 0 12px">
+          <div class="card" style="padding:14px 16px">
+            <div class="sec-title" style="font-size:13px;margin-bottom:10px"><i class="fas fa-bullseye" style="color:var(--purple)"></i> Products, Requests &amp; Topics</div>
+            <div style="display:flex;gap:22px;margin-bottom:12px">
+              <div style="flex:1"><div class="ais-col-label">Products</div><div class="bar-row"><span style="width:74px">Zoho Desk</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--accent)"></div></div><b style="font-size:11px">84%</b></div><div class="bar-row"><span style="width:74px">Zoho Forms</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--amber)"></div></div><b style="font-size:11px">5%</b></div><div class="bar-row"><span style="width:74px">Zoho CRM</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--purple)"></div></div><b style="font-size:11px">4%</b></div><div style="font-size:10px;color:var(--accent);font-weight:600">+5 more</div></div>
+              <div style="flex:1"><div class="ais-col-label">Mostly Raising</div><div class="bar-row"><span style="width:62px">Inquiry</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--crit)"></div></div><b style="font-size:11px">55%</b></div><div class="bar-row"><span style="width:62px">Issue</span><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--amber)"></div></div><b style="font-size:11px">38%</b></div><div class="bar-row"><span style="width:62px">Feature</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--purple)"></div></div><b style="font-size:11px">5%</b></div></div>
+            </div>
+            <div class="ais-col-label">Most Discussed Topics</div>
+            <div class="bar-row"><span style="width:200px">Auto-Resolve Feature Request</span><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--accent)"></div></div><b style="font-size:11px">32%</b></div>
+            <div class="bar-row"><span style="width:200px">Zoho Desk Report Customization</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--amber)"></div></div><b style="font-size:11px">16%</b></div>
+            <div class="bar-row"><span style="width:200px">Zoho Forms Integration Error</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple)"></div></div><b style="font-size:11px">11%</b></div>
+            <div class="bar-row"><span style="width:200px">Zoho Workdrive Widget Issue</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--accent)"></div></div><b style="font-size:11px">11%</b></div>
+            <div style="font-size:10px;color:var(--accent);font-weight:600;margin-top:5px">+4 more topics</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="card" style="padding:12px 14px"><div class="ais-col-label">How They Feel</div><div class="hero-v" style="font-size:13px">Calm &amp; steady</div><div class="stack" style="margin:6px 0"><div style="width:83%;background:var(--t3)"></div><div style="width:10%;background:var(--red)"></div><div style="width:7%;background:var(--green)"></div></div><div style="font-size:10px;color:var(--t3)">Neutral 83 · Neg 10 · Pos 7</div></div>
+            <div class="card" style="padding:12px 14px"><div class="ais-col-label">Channel · Peak</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px"><span class="chip">Email 50%</span><span class="chip">Chat 40%</span></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="chip">Aftn 34%</span><span class="chip">Late 26%</span><span class="chip">AM 20%</span></div></div>
+            <div class="card" style="padding:12px 14px"><div class="ais-col-label">Go-To Agents</div><div class="rank-item"><span class="rank-badge r1">1</span><span class="rank-name">Prem</span><span class="rank-count">24</span></div><div class="rank-item"><span class="rank-badge r2">2</span><span class="rank-name">Theo</span><span class="rank-count">11</span></div><div class="rank-item"><span class="rank-badge r3">3</span><span class="rank-name">Hilux</span><span class="rank-count">10</span></div></div>
+          </div>
+        </div>
+        <div class="sec-divider"><i class="fas fa-triangle-exclamation" style="color:var(--crit)"></i> For Your Kind Attention</div>
+        <div class="churn" style="margin:12px 0;padding:18px;cursor:pointer" onclick="openDetail('churn')"><div class="hd"><i class="fas fa-arrow-trend-down" style="color:var(--crit)"></i><span class="ti" style="font-size:15px">Churn Risk — High · #152021647</span><span class="pill p-crit" style="margin-left:auto">₹48L ARR</span></div><div class="quote" style="font-size:14px;margin-top:12px">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div><div style="margin-top:8px;font-size:11px;color:var(--accent)">View full detail →</div></div>
+        <div class="grid4">
+          <div class="qa-col qa-col--crit"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-triangle-exclamation"></i> Critical</span><span class="cnt">9</span></div><div class="qa-body"><div class="qa-item" style="cursor:pointer" onclick="openDetail('critical')"><div class="title">'invalid_client' error post update</div><div class="sub">#152479467 · High · No workaround</div></div><button class="view-all" onclick="openOv('Critical Issues','var(--crit)','fa-triangle-exclamation',9)">View all 9 <i class="fas fa-arrow-right"></i></button></div></div>
+          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-repeat"></i> Frequent</span><span class="cnt">28</span></div><div class="qa-body"><div class="qa-item"><div class="title">Zoho Forms integration error</div><div class="sub">Recurred 7× this quarter</div></div><button class="view-all" onclick="openOv('Frequent Issues','var(--amber)','fa-repeat',28)">View all 28 <i class="fas fa-arrow-right"></i></button></div></div>
+          <div class="qa-col qa-col--warn"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-clock"></i> Long-standing</span><span class="cnt">11</span></div><div class="qa-body"><div class="qa-item"><div class="title">Eng trace pending</div><div class="sub">#153077154 · 4mo open</div></div><button class="view-all" onclick="openOv('Long-standing','var(--amber)','fa-clock',11)">View all 11 <i class="fas fa-arrow-right"></i></button></div></div>
+          <div class="qa-col qa-col--violet"><div class="qa-col-hdr"><span class="lab"><i class="fas fa-lightbulb"></i> Requests</span><span class="cnt">6</span></div><div class="qa-body"><div class="qa-item"><div class="title">Bulk export API</div><div class="sub">Under Review · 3 asks</div></div><button class="view-all" onclick="openOv('Feature Requests','var(--purple)','fa-lightbulb',6)">View all 6 <i class="fas fa-arrow-right"></i></button></div></div>
+        </div>
+      </div>
+    </div>
+
 
   </div>
 
@@ -1830,6 +1826,12 @@
     </div>
   </div>
 
+  <div class="ov-modal hidden" id="detailModal" onclick="if(event.target===this)closeDetail()">
+    <div style="width:100%;max-width:460px">
+      <div class="pp" id="detailCard" style="box-shadow:var(--shadow-lg)"></div>
+    </div>
+  </div>
+
   <script>
     function showGal(which) {
       document.getElementById('galCombo').classList.toggle('hidden', which !== 'combo');
@@ -1865,6 +1867,45 @@
       document.getElementById('ovModal').classList.remove('hidden');
     }
     function closeOv() { document.getElementById('ovModal').classList.add('hidden'); }
+
+    function openDetail(kind) {
+      const card = document.getElementById('detailCard');
+      let html = '';
+      if (kind === 'churn') {
+        html = ''
+          + '<button class="pp-close" onclick="closeDetail()" style="position:absolute;top:12px;right:12px;z-index:2"><i class="fas fa-xmark"></i></button>'
+          + '<div style="background:linear-gradient(135deg,#b91c1c,#7f1d1d);color:#fff;padding:18px 20px">'
+          +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.85"><i class="fas fa-arrow-trend-down"></i> Churn Risk · High</div>'
+          +   '<h3 style="font-family:var(--sf-display);font-size:17px;margin:8px 0 6px">Customer threatening to leave over support &amp; product frustration</h3>'
+          +   '<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px"><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">#152021647</span><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">₹48L ARR</span><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">Open · 6 days</span></div>'
+          + '</div>'
+          + '<div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">'
+          +   '<div><div class="lbl" style="margin-bottom:5px">Verbatim signal</div><div style="font-style:italic;color:var(--t2);font-size:13px;border-left:3px solid var(--crit);padding-left:12px">"we may have to consider leaving Zoho entirely if this cannot be resolved properly and permanently today."</div></div>'
+          +   '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px"><div class="mini-stat"><div class="n" style="font-size:14px;color:var(--crit)">High</div><div class="l">Severity</div></div><div class="mini-stat"><div class="n" style="font-size:14px">Support+Product</div><div class="l">Driver</div></div><div class="mini-stat"><div class="n" style="font-size:14px">Karthik Y</div><div class="l">Owner</div></div></div>'
+          +   '<div><div class="lbl" style="margin-bottom:5px">Recommended action</div><div style="font-size:12.5px;color:var(--t2);line-height:1.5">Escalate to account manager today; schedule a same-day call, confirm a permanent fix timeline, and follow up in writing to de-risk the renewal.</div></div>'
+          + '</div>'
+          + '<div style="padding:12px 18px;border-top:1px solid var(--bdr);display:flex;justify-content:flex-end"><a class="tk-link" style="font-weight:600">Open in Zoho Desk <i class="fas fa-arrow-up-right-from-square" style="font-size:10px"></i></a></div>';
+      } else {
+        html = ''
+          + '<button class="pp-close" onclick="closeDetail()" style="position:absolute;top:12px;right:12px;z-index:2"><i class="fas fa-xmark"></i></button>'
+          + '<div style="background:linear-gradient(135deg,var(--crit),#991b1b);color:#fff;padding:18px 20px">'
+          +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;opacity:.85"><i class="fas fa-triangle-exclamation"></i> Critical Issue</div>'
+          +   '<h3 style="font-family:var(--sf-display);font-size:17px;margin:8px 0 6px">\'invalid_client\' error after Client ID &amp; Secret update</h3>'
+          +   '<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px"><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">#152479467</span><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">High</span><span class="pill" style="background:rgba(255,255,255,.2);color:#fff">No workaround</span></div>'
+          + '</div>'
+          + '<div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">'
+          +   '<div><div class="lbl" style="margin-bottom:5px">Impact</div><div style="font-size:12.5px;color:var(--t2);line-height:1.5">OAuth token generation fails project-wide after rotating credentials, blocking all API integrations for the customer.</div></div>'
+          +   '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px"><div class="mini-stat"><div class="n" style="font-size:14px;color:var(--crit)">High</div><div class="l">Severity</div></div><div class="mini-stat"><div class="n" style="font-size:14px">Project-wide</div><div class="l">Scope</div></div><div class="mini-stat"><div class="n" style="font-size:14px">Open</div><div class="l">Status</div></div></div>'
+          +   '<div><div class="lbl" style="margin-bottom:5px">Recommended action</div><div style="font-size:12.5px;color:var(--t2);line-height:1.5">Loop in engineering to trace the failing token request, confirm the new credentials are propagated, and provide an interim auth path.</div></div>'
+          + '</div>'
+          + '<div style="padding:12px 18px;border-top:1px solid var(--bdr);display:flex;justify-content:flex-end"><a class="tk-link" style="font-weight:600">Open in Zoho Desk <i class="fas fa-arrow-up-right-from-square" style="font-size:10px"></i></a></div>';
+      }
+      card.innerHTML = html;
+      card.style.position = 'relative';
+      card.style.overflow = 'hidden';
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+    function closeDetail() { document.getElementById('detailModal').classList.add('hidden'); }
   </script>
 </body>
 </html>
