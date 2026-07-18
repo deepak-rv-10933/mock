@@ -328,21 +328,13 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
    <tr><td><b>Gulf Glass disputes port storage charges</b></td><td>their container missed the Jul 13 ship and sat at Chennai Port</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr>
    <tr><td><b>East Africa Glassworks wants a firm ETA</b></td><td>their shipment sailed 3 days late — and they re-tender in September</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr></table></div>
   </div>
-  <div class="grid2">
-  <div class="card"><h2>Top-selling products — this quarter <span class="src">CRM Deals × Products</span></h2><div class="sub">Won revenue · growth · margin</div>
-   <table><tr><th>Product</th><th>Revenue</th><th>Growth</th><th>Margin</th><th>Best region</th></tr>
-   <tr><td><b>Amber Beer Bottle 330ml</b></td><td class="n">₹90.8L</td><td class="n up">▲ 12%</td><td class="n">43%</td><td>West</td></tr>
-   <tr><td><b>Laminated Safety Glass</b></td><td class="n">₹79.9L</td><td class="n up">▲ 8%</td><td class="n">32%</td><td>West</td></tr>
-   <tr><td><b>Food Jar 500ml</b></td><td class="n">₹66.0L</td><td class="n fl">— flat</td><td class="n">39%</td><td>North</td></tr>
-   <tr><td><b>Solar Panel Glass 3.2mm</b></td><td class="n">₹63.5L</td><td class="n up">▲ 22%</td><td class="n" style="color:var(--red)">24%</td><td>West</td></tr>
-   <tr><td><b>Float Glass 4mm</b></td><td class="n">₹51.3L</td><td class="n up">▲ 5%</td><td class="n">32%</td><td>North</td></tr></table></div>
-  <div class="card"><h2>Product manufacturing efficiency <span class="src">Creator Production_Runs</span></h2><div class="sub">Yield = sellable units out of everything produced · the agent flags growth-vs-yield mismatches</div>
-   <table><tr><th>Product</th><th>Yield</th><th>Trend</th><th>Note</th></tr>
-   <tr><td>Float Glass 4mm</td><td class="n">96%</td><td class="n up">▲</td><td>Benchmark</td></tr>
-   <tr><td>Amber Bottle 330ml</td><td class="n">93%</td><td class="n fl">—</td><td>Stable</td></tr>
-   <tr><td>Tempered Windshield</td><td class="n">89%</td><td class="n fl">—</td><td>Within range</td></tr>
-   <tr class="hot"><td><b>Solar Panel Glass</b></td><td class="n"><b>84%</b></td><td class="n dn">▼</td><td><b>Fastest-growing product, lowest yield</b></td></tr></table></div>
-  </div>`,
+  <div class="card"><h2>Products — what sells × how well we make it <span class="src">CRM Deals × Creator Production_Runs</span></h2><div class="sub">The agent joins sales (CRM) with the factory floor (Creator) — a view neither system shows on its own. Yield = sellable units out of everything produced.</div>
+   <table><tr><th>Product</th><th>Sold this qtr</th><th>Growth</th><th>Margin</th><th>Yield</th><th>Agent's read</th></tr>
+   <tr><td><b>Amber Beer Bottle 330ml</b></td><td class="n">₹90.8L</td><td class="n up">▲ 12%</td><td class="n">43%</td><td class="n">93%</td><td>Your cash cow — growing, profitable, well made. Protecting it is why the Pune supply fix is urgent.</td></tr>
+   <tr><td><b>Laminated Safety Glass</b></td><td class="n">₹79.9L</td><td class="n up">▲ 8%</td><td class="n">32%</td><td class="n">91%</td><td>Healthy — but it ships off C2, the line with the night-shift defect problem. Watch.</td></tr>
+   <tr><td><b>Food Jar 500ml</b></td><td class="n">₹66.0L</td><td class="n fl">flat</td><td class="n">39%</td><td class="n">93%</td><td>Solid but stalled — NCR Foods volumes plateaued (on the North watchlist).</td></tr>
+   <tr class="hot"><td><b>Solar Panel Glass 3.2mm</b></td><td class="n">₹63.5L</td><td class="n up">▲ 22%</td><td class="n" style="color:var(--red)">24%</td><td class="n" style="color:var(--red)"><b>84%</b></td><td><b>Fastest growth, worst yield AND worst margin</b> — every new order ships at our weakest economics. <span data-status="board-solar">${pillFor('board-solar')}</span> capacity study</td></tr>
+   <tr><td><b>Float Glass 4mm</b></td><td class="n">₹51.3L</td><td class="n up">▲ 5%</td><td class="n">32%</td><td class="n">96%</td><td>The benchmark — the yield every other line is measured against.</td></tr></table></div>`,
  decisions:['board-depot','board-solar'],
  statuses:[],
  handled:['Compiled this board pack from 6,204 records across CRM, Creator, Books & Desk','Routed 9 operational decisions to their owners with full reasoning','Re-scored all 24 accounts for leaving-risk (2 red: Sunrise, GlassKart)','Ranked the region race: North wins Q2 on attainment; Export is the growth leader'],
