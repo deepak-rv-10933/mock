@@ -32,7 +32,7 @@ button{font-family:inherit;cursor:pointer}
 .avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:700;font-size:12px}
 
 /* shell */
-.shell{display:grid;grid-template-columns:190px 1fr 380px;min-height:calc(100vh - 52px)}
+.shell{display:grid;grid-template-columns:216px 1fr 380px;min-height:calc(100vh - 52px)}
 @media(max-width:1200px){.shell{grid-template-columns:1fr 380px}.side{display:none}}
 @media(max-width:950px){.shell{grid-template-columns:1fr}}
 
@@ -44,6 +44,11 @@ button{font-family:inherit;cursor:pointer}
 .side .ic{width:16px;height:16px;border-radius:4px;background:var(--ink3);opacity:.5}
 .side a.on .ic{background:var(--blue);opacity:1}
 .side .sec{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:12px 16px 5px}
+.side .badge{margin-left:auto;background:var(--orange-soft);color:var(--orange);border-radius:9px;font-size:10px;font-weight:700;padding:1px 7px;font-family:'IBM Plex Mono'}
+.side .badge.ok{background:var(--green-soft);color:var(--green)}
+.side a.dead{opacity:.55;cursor:default}
+.side .av2{width:20px;height:20px;border-radius:6px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:9px;font-weight:700;flex-shrink:0}
+.side a.on .av2{background:var(--blue);color:#fff}
 
 /* main */
 .main{padding:16px 18px;min-width:0}
@@ -141,34 +146,11 @@ tr.hot:hover td{background:#fbe2e2}
 
 <div class="top">
   <div class="logo"><span class="sq">G</span>GlassOps <span style="font-weight:400;color:var(--ink3);font-size:12px">· Productivity Cloud</span></div>
-  <div class="rolebox">Viewing as
-    <select id="role" onchange="render(this.value)">
-      <option value="board">Board — Global</option>
-      <option value="nsales">National Sales Head</option>
-      <option value="ssouth">Sales Head — South</option>
-      <option value="seast">Sales Head — East &amp; NE</option>
-      <option value="sexp">Export Head</option>
-      <option value="ppune">Plant Head — Pune</option>
-      <option value="pchn">Plant Head — Chennai</option>
-      <option value="proc">Procurement Head</option>
-    </select>
-  </div>
-  <div class="zia"><span class="dot"></span><span>Zia agent · last check 06:04 · 6,009 records</span><div class="avatar" id="av">BD</div></div>
+  <div class="zia"><span class="dot"></span><span>Zia agent · last check 06:04 · 6,204 records</span><div class="avatar" id="av">BD</div></div>
 </div>
 
 <div class="shell">
-  <nav class="side">
-    <div class="sec">Modules</div>
-    <a class="on" href="#"><span class="ic"></span>Dashboard</a>
-    <a href="#"><span class="ic"></span>Sales (CRM)</a>
-    <a href="#"><span class="ic"></span>Production (Creator)</a>
-    <a href="#"><span class="ic"></span>Supply Chain (Creator)</a>
-    <a href="#"><span class="ic"></span>Quality (Creator)</a>
-    <a href="#"><span class="ic"></span>Support (Desk)</a>
-    <div class="sec">Intelligence</div>
-    <a href="#"><span class="ic"></span>Zia Agent</a>
-    <a href="#"><span class="ic"></span>Analytics</a>
-  </nav>
+  <nav class="side" id="side"></nav>
 
   <main class="main" id="main"></main>
 
@@ -195,6 +177,41 @@ function chain(steps){
 function ift(y,n){return `<div class="ift"><div class="yes"><b>If you OK now</b>${y}</div><div class="no"><b>If you wait</b>${n}</div></div>`;}
 function cites(a){return a.map(c=>`<span class="cite">${c}</span>`).join('');}
 function pillFor(k){return S.approved[k]?'<span class="pill pg">✓ Approved</span>':'<span class="pill po">Pending</span>';}
+/* ================= sidebar (role navigation + live pending badges) ================= */
+const NAV = [
+  ['Command center', [['board', 'BD', 'Board — Global']]],
+  ['Sales teams', [['nsales', 'NS', 'National Sales'], ['snorth', 'N', 'North'], ['ssouth', 'S', 'South'],
+    ['swest', 'W', 'West'], ['seast', 'E', 'East & NE'], ['sexp', 'EX', 'Export']]],
+  ['Plants & supply', [['ppune', 'PU', 'Pune Plant'], ['pchn', 'CH', 'Chennai Plant'], ['proc', 'PR', 'Procurement']]],
+];
+const NAV_MODULES = [
+  ['Zoho modules', ['Sales (CRM)', 'Production (Creator)', 'Supply Chain (Creator)', 'Quality (Creator)', 'Support (Desk)']],
+  ['Intelligence', ['Zia Agent', 'Analytics']],
+];
+function renderSide(){
+  let h = '';
+  for (const [sec, items] of NAV) {
+    h += `<div class="sec">${sec}</div>`;
+    for (const [r, av, label] of items) {
+      const pend = ROLES[r].decisions.filter(k => !S.approved[k]).length;
+      h += `<a class="${cur === r ? 'on' : ''}" href="#" onclick="render('${r}');return false">
+            <span class="av2">${av}</span>${label}
+            ${pend ? `<span class="badge">${pend}</span>` : '<span class="badge ok">✓</span>'}</a>`;
+    }
+  }
+  for (const [sec, items] of NAV_MODULES) {
+    h += `<div class="sec">${sec}</div>`;
+    for (const label of items) h += `<a class="dead" href="#" onclick="return false"><span class="ic"></span>${label}</a>`;
+  }
+  document.getElementById('side').innerHTML = h;
+}
+function raceCard(){return `<div class="card"><h2>Region race — Q2 targets <span class="src">CRM Region_Targets</span></h2><div class="sub">Booked vs target · growth vs last quarter · who wins, who's blocked, and why</div>
+   <table><tr><th>#</th><th>Region</th><th>Booked / target</th><th>Attain.</th><th>Growth QoQ</th><th>Status</th><th>Blocker / note</th></tr>
+   <tr><td class="n">1</td><td><b>North 🏆</b></td><td class="n">₹160L / ₹150L</td><td class="n">107%</td><td class="n up">▲ 10.1%</td><td><span class="pill pg">Achieved</span></td><td>Quarter winner — quote template is the company benchmark</td></tr>
+   <tr><td class="n">2</td><td><b>Export ⚡</b></td><td class="n">₹58L / ₹55L</td><td class="n">105%</td><td class="n up">▲ 14.8%</td><td><span class="pill pg">Achieved</span></td><td>Fastest-growing — but 2 vessel cutoffs put the September re-tender at risk</td></tr>
+   <tr><td class="n">3</td><td><b>West</b></td><td class="n">₹199L / ₹195L</td><td class="n">102%</td><td class="n up">▲ 9.2%</td><td><span class="pill pg">Achieved</span></td><td>Watch — Pune supply issue may cost August deliveries</td></tr>
+   <tr class="hot"><td class="n">4</td><td><b>South</b></td><td class="n">₹105L / ₹115L</td><td class="n">92%</td><td class="n dn">▼ 3.0%</td><td><span class="pill pr">Missed</span></td><td><b>Roadblock:</b> ₹52L stuck at pricing — releasing it clears the target</td></tr>
+   <tr class="hot"><td class="n">5</td><td><b>East &amp; NE</b></td><td class="n">₹28.5L / ₹35L</td><td class="n">81%</td><td class="n dn">▼ 3.4%</td><td><span class="pill pr">Missed</span></td><td><b>Roadblock:</b> freight 2× other regions — losing on landed price</td></tr></table></div>`;}
 
 /* ================= decisions library ================= */
 const DEC = {
@@ -249,6 +266,13 @@ const DEC = {
      ['Network','no plant or warehouse east of Chennai — a structural gap only the board can fix',true]])
    +cites(['FREIGHT-W29','DEAL-3140'])
    +ift('Costing study (2 weeks). If viable: delivery 1.5 days, freight halves, East opens up.','East stays our permanently weakest region; competitors entrench.')},
+ 'west-sunrise':{sev:'a',title:'Pre-renewal save call with Sunrise Bottling',one:'₹18L Oct renewal · churn score 72 — highest of 24 accounts',owner:'Sales Head — West',
+   h:()=>chain([['Customers','Sunrise churn score hit 72 — highest of all 24 accounts; ₹18L renewal opens in October'],
+     ['Contract','their agreement has an on-time clause — 2 late orders this month triggered it'],
+     ['Delivery','SO-1188 (2 days late) and SO-1192 both came off the idled Pune line'],
+     ['Supply','Meridian’s late soda ash caused the idle — that fix is with Procurement; the relationship is YOURS',true]])
+   +cites(['SO-1188','DEAL-2871','CHURN-W29'])
+   +ift('Call + service credit this week, before renewal talks open. Churn score drops, ₹18L renewal safe.','Clause gets invoked at renewal; Sunrise shops the ₹18L contract around in October.')},
  'exp-container':{sev:'a',title:'Pre-book containers on a 14-day rolling plan',one:'2 vessels missed last month · ₹1.2L demurrage back',owner:'Export Head',
    h:()=>chain([['Customers','Nairobi and Dubai orders arrived late — East Africa Glassworks re-tenders in September'],
      ['Shipping','2 of 9 export shipments missed their vessel cutoff; the next sailing added 7–9 days'],
@@ -287,8 +311,10 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
    <tr><td>Approval rights &lt;₹5L</td><td>National Sales Head</td><td data-status="nsales-deleg">${pillFor('nsales-deleg')}</td></tr>
    <tr><td>Escalate 3 oldest deals</td><td>Sales Head — South</td><td data-status="south-esc">${pillFor('south-esc')}</td></tr>
    <tr><td>FOB pricing trial</td><td>Sales Head — East</td><td data-status="east-fob">${pillFor('east-fob')}</td></tr>
-   <tr><td>Container pre-booking</td><td>Export Head</td><td data-status="exp-container">${pillFor('exp-container')}</td></tr></table></div>
+   <tr><td>Container pre-booking</td><td>Export Head</td><td data-status="exp-container">${pillFor('exp-container')}</td></tr>
+   <tr><td>Sunrise pre-renewal call</td><td>Sales Head — West</td><td data-status="west-sunrise">${pillFor('west-sunrise')}</td></tr></table></div>
   </div>
+  ${raceCard()}
   <div class="grid2">
   <div class="card"><h2>Top-selling products — this quarter <span class="src">CRM Deals × Products</span></h2><div class="sub">Won revenue · growth · margin</div>
    <table><tr><th>Product</th><th>Revenue</th><th>Growth</th><th>Margin</th><th>Best region</th></tr>
@@ -306,7 +332,7 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
   </div>`,
  decisions:['board-depot','board-solar'],
  statuses:[],
- handled:['Compiled this board pack from 6,009 records across CRM, Creator, Books & Desk','Routed 8 operational decisions to their owners with full reasoning','Re-scored all 24 accounts for leaving-risk (2 red: Sunrise, GlassKart)'],
+ handled:['Compiled this board pack from 6,204 records across CRM, Creator, Books & Desk','Routed 9 operational decisions to their owners with full reasoning','Re-scored all 24 accounts for leaving-risk (2 red: Sunrise, GlassKart)','Ranked the region race: North wins Q2 on attainment; Export is the growth leader'],
  hints:[['what is our biggest risk?','board-depot'],['why is solar glass a problem?','board-solar']]},
 
 nsales:{av:'NS',crumb:'Sales',title:'National Sales Head',sub:'All regions · pipeline ₹6.1Cr',
@@ -325,11 +351,30 @@ nsales:{av:'NS',crumb:'Sales',title:'National Sales Head',sub:'All regions · pi
    <tr><td>North</td><td>Float Glass 4mm</td><td class="n">₹29L</td></tr>
    <tr><td>South</td><td>Pharma Vials + Windshields</td><td class="n">₹41L</td></tr>
    <tr><td>East &amp; NE</td><td>Amber Bottle 330ml</td><td class="n">₹11L</td></tr>
-   <tr><td>Export</td><td>Amber + Laminated + Solar</td><td class="n">₹58L</td></tr></table></div>`,
+   <tr><td>Export</td><td>Amber + Laminated + Solar</td><td class="n">₹58L</td></tr></table></div>
+  ${raceCard()}`,
  decisions:['nsales-deleg'],
  statuses:[['east-fob','FOB trial — with East head'],['south-esc','Escalation — with South head'],['exp-container','Container pre-booking — with Export head']],
  handled:['Flagged Crown Breweries competitor-quote risk on DEAL-3021 to the South head','Packaged North’s standard-quote template for the South team'],
  hints:[['why is South slow?','nsales-deleg'],['what should East do?','east-fob']]},
+
+snorth:{av:'SN',crumb:'Sales · North',title:'Sales Head — North',sub:'DEL-NCR · PB · RJ · UP · served by Vadodara',
+ insight:`<b>You win the quarter. 🏆</b> 107% of target, +10.1% growth, 55% win rate — with the company’s fastest cycle (17 days). Nothing needs your OK today; the agent is tracking the small signals below so it stays that way.`,
+ kpis:[['Region score','84','#1 of 5 units','up'],['Booked vs target','₹160L / ₹150L','107% — quarter winner','up'],['Win rate','55%','company 45%','up'],['Cycle','17 d','fastest in company','up']],
+ main:()=>`<div class="card"><h2>Watchlist — small signals, no action needed yet <span class="src">Zia agent</span></h2>
+   <table><tr><th>Signal</th><th>Detail</th><th>Status</th></tr>
+   <tr><td><b>JAR500 growth flat</b></td><td>NCR Foods volumes plateaued — ₹66L qtr, — flat</td><td><span class="pill po">Watching</span></td></tr>
+   <tr><td><b>Capital Auto OEM renewal</b></td><td>November, on-time clause — Vadodara serving cleanly so far</td><td><span class="pill pg">Healthy</span></td></tr>
+   <tr><td><b>Himalayan Waters</b></td><td>Seasonal dip expected August — plan promo stock</td><td><span class="pill po">Watching</span></td></tr></table></div>
+  <div class="card"><h2>Your top accounts <span class="src">CRM</span></h2>
+   <table><tr><th>Account</th><th>City</th><th>Potential</th></tr>
+   <tr><td>Capital Auto OEM</td><td>Manesar</td><td class="n">₹90L/yr</td></tr>
+   <tr><td>Punjab Distillers</td><td>Ludhiana</td><td class="n">₹83L/yr</td></tr>
+   <tr><td>NCR Foods</td><td>Gurugram</td><td class="n">₹65L/yr</td></tr></table></div>`,
+ decisions:[],
+ statuses:[['nsales-deleg','Your <₹5L delegation is the model being extended to South']],
+ handled:['Benchmarked your quote template — packaged for the South team','Flagged Capital Auto OEM (Nov renewal, on-time clause) for white-glove delivery'],
+ hints:[['what should I watch?','board-solar'],['why is South slow?','nsales-deleg']]},
 
 ssouth:{av:'SS',crumb:'Sales · South',title:'Sales Head — South',sub:'TN · KA · Kerala · served by Chennai plant',
  insight:`<b>Your pipeline isn’t weak — it’s stuck.</b> 9 deals worth ₹52L wait at head-office pricing (11 days average). Delegation is pending above you; what YOU can do today is escalate the 3 oldest.`,
@@ -350,6 +395,24 @@ ssouth:{av:'SS',crumb:'Sales · South',title:'Sales Head — South',sub:'TN · K
  statuses:[['nsales-deleg','Approval rights <₹5L — pending with National Sales Head']],
  handled:['Drafted follow-up notes for all 9 stuck accounts','Spotted Crown Breweries mentioning a competitor quote (call transcript)'],
  hints:[['what can I do today?','south-esc'],['why is my score 62?','south-esc']]},
+
+swest:{av:'SW',crumb:'Sales · West',title:'Sales Head — West',sub:'MH · GJ · Goa · served by Pune plant',
+ insight:`<b>Best revenue, shakiest ground.</b> You beat target (₹199L vs ₹195L, +9.2%) — but both red churn accounts are yours, and both trace to Pune’s supply problem. The supply fix sits with Procurement; YOUR move is the Sunrise pre-renewal call.`,
+ kpis:[['Region score','79','▼ 2 WoW','warn'],['Booked vs target','₹199L / ₹195L','102% — achieved','up'],['At-risk accounts','2','Sunrise 72 · GlassKart 61','dn'],['Late deliveries','4','this month — all Pune-linked','dn']],
+ main:()=>`<div class="card"><h2>Accounts at risk <span class="src">Churn_Scores + Dispatch</span></h2>
+   <table><tr><th>Account</th><th>Churn</th><th>Why</th><th>Exposure</th></tr>
+   <tr class="hot"><td><b>Sunrise Bottling</b></td><td class="n"><b>72</b></td><td>2 late orders · on-time clause · Oct renewal</td><td class="n">₹18L</td></tr>
+   <tr class="hot"><td><b>GlassKart</b></td><td class="n">61</td><td>Late order Jul 16 · buffer stock down to 4 days</td><td class="n">₹4L/mo</td></tr>
+   <tr><td>SolarTech Modules</td><td class="n">34</td><td>—</td><td class="n">healthy</td></tr></table></div>
+  <div class="card"><h2>Your top products <span class="src">CRM</span></h2>
+   <table><tr><th>Product</th><th>Qtr revenue</th><th>Note</th></tr>
+   <tr><td>Amber Bottle 330ml</td><td class="n">₹38L</td><td>#1 company-wide</td></tr>
+   <tr><td>Solar Panel Glass</td><td class="n">₹35L</td><td>▲ 22% — watch capacity</td></tr>
+   <tr><td>Laminated Safety</td><td class="n">₹32L</td><td>stable</td></tr></table></div>`,
+ decisions:['west-sunrise'],
+ statuses:[['proc-dual','Soda ash dual-sourcing — with Procurement Head'],['pune-shift','Batch reroute to V2 — with Pune plant head']],
+ handled:['Drafted the service-credit memo for Sunrise (attached to the call brief)','Re-sequenced GlassKart’s next order to P2 to dodge the P1 backlog'],
+ hints:[['how do I protect Sunrise?','west-sunrise'],['when does supply normalise?','proc-dual']]},
 
 seast:{av:'SE',crumb:'Sales · East & NE',title:'Sales Head — East & North-East',sub:'WB · Assam · Odisha · served from Chennai/Pune',
  insight:`<b>You’re not losing on product — you’re losing on kilometres.</b> Freight is 7% of order value here (2× other regions) and delivery takes 5.8 days. The board is weighing a Kolkata stock point; your move is to prove the freight thesis with FOB quotes.`,
@@ -462,6 +525,7 @@ function render(role){
   renderAgent();
 }
 function renderAgent(){
+  renderSide();
   const R=ROLES[cur];
   const pend=R.decisions.filter(k=>!S.approved[k]).length;
   const chipEl=document.getElementById('chip');
