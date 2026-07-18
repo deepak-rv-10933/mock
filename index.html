@@ -316,17 +316,17 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
   </div>
   ${raceCard()}
   <div class="grid2">
-  <div class="card"><h2>Money at risk — ₹65L, opened up <span class="src">fact pack · finance</span></h2><div class="sub">The KPI above — every cause has an owner and a decision already in flight</div>
-   <table><tr><th>Cause</th><th>Amount</th><th>Owner / decision</th></tr>
-   <tr class="hot"><td><b>Customer value at churn risk</b><br><span style="font-size:11px">Sunrise ₹18L Oct renewal + ₹15L late orders</span></td><td class="n">₹33L</td><td>Procurement (dual-source) · West (Sunrise call)</td></tr>
-   <tr><td><b>Chennai idle burn</b><br><span style="font-size:11px">furnace at 68% fill — order book thin</span></td><td class="n">₹23L/mo</td><td>National Sales (approval rights &lt;₹5L)</td></tr>
-   <tr><td><b>East margin leak</b><br><span style="font-size:11px">freight 2× other regions on won deals</span></td><td class="n">₹9L/qtr</td><td>East (FOB trial) · Board (depot study)</td></tr></table></div>
-  <div class="card"><h2>Customer signals this week <span class="src">Zoho Desk</span></h2><div class="sub">Tickets the agent linked back to operations — 11 open in total</div>
-   <table><tr><th>Signal</th><th>Account</th><th>Linked to</th></tr>
-   <tr class="hot"><td><b>4 warranty claims</b> (CLAIM-2210…13)</td><td>Crown, Punjab, NCR, Kerala</td><td class="n">C2 night batches</td></tr>
-   <tr class="hot"><td>Penalty clause invoked on late order</td><td>Sunrise Bottling</td><td class="n">SO-1188 · DT-1142</td></tr>
-   <tr><td>Demurrage charges query (Jebel Ali)</td><td>Gulf Glass Traders</td><td class="n">SO-1198</td></tr>
-   <tr><td>Revised vessel ETA requested</td><td>East Africa Glassworks</td><td class="n">SO-1195</td></tr></table></div>
+  <div class="card"><h2>Where the ₹65L at risk sits — and who's fixing it <span class="src">CRM + Creator + Desk</span></h2><div class="sub">Three problems, three owners, three fixes already on the table — approve them and this number falls</div>
+   <table><tr><th>What's at risk</th><th>How much</th><th>Why — in one line</th><th>Fix in flight</th></tr>
+   <tr class="hot"><td><b>Sunrise &amp; GlassKart may leave us</b></td><td class="n">₹33L<br><span style="font-size:10px;color:var(--ink3)">at stake now</span></td><td>2 late deliveries triggered Sunrise's on-time penalty clause; their ₹18L renewal opens in October</td><td data-status="west-sunrise" style="white-space:nowrap">${pillFor('west-sunrise')}<br><span style="font-size:11px">save call — West head</span></td></tr>
+   <tr><td><b>Chennai furnace runs half-empty</b></td><td class="n">₹23L<br><span style="font-size:10px;color:var(--ink3)">this month</span></td><td>at 68% full a furnace burns nearly the power of 95% — and the deals that would fill it are stuck in approvals</td><td data-status="nsales-deleg" style="white-space:nowrap">${pillFor('nsales-deleg')}<br><span style="font-size:11px">approval rights &lt;₹5L</span></td></tr>
+   <tr><td><b>East deals lost to freight</b></td><td class="n">₹9L<br><span style="font-size:10px;color:var(--ink3)">this quarter</span></td><td>quotes land ~7% higher after freight from Chennai/Pune — we lose 85% of bids there</td><td data-status="east-fob" style="white-space:nowrap">${pillFor('east-fob')}<br><span style="font-size:11px">FOB trial — East head</span></td></tr></table></div>
+  <div class="card"><h2>What customers are telling us <span class="src">Zoho Desk</span></h2><div class="sub">This week's tickets — each traced to its cause on the ops floor, each already inside a decision</div>
+   <table><tr><th>Customer said</th><th>Because</th><th>What happens next</th></tr>
+   <tr class="hot"><td><b>4 warranty claims</b> — defects on amber bottles<br><span style="font-size:11px;color:var(--ink3)">Crown · Punjab · NCR · Kerala</span></td><td>C2 night crew was never trained after the Jul 6 machine service</td><td data-status="chn-train" style="white-space:nowrap">${pillFor('chn-train')}<br><span style="font-size:11px">night-crew training</span></td></tr>
+   <tr class="hot"><td><b>Sunrise invoked the late-delivery penalty</b></td><td>their order left 2 days late off the Pune line idled by the soda-ash stockout</td><td data-status="west-sunrise" style="white-space:nowrap">${pillFor('west-sunrise')}<br><span style="font-size:11px">pre-renewal call</span></td></tr>
+   <tr><td><b>Gulf Glass disputes demurrage charges</b></td><td>their container missed the Jul 13 vessel and sat at Chennai Port</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr>
+   <tr><td><b>East Africa Glassworks wants a firm ETA</b></td><td>their shipment sailed 3 days late — and they re-tender in September</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr></table></div>
   </div>
   <div class="grid2">
   <div class="card"><h2>Top-selling products — this quarter <span class="src">CRM Deals × Products</span></h2><div class="sub">Won revenue · growth · margin</div>
