@@ -316,6 +316,19 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
   </div>
   ${raceCard()}
   <div class="grid2">
+  <div class="card"><h2>Money at risk — ₹65L, opened up <span class="src">fact pack · finance</span></h2><div class="sub">The KPI above — every cause has an owner and a decision already in flight</div>
+   <table><tr><th>Cause</th><th>Amount</th><th>Owner / decision</th></tr>
+   <tr class="hot"><td><b>Customer value at churn risk</b><br><span style="font-size:11px">Sunrise ₹18L Oct renewal + ₹15L late orders</span></td><td class="n">₹33L</td><td>Procurement (dual-source) · West (Sunrise call)</td></tr>
+   <tr><td><b>Chennai idle burn</b><br><span style="font-size:11px">furnace at 68% fill — order book thin</span></td><td class="n">₹23L/mo</td><td>National Sales (approval rights &lt;₹5L)</td></tr>
+   <tr><td><b>East margin leak</b><br><span style="font-size:11px">freight 2× other regions on won deals</span></td><td class="n">₹9L/qtr</td><td>East (FOB trial) · Board (depot study)</td></tr></table></div>
+  <div class="card"><h2>Customer signals this week <span class="src">Zoho Desk</span></h2><div class="sub">Tickets the agent linked back to operations — 11 open in total</div>
+   <table><tr><th>Signal</th><th>Account</th><th>Linked to</th></tr>
+   <tr class="hot"><td><b>4 warranty claims</b> (CLAIM-2210…13)</td><td>Crown, Punjab, NCR, Kerala</td><td class="n">C2 night batches</td></tr>
+   <tr class="hot"><td>Penalty clause invoked on late order</td><td>Sunrise Bottling</td><td class="n">SO-1188 · DT-1142</td></tr>
+   <tr><td>Demurrage charges query (Jebel Ali)</td><td>Gulf Glass Traders</td><td class="n">SO-1198</td></tr>
+   <tr><td>Revised vessel ETA requested</td><td>East Africa Glassworks</td><td class="n">SO-1195</td></tr></table></div>
+  </div>
+  <div class="grid2">
   <div class="card"><h2>Top-selling products — this quarter <span class="src">CRM Deals × Products</span></h2><div class="sub">Won revenue · growth · margin</div>
    <table><tr><th>Product</th><th>Revenue</th><th>Growth</th><th>Margin</th><th>Best region</th></tr>
    <tr><td><b>Amber Beer Bottle 330ml</b></td><td class="n">₹90.8L</td><td class="n up">▲ 12%</td><td class="n">43%</td><td>West</td></tr>
@@ -481,7 +494,13 @@ pchn:{av:'PC',crumb:'Production · Chennai',title:'Plant Head — Chennai',sub:'
   <div class="card"><h2>Quality timeline <span class="src">Creator QC</span></h2>
    <table><tr><th>Window</th><th>C2 Day</th><th>C2 Night</th></tr>
    <tr><td>Before Jul 6</td><td class="n">1.8%</td><td class="n">1.8%</td></tr>
-   <tr class="hot"><td>After Jul 6 service</td><td class="n">1.8%</td><td class="n"><b>3.3%</b></td></tr></table></div>`,
+   <tr class="hot"><td>After Jul 6 service</td><td class="n">1.8%</td><td class="n"><b>3.3%</b></td></tr></table></div>
+  <div class="card"><h2>Warranty claims — this week <span class="src">Zoho Desk</span></h2><div class="sub">All four trace to C2 night batches — the customer end of your training decision</div>
+   <table><tr><th>Claim</th><th>Account</th><th>Batch</th><th>Status</th></tr>
+   <tr class="hot"><td class="n">CLAIM-2210</td><td>Crown Breweries</td><td class="n">B-C2-20260709-N</td><td><span class="pill pr">Open</span></td></tr>
+   <tr class="hot"><td class="n">CLAIM-2211</td><td>Punjab Distillers</td><td class="n">B-C2-20260710-N</td><td><span class="pill pr">Open</span></td></tr>
+   <tr class="hot"><td class="n">CLAIM-2212</td><td>NCR Foods</td><td class="n">B-C2-20260712-N</td><td><span class="pill pr">Open</span></td></tr>
+   <tr class="hot"><td class="n">CLAIM-2213</td><td>Kerala Spirits Co</td><td class="n">B-C2-20260713-N</td><td><span class="pill pr">Open</span></td></tr></table></div>`,
  decisions:['chn-train','chn-cullet'],
  statuses:[],
  handled:['Linked the 4 new warranty claims to C2 night batch IDs','Verified Group A received controller training on Jul 6; Group B did not'],
