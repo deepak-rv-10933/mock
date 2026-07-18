@@ -146,7 +146,7 @@ tr.hot:hover td{background:#fbe2e2}
 
 <div class="top">
   <div class="logo"><span class="sq">G</span>GlassOps <span style="font-weight:400;color:var(--ink3);font-size:12px">· Productivity Cloud</span></div>
-  <div class="zia"><span class="dot"></span><span>Zia agent · last check 06:04 · 6,204 records</span><div class="avatar" id="av">BD</div></div>
+  <div class="zia"><span class="dot"></span><span>Zia agent · scanned 6,204 records across CRM, Creator &amp; Desk at 06:04</span><div class="avatar" id="av">BD</div></div>
 </div>
 
 <div class="shell">
@@ -205,8 +205,8 @@ function renderSide(){
   }
   document.getElementById('side').innerHTML = h;
 }
-function raceCard(){return `<div class="card"><h2>Region race — Q2 targets <span class="src">CRM Region_Targets</span></h2><div class="sub">Booked vs target · growth vs last quarter · who wins, who's blocked, and why</div>
-   <table><tr><th>#</th><th>Region</th><th>Booked / target</th><th>Attain.</th><th>Growth QoQ</th><th>Status</th><th>Blocker / note</th></tr>
+function raceCard(){return `<div class="card"><h2>Region race — this quarter's targets <span class="src">CRM Region_Targets</span></h2><div class="sub">Orders won vs the target each team was set · who wins, who's blocked, and why</div>
+   <table><tr><th>#</th><th>Region</th><th>Won / target</th><th>Of target</th><th>Growth vs last qtr</th><th>Status</th><th>Blocker / note</th></tr>
    <tr><td class="n">1</td><td><b>North 🏆</b></td><td class="n">₹160L / ₹150L</td><td class="n">107%</td><td class="n up">▲ 10.1%</td><td><span class="pill pg">Achieved</span></td><td>Quarter winner — quote template is the company benchmark</td></tr>
    <tr><td class="n">2</td><td><b>Export ⚡</b></td><td class="n">₹58L / ₹55L</td><td class="n">105%</td><td class="n up">▲ 14.8%</td><td><span class="pill pg">Achieved</span></td><td>Fastest-growing — but 2 vessel cutoffs put the September re-tender at risk</td></tr>
    <tr><td class="n">3</td><td><b>West</b></td><td class="n">₹199L / ₹195L</td><td class="n">102%</td><td class="n up">▲ 9.2%</td><td><span class="pill pg">Achieved</span></td><td>Watch — Pune supply issue may cost August deliveries</td></tr>
@@ -222,7 +222,7 @@ const DEC = {
      ['Materials','soda ash stock fell to 2.1 days'],
      ['Supplier','Meridian delivered on time only 1 of last 6 POs',true]])
    +cites(['PO-2214','PO-2221','DT-1142','SO-1188'])
-   +ift('Gujarat Alkalies (98% on-time) takes 40% from next order. ₹6L/week back, spot-buy premium gone.','Chain repeats weekly ≈ ₹96L over 8 weeks; Sunrise likely walks in October.')},
+   +ift('Gujarat Alkalies (98% on-time) takes 40% from next order. ₹6L/week back, no more +14% emergency buys.','Chain repeats weekly ≈ ₹96L over 8 weeks; Sunrise likely walks in October.')},
  'pune-shift':{sev:'a',title:'Shift 3 stuck batches to Vadodara V2',one:'V2 has 18% spare capacity this week',owner:'Plant Head — Pune',
    h:()=>chain([['Delivery','2 customer orders already late; 1 more due Friday'],
      ['Production','P1 lost 11.2 hours; the batch plan is behind'],
@@ -238,7 +238,7 @@ const DEC = {
    +ift('1 week pairing with the day-shift lead. Defects back to 1.8%, ₹1.1L/week saved.','Every night run leaks defects to customers; claims keep climbing.')},
  'chn-cullet':{sev:'g',title:'Adopt Vadodara’s 34% recycled-glass mix',one:'proven: energy −3%, waste down, quality flat',owner:'Plant Head — Chennai',
    h:()=>chain([['Vadodara','raised recycled glass to 34% three weeks ago'],
-     ['Result','energy per ton −3%, waste −0.6pp, defect rate unchanged'],
+     ['Result','energy per ton down 3%, waste down 0.6 points, defect rate unchanged'],
      ['Chennai','runs the same furnace chemistry — nothing blocks adoption',true]])
    +cites(['BATCH-VAD','PO-2188','ENERGY-LOG'])
    +ift('≈ ₹1.8L saved every month at Chennai, starting next batch plan.','Money stays on the table; Vadodara’s lesson goes unused.')},
@@ -273,13 +273,13 @@ const DEC = {
      ['Supply','Meridian’s late soda ash caused the idle — that fix is with Procurement; the relationship is YOURS',true]])
    +cites(['SO-1188','DEAL-2871','CHURN-W29'])
    +ift('Call + service credit this week, before renewal talks open. Churn score drops, ₹18L renewal safe.','Clause gets invoked at renewal; Sunrise shops the ₹18L contract around in October.')},
- 'exp-container':{sev:'a',title:'Pre-book containers on a 14-day rolling plan',one:'2 vessels missed last month · ₹1.2L demurrage back',owner:'Export Head',
+ 'exp-container':{sev:'a',title:'Pre-book containers on a 14-day rolling plan',one:'2 ships missed last month · ₹1.2L/month in port charges back',owner:'Export Head',
    h:()=>chain([['Customers','Nairobi and Dubai orders arrived late — East Africa Glassworks re-tenders in September'],
-     ['Shipping','2 of 9 export shipments missed their vessel cutoff; the next sailing added 7–9 days'],
-     ['Port','containers reached Chennai Port after cutoff and sat there — ₹1.2L demurrage'],
-     ['Process','containers are booked 3–4 days before sailing; forwarders need 14',true]])
+     ['Shipping','2 of 9 export shipments missed their ship’s loading deadline; the next sailing added 7–9 days'],
+     ['Port','containers reached Chennai Port after the deadline and sat there — ₹1.2L in storage charges'],
+     ['Process','containers are booked 3–4 days before sailing; freight forwarders need 14',true]])
    +cites(['SO-1195','SO-1198','CUTOFF-MISS-W29'])
-   +ift('Rolling 14-day container bookings driven by the dispatch plan. Cutoffs met, ₹1.2L/month demurrage gone, Nairobi re-tender safe.','Every missed vessel adds 7–9 days to a customer promise; the September re-tender likely goes to a rival.')},
+   +ift('Book containers 14 days ahead, straight from the dispatch plan. Ships caught, ₹1.2L/month in port charges gone, Nairobi re-tender safe.','Every missed ship adds 7–9 days to a customer promise; the September re-tender likely goes to a rival.')},
  'board-solar':{sev:'a',title:'Commission solar-glass capacity study',one:'fastest-growing product is our least efficient',owner:'Board',
    h:()=>chain([['Sales','Solar glass (SOL32) revenue ₹63.5L this quarter, growing ~22% — now our #4 product'],
      ['Production','it is our LEAST efficient product: 84% yield vs 96% on float glass'],
@@ -292,11 +292,11 @@ const DEC = {
 const ROLES = {
 board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisation',sub:'Week 29 · all regions · all plants',
  insight:`<b>One supplier is dragging three departments this week.</b> Meridian’s late soda ash idled Pune 11.2 hrs, made 2 deliveries late and put ₹33L of customer value at risk. Every fix is already routed to its owner below — the board’s own calls are the two network decisions on the right.`,
- kpis:[['Org productivity','74 / 100','▼ 3 WoW','dn'],['Booked this month','₹2.4Cr','▲ 6%','up'],['On-time delivery','88%','6 late this month','dn'],['Waste','6.8%','▲ 0.7pp','warn'],['Money at risk','₹65L','3 causes','warn']],
+ kpis:[['Org productivity score','74 / 100','▼ 3 vs last week','dn'],['New orders this month','₹2.4Cr','▲ 6% vs last month','up'],['On-time delivery','88%','6 orders late this month','dn'],['Production waste','6.8%','up from 6.1% last week','warn'],['Money at risk','₹65L','3 causes — see below','warn']],
  main:()=>`
   <div class="grid2">
-  <div class="card"><h2>Regions × plants <span class="src">CRM + Creator</span></h2><div class="sub">Sales score · serving plant · plant efficiency · status</div>
-   <table><tr><th>Region</th><th>Sales</th><th>Win rate</th><th>Served by</th><th>Plant eff.</th><th>Status</th></tr>
+  <div class="card"><h2>Regions × plants <span class="src">CRM + Creator</span></h2><div class="sub">Score /100 = wins + on-time delivery + quality, weighted · plant efficiency = sellable output vs what the lines could make</div>
+   <table><tr><th>Region</th><th>Score /100</th><th>Deals won</th><th>Served by</th><th>Plant eff.</th><th>Status</th></tr>
    <tr><td><b>North</b></td><td class="n">84</td><td class="n">55%</td><td>Vadodara</td><td class="n">79%</td><td><span class="pill pg">On track</span></td></tr>
    <tr><td><b>West</b></td><td class="n">79</td><td class="n">49%</td><td>Pune</td><td class="n bad" style="color:var(--red)">66%</td><td><span class="pill pr">Supply issue</span></td></tr>
    <tr><td><b>South</b></td><td class="n">62</td><td class="n">42%</td><td>Chennai</td><td class="n">86%</td><td><span class="pill po">Deals stuck</span></td></tr>
@@ -325,7 +325,7 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
    <table><tr><th>Customer said</th><th>Because</th><th>What happens next</th></tr>
    <tr class="hot"><td><b>4 warranty claims</b> — defects on amber bottles<br><span style="font-size:11px;color:var(--ink3)">Crown · Punjab · NCR · Kerala</span></td><td>C2 night crew was never trained after the Jul 6 machine service</td><td data-status="chn-train" style="white-space:nowrap">${pillFor('chn-train')}<br><span style="font-size:11px">night-crew training</span></td></tr>
    <tr class="hot"><td><b>Sunrise invoked the late-delivery penalty</b></td><td>their order left 2 days late off the Pune line idled by the soda-ash stockout</td><td data-status="west-sunrise" style="white-space:nowrap">${pillFor('west-sunrise')}<br><span style="font-size:11px">pre-renewal call</span></td></tr>
-   <tr><td><b>Gulf Glass disputes demurrage charges</b></td><td>their container missed the Jul 13 vessel and sat at Chennai Port</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr>
+   <tr><td><b>Gulf Glass disputes port storage charges</b></td><td>their container missed the Jul 13 ship and sat at Chennai Port</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr>
    <tr><td><b>East Africa Glassworks wants a firm ETA</b></td><td>their shipment sailed 3 days late — and they re-tender in September</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr></table></div>
   </div>
   <div class="grid2">
@@ -336,7 +336,7 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
    <tr><td><b>Food Jar 500ml</b></td><td class="n">₹66.0L</td><td class="n fl">— flat</td><td class="n">39%</td><td>North</td></tr>
    <tr><td><b>Solar Panel Glass 3.2mm</b></td><td class="n">₹63.5L</td><td class="n up">▲ 22%</td><td class="n" style="color:var(--red)">24%</td><td>West</td></tr>
    <tr><td><b>Float Glass 4mm</b></td><td class="n">₹51.3L</td><td class="n up">▲ 5%</td><td class="n">32%</td><td>North</td></tr></table></div>
-  <div class="card"><h2>Product manufacturing efficiency <span class="src">Creator Production_Runs</span></h2><div class="sub">Yield per product · the agent flags the mismatch</div>
+  <div class="card"><h2>Product manufacturing efficiency <span class="src">Creator Production_Runs</span></h2><div class="sub">Yield = sellable units out of everything produced · the agent flags growth-vs-yield mismatches</div>
    <table><tr><th>Product</th><th>Yield</th><th>Trend</th><th>Note</th></tr>
    <tr><td>Float Glass 4mm</td><td class="n">96%</td><td class="n up">▲</td><td>Benchmark</td></tr>
    <tr><td>Amber Bottle 330ml</td><td class="n">93%</td><td class="n fl">—</td><td>Stable</td></tr>
@@ -350,9 +350,9 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
 
 nsales:{av:'NS',crumb:'Sales',title:'National Sales Head',sub:'All regions · pipeline ₹6.1Cr',
  insight:`<b>Three of five units are healthy.</b> South is your bottleneck — and it’s a process problem, not a people problem: 9 deals sit in head-office pricing. East loses on freight, not product. Export sells fine but keeps missing vessel cutoffs — that fix sits with the Export head.`,
- kpis:[['Pipeline','₹6.1Cr','coverage 2.1×','warn'],['Win rate (all-India)','45%','East drags at 15%','dn'],['Avg cycle','22 d','South at 34 d','warn'],['Booked this month','₹2.4Cr','▲ 6%','up']],
+ kpis:[['Open pipeline','₹6.1Cr','covers ~2 months of capacity','warn'],['Deals won (all-India)','45%','East wins only 15%','dn'],['Time to close a deal','22 days','South takes 34','warn'],['New orders this month','₹2.4Cr','▲ 6% vs last month','up']],
  main:()=>`<div class="card"><h2>Regions <span class="src">CRM</span></h2>
-   <table><tr><th>Region</th><th>Score</th><th>Win rate</th><th>Cycle</th><th>Issue</th><th>Owner action</th></tr>
+   <table><tr><th>Region</th><th>Score /100</th><th>Deals won</th><th>Close time</th><th>Issue</th><th>Owner action</th></tr>
    <tr><td><b>North</b></td><td class="n">84</td><td class="n">55%</td><td class="n">17d</td><td>—</td><td><span class="pill pg">None</span></td></tr>
    <tr><td><b>West</b></td><td class="n">79</td><td class="n">49%</td><td class="n">21d</td><td>Deliveries slipping (Pune supply)</td><td><span class="pill pb">Plant/Proc</span></td></tr>
    <tr class="hot"><td><b>South</b></td><td class="n">62</td><td class="n">42%</td><td class="n">34d</td><td>9 deals stuck at pricing</td><td data-status="nsales-deleg">${pillFor('nsales-deleg')}</td></tr>
@@ -373,10 +373,10 @@ nsales:{av:'NS',crumb:'Sales',title:'National Sales Head',sub:'All regions · pi
 
 snorth:{av:'SN',crumb:'Sales · North',title:'Sales Head — North',sub:'DEL-NCR · PB · RJ · UP · served by Vadodara',
  insight:`<b>You win the quarter. 🏆</b> 107% of target, +10.1% growth, 55% win rate — with the company’s fastest cycle (17 days). Nothing needs your OK today; the agent is tracking the small signals below so it stays that way.`,
- kpis:[['Region score','84','#1 of 5 units','up'],['Booked vs target','₹160L / ₹150L','107% — quarter winner','up'],['Win rate','55%','company 45%','up'],['Cycle','17 d','fastest in company','up']],
+ kpis:[['Region score','84 / 100','#1 of 5 units','up'],['Won vs target','₹160L / ₹150L','107% — quarter winner','up'],['Deals won','55%','company average 45%','up'],['Time to close','17 days','fastest in the company','up']],
  main:()=>`<div class="card"><h2>Watchlist — small signals, no action needed yet <span class="src">Zia agent</span></h2>
    <table><tr><th>Signal</th><th>Detail</th><th>Status</th></tr>
-   <tr><td><b>JAR500 growth flat</b></td><td>NCR Foods volumes plateaued — ₹66L qtr, — flat</td><td><span class="pill po">Watching</span></td></tr>
+   <tr><td><b>Food Jar growth has gone flat</b></td><td>NCR Foods volumes plateaued — ₹66L this quarter, same as last</td><td><span class="pill po">Watching</span></td></tr>
    <tr><td><b>Capital Auto OEM renewal</b></td><td>November, on-time clause — Vadodara serving cleanly so far</td><td><span class="pill pg">Healthy</span></td></tr>
    <tr><td><b>Himalayan Waters</b></td><td>Seasonal dip expected August — plan promo stock</td><td><span class="pill po">Watching</span></td></tr></table></div>
   <div class="card"><h2>Your top accounts <span class="src">CRM</span></h2>
@@ -391,7 +391,7 @@ snorth:{av:'SN',crumb:'Sales · North',title:'Sales Head — North',sub:'DEL-NCR
 
 ssouth:{av:'SS',crumb:'Sales · South',title:'Sales Head — South',sub:'TN · KA · Kerala · served by Chennai plant',
  insight:`<b>Your pipeline isn’t weak — it’s stuck.</b> 9 deals worth ₹52L wait at head-office pricing (11 days average). Delegation is pending above you; what YOU can do today is escalate the 3 oldest.`,
- kpis:[['Region score','62','▼ 5 WoW','dn'],['Stuck at pricing','9 deals','₹52L','warn'],['Avg cycle','34 d','company 22 d','dn'],['Chennai plant fill','68%','your orders feed it','warn']],
+ kpis:[['Region score','62 / 100','▼ 5 vs last week','dn'],['Stuck at price approval','9 deals','worth ₹52L','warn'],['Time to close','34 days','company average 22','dn'],['Chennai plant fill','68%','your orders feed it','warn']],
  main:()=>`<div class="card"><h2>Deals stuck at pricing approval <span class="src">CRM + Approval log</span></h2>
    <table><tr><th>Deal</th><th>Account</th><th>Value</th><th>Waiting</th></tr>
    <tr class="hot"><td class="n">DEAL-3021</td><td>Crown Breweries</td><td class="n">₹9.2L</td><td class="n">14 d</td></tr>
@@ -411,9 +411,9 @@ ssouth:{av:'SS',crumb:'Sales · South',title:'Sales Head — South',sub:'TN · K
 
 swest:{av:'SW',crumb:'Sales · West',title:'Sales Head — West',sub:'MH · GJ · Goa · served by Pune plant',
  insight:`<b>Best revenue, shakiest ground.</b> You beat target (₹199L vs ₹195L, +9.2%) — but both red churn accounts are yours, and both trace to Pune’s supply problem. The supply fix sits with Procurement; YOUR move is the Sunrise pre-renewal call.`,
- kpis:[['Region score','79','▼ 2 WoW','warn'],['Booked vs target','₹199L / ₹195L','102% — achieved','up'],['At-risk accounts','2','Sunrise 72 · GlassKart 61','dn'],['Late deliveries','4','this month — all Pune-linked','dn']],
- main:()=>`<div class="card"><h2>Accounts at risk <span class="src">Churn_Scores + Dispatch</span></h2>
-   <table><tr><th>Account</th><th>Churn</th><th>Why</th><th>Exposure</th></tr>
+ kpis:[['Region score','79 / 100','▼ 2 vs last week','warn'],['Won vs target','₹199L / ₹195L','102% — target met','up'],['Accounts at risk of leaving','2','Sunrise & GlassKart','dn'],['Late deliveries','4','this month — all from Pune supply','dn']],
+ main:()=>`<div class="card"><h2>Accounts at risk of leaving <span class="src">Churn_Scores + Dispatch</span></h2><div class="sub">Leave-risk /100 — above 60 is red</div>
+   <table><tr><th>Account</th><th>Leave-risk</th><th>Why</th><th>Business at stake</th></tr>
    <tr class="hot"><td><b>Sunrise Bottling</b></td><td class="n"><b>72</b></td><td>2 late orders · on-time clause · Oct renewal</td><td class="n">₹18L</td></tr>
    <tr class="hot"><td><b>GlassKart</b></td><td class="n">61</td><td>Late order Jul 16 · buffer stock down to 4 days</td><td class="n">₹4L/mo</td></tr>
    <tr><td>SolarTech Modules</td><td class="n">34</td><td>—</td><td class="n">healthy</td></tr></table></div>
@@ -429,7 +429,7 @@ swest:{av:'SW',crumb:'Sales · West',title:'Sales Head — West',sub:'MH · GJ �
 
 seast:{av:'SE',crumb:'Sales · East & NE',title:'Sales Head — East & North-East',sub:'WB · Assam · Odisha · served from Chennai/Pune',
  insight:`<b>You’re not losing on product — you’re losing on kilometres.</b> Freight is 7% of order value here (2× other regions) and delivery takes 5.8 days. The board is weighing a Kolkata stock point; your move is to prove the freight thesis with FOB quotes.`,
- kpis:[['Region score','68','watch','warn'],['Win rate','15%','company ~45%','dn'],['Freight share','7%','2× other regions','dn'],['Delivery time','5.8 d','company 4.1 d','dn']],
+ kpis:[['Region score','68 / 100','on the watch list','warn'],['Deals won','15%','company average 45%','dn'],['Freight as share of order value','7%','2× other regions','dn'],['Delivery time','5.8 days','company average 4.1','dn']],
  main:()=>`<div class="card"><h2>Recent losses <span class="src">CRM</span></h2>
    <table><tr><th>Deal</th><th>Account</th><th>Value</th><th>Loss reason</th></tr>
    <tr class="hot"><td class="n">DEAL-3140</td><td>EastBay Constructions</td><td class="n">₹6.2L</td><td>Price — freight component</td></tr>
@@ -446,12 +446,12 @@ seast:{av:'SE',crumb:'Sales · East & NE',title:'Sales Head — East & North-Eas
  hints:[['why do we keep losing here?','east-fob'],['what is the depot idea?','east-fob']]},
 
 sexp:{av:'EX',crumb:'Sales · Export',title:'Export Head — Sales & Supply Chain',sub:'MEA · ASEAN · SAARC · shipped from Chennai Port',
- insight:`<b>Your product sells — your containers don’t sail.</b> 2 of 9 shipments missed their vessel cutoff last month, adding 7–9 days and ₹1.2L demurrage. Bookings go out 3–4 days before sailing; forwarders need 14. Fix the booking rhythm and the Nairobi re-tender is safe.`,
- kpis:[['Export revenue (qtr)','₹58L','stable','fl'],['Win rate','38%','vs 45% company','fl'],['Vessel cutoffs met','7 / 9','₹1.2L demurrage','dn'],['Door-to-port','6.4 d','booking lag, not transit','dn']],
- main:()=>`<div class="card"><h2>Export shipments — last 30 days <span class="src">Creator Dispatch</span></h2>
-   <table><tr><th>SO</th><th>Customer</th><th>Vessel cutoff</th><th>Status</th></tr>
-   <tr class="hot"><td class="n">SO-1195</td><td>East Africa Glassworks</td><td class="n">Jul 8</td><td><span class="pill pr">Missed — shipped +3d</span></td></tr>
-   <tr class="hot"><td class="n">SO-1198</td><td>Gulf Glass Traders</td><td class="n">Jul 13</td><td><span class="pill pr">Missed — demurrage</span></td></tr>
+ insight:`<b>Your product sells — your containers don’t sail.</b> 2 of 9 shipments missed their ship’s loading deadline last month, adding 7–9 days and ₹1.2L in port storage charges. Bookings go out 3–4 days before sailing; freight forwarders need 14. Fix the booking rhythm and the Nairobi re-tender is safe.`,
+ kpis:[['Export orders this quarter','₹58L','105% of target','up'],['Deals won','38%','company average 45%','fl'],['Ship deadlines met','7 of 9','2 missed → ₹1.2L port charges','dn'],['Factory → on board','6.4 days','the delay is booking, not roads','dn']],
+ main:()=>`<div class="card"><h2>Export shipments — last 30 days <span class="src">Creator Dispatch</span></h2><div class="sub">Loading deadline = the date the container must reach the port to make its ship</div>
+   <table><tr><th>Order</th><th>Customer</th><th>Loading deadline</th><th>Status</th></tr>
+   <tr class="hot"><td class="n">SO-1195</td><td>East Africa Glassworks</td><td class="n">Jul 8</td><td><span class="pill pr">Missed — sailed 3 days late</span></td></tr>
+   <tr class="hot"><td class="n">SO-1198</td><td>Gulf Glass Traders</td><td class="n">Jul 13</td><td><span class="pill pr">Missed — paid port charges</span></td></tr>
    <tr><td class="n">SO-1201</td><td>Lanka Bottling Co</td><td class="n">Jul 15</td><td><span class="pill pg">Sailed ✓</span></td></tr>
    <tr><td class="n">SO-1204</td><td>SEA Facade Systems</td><td class="n">Jul 17</td><td><span class="pill pg">Sailed ✓</span></td></tr></table></div>
   <div class="card"><h2>Your accounts <span class="src">CRM</span></h2>
@@ -462,15 +462,15 @@ sexp:{av:'EX',crumb:'Sales · Export',title:'Export Head — Sales & Supply Chai
    <tr><td>Lanka Bottling Co</td><td>Colombo</td><td class="n">₹61L/yr</td><td>Stable</td></tr></table></div>`,
  decisions:['exp-container'],
  statuses:[['board-solar','Solar capacity study — with the Board (SEA Facade demand)']],
- handled:['Filed the demurrage claim for the Jebel Ali shipment (Gulf Glass Traders)','Re-promised the Nairobi order with a revised vessel ETA — customer acknowledged'],
+ handled:['Filed the port-charge (demurrage) claim for the Jebel Ali shipment — Gulf Glass Traders','Sent Nairobi a revised arrival date for their order — customer acknowledged'],
  hints:[['why did shipments slip?','exp-container'],['is the Nairobi account safe?','exp-container']]},
 
 ppune:{av:'PP',crumb:'Production · Pune',title:'Plant Head — Pune',sub:'Lines P1 · P2 · containers',
  insight:`<b>Your plant didn’t fail — your material did.</b> P1 stood still 11.2 hours waiting for soda ash. The supply fix sits with Procurement; what YOU can do tonight is move 3 stuck batches to Vadodara V2.`,
- kpis:[['Plant efficiency','66%','▼ 12 WoW','dn'],['Downtime','11.2 h','all material-wait','dn'],['Waste','7.9%','▲ 1.4pp (restart scrap)','dn'],['Soda ash stock','2.1 days','critical','dn']],
- main:()=>`<div class="card"><h2>Lines <span class="src">Creator Production_Runs</span></h2>
-   <table><tr><th>Line</th><th>Products</th><th>Efficiency</th><th>Downtime (wk)</th><th>Status</th></tr>
-   <tr class="hot"><td><b>P1</b></td><td>Amber 330ml · Jars</td><td class="n">52%</td><td class="n">672 min</td><td><span class="pill pr">Material-starved</span></td></tr>
+ kpis:[['Plant efficiency','66%','▼ 12 vs last week','dn'],['Time lost this week','11.2 hrs','all waiting for raw material','dn'],['Production waste','7.9%','up from 6.5% — restart scrap','dn'],['Soda ash left','2.1 days','critical — reorder point is 3','dn']],
+ main:()=>`<div class="card"><h2>Your production lines <span class="src">Creator Production_Runs</span></h2><div class="sub">Efficiency = sellable output vs what the line could make in the planned hours</div>
+   <table><tr><th>Line</th><th>Products</th><th>Efficiency</th><th>Stopped this week</th><th>Status</th></tr>
+   <tr class="hot"><td><b>P1</b></td><td>Amber 330ml · Jars</td><td class="n">52%</td><td class="n">11.2 hrs</td><td><span class="pill pr">Starved of material</span></td></tr>
    <tr><td><b>P2</b></td><td>Flint 750ml · Tableware</td><td class="n">80%</td><td class="n">40 min</td><td><span class="pill pg">Normal</span></td></tr></table></div>
   <div class="card"><h2>Waste this week <span class="src">Creator</span></h2>
    <table><tr><th>Cause</th><th>Amount</th><th>Note</th></tr>
@@ -484,12 +484,12 @@ ppune:{av:'PP',crumb:'Production · Pune',title:'Plant Head — Pune',sub:'Lines
 
 pchn:{av:'PC',crumb:'Production · Chennai',title:'Plant Head — Chennai',sub:'Lines C1 · C2 · vials, windshields, laminated',
  insight:`<b>Two decisions, one plant.</b> Fix: your C2 night crew was never trained after the Jul 6 controller service (defects 3.3% vs 1.8% — now surfacing as warranty claims). Opportunity: Vadodara’s 34% recycled-glass mix is proven — adopt it and save ≈ ₹1.8L/month.`,
- kpis:[['Plant efficiency','86%','stable','fl'],['C2 night defects','3.3%','day shift 1.8%','dn'],['Warranty claims','▲ 4','all C2 night batches','dn'],['Plant fill','68%','order book thin (South)','warn']],
- main:()=>`<div class="card"><h2>Product efficiency on your lines <span class="src">Creator</span></h2>
+ kpis:[['Plant efficiency','86%','steady','fl'],['Night-shift defects (C2)','3.3%','day shift makes only 1.8%','dn'],['Warranty claims this week','4','none last week — all night batches','dn'],['Plant fill','68%','order book thin — South deals stuck','warn']],
+ main:()=>`<div class="card"><h2>Quality by product on your lines <span class="src">Creator</span></h2><div class="sub">Yield = sellable units out of everything produced</div>
    <table><tr><th>Product</th><th>Line</th><th>Yield</th><th>Note</th></tr>
    <tr><td>Pharma Vial 10ml</td><td class="n">C1</td><td class="n">91%</td><td>OK</td></tr>
    <tr><td>Fire-rated 60min</td><td class="n">C1</td><td class="n">90%</td><td>OK</td></tr>
-   <tr class="hot"><td><b>Amber 330ml (night)</b></td><td class="n">C2</td><td class="n"><b>—3.3% defects</b></td><td>after Jul 6 service · Group B</td></tr>
+   <tr class="hot"><td><b>Amber 330ml — night shift</b></td><td class="n">C2</td><td class="n"><b>3.3% defective</b></td><td>started after the Jul 6 machine service · night crew (Group B)</td></tr>
    <tr><td>Laminated Safety</td><td class="n">C2</td><td class="n">91%</td><td>OK</td></tr></table></div>
   <div class="card"><h2>Quality timeline <span class="src">Creator QC</span></h2>
    <table><tr><th>Window</th><th>C2 Day</th><th>C2 Night</th></tr>
@@ -507,16 +507,16 @@ pchn:{av:'PC',crumb:'Production · Chennai',title:'Plant Head — Chennai',sub:'
  hints:[['why night shift only?','chn-train'],['is the recycled mix safe?','chn-cullet']]},
 
 proc:{av:'PR',crumb:'Supply Chain',title:'Procurement Head',sub:'15 suppliers · 8 materials · 3 plants',
- insight:`<b>One supplier is 80% of your problem.</b> Meridian: on time 1 of the last 6 soda-ash POs. It idled Pune 11.2 hrs and forced 2 spot buys at +14%. Gujarat Alkalies (98% on-time, serves Vadodara) can take 40% from the next order.`,
- kpis:[['Supplier on-time','71%','target 92%','dn'],['Meridian on-time','1 / 6','last 6 POs','dn'],['Spot-buy premium','+14%','2 POs this month','dn'],['Pune soda ash','2.1 days','critical','dn']],
- main:()=>`<div class="card"><h2>Supplier scorecard <span class="src">Creator Purchase_Orders</span></h2>
-   <table><tr><th>Supplier</th><th>Material</th><th>On-time</th><th>Rate vs std</th><th>Status</th></tr>
+ insight:`<b>One supplier is 80% of your problem.</b> Meridian delivered on time just 1 of its last 6 soda-ash orders. That idled Pune 11.2 hours and forced 2 emergency purchases at +14%. Gujarat Alkalies (98% on-time, serves Vadodara) can take 40% from the next order.`,
+ kpis:[['Suppliers delivering on time','71%','target is 92%','dn'],['Meridian on-time','1 of 6','last 6 orders','dn'],['Emergency-buy premium','+14%','2 rush orders this month','dn'],['Pune soda ash left','2.1 days','critical — reorder point is 3','dn']],
+ main:()=>`<div class="card"><h2>Supplier scorecard <span class="src">Creator Purchase_Orders</span></h2><div class="sub">On-time = delivered by the promised date · price vs the standard rate we budget</div>
+   <table><tr><th>Supplier</th><th>Material</th><th>On-time</th><th>Price vs standard</th><th>Status</th></tr>
    <tr class="hot"><td><b>Meridian Chemicals</b></td><td>Soda ash (Pune)</td><td class="n"><b>17%</b></td><td class="n">+1.9%</td><td><span class="pill pr">Critical</span></td></tr>
    <tr><td>Gujarat Alkalies</td><td>Soda ash (Vad.)</td><td class="n">98%</td><td class="n">+0.8%</td><td><span class="pill pg">Reliable</span></td></tr>
    <tr><td>Shree Minerals</td><td>Silica sand</td><td class="n">96%</td><td class="n">0%</td><td><span class="pill pg">Reliable</span></td></tr>
    <tr><td>EcoCullet</td><td>Recycled glass</td><td class="n">94%</td><td class="n">−2%</td><td><span class="pill pg">Saves energy</span></td></tr>
    <tr><td>NovaCoat (trial)</td><td>Primer</td><td class="n">100%</td><td class="n">−8%</td><td><span class="pill po">Quality fail — exited</span></td></tr>
-   <tr><td>Deccan Lime</td><td>Limestone</td><td class="n">83%</td><td class="n">+1.2%</td><td><span class="pill po">Watch — above threshold</span></td></tr>
+   <tr><td>Deccan Lime</td><td>Limestone</td><td class="n">83%</td><td class="n">+1.2%</td><td><span class="pill po">Watch — not critical yet</span></td></tr>
    <tr><td colspan="5" style="color:var(--ink3)">+ 9 more suppliers · portfolio on-time 71% vs 92% target</td></tr></table></div>
   <div class="card"><h2>Open & recent POs <span class="src">Creator</span></h2>
    <table><tr><th>PO</th><th>Supplier</th><th>Expected</th><th>Received</th></tr>
@@ -527,7 +527,7 @@ proc:{av:'PR',crumb:'Supply Chain',title:'Procurement Head',sub:'15 suppliers ·
  decisions:['proc-dual'],
  statuses:[['pune-shift','Batch reroute to V2 — with Pune plant head']],
  handled:['Exited the NovaCoat primer trial; reverted to PrimeBond (PO-2205)','Priced Gujarat Alkalies for a 60/40 split — quote attached to the decision'],
- hints:[['why dual-source now?','proc-dual'],['what did spot buys cost?','proc-dual']]}
+ hints:[['why two suppliers now?','proc-dual'],['what did the emergency buys cost?','proc-dual']]}
 };
 
 /* ================= rendering ================= */
