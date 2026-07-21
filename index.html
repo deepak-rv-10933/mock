@@ -56,31 +56,52 @@ button{font-family:inherit;cursor:pointer}
 .title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .title h1{font-size:18px;font-weight:700}
 .title .sub{font-size:12.5px;color:var(--ink2)}
-.insight{background:var(--blue-soft);border:1px solid #cfe1f8;border-radius:var(--r);padding:11px 14px;font-size:13px;line-height:1.55;margin-bottom:14px;display:flex;gap:10px}
+.insight{background:var(--blue-soft);border:1px solid #cfe1f8;border-radius:var(--r);padding:12px 15px;font-size:13px;line-height:1.5;margin-bottom:16px;display:flex;gap:10px}
 .insight .tag{flex-shrink:0;background:var(--blue);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:5px;height:fit-content;margin-top:1px}
-.insight b{color:var(--blue)}
+.insight>div{max-width:74ch}
+.insight b{color:var(--blue);display:block;font-size:14.5px;line-height:1.35;margin-bottom:4px}
 
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px 13px}
-.kpi .l{font-size:11px;color:var(--ink3);letter-spacing:.03em;text-transform:uppercase}
-.kpi .v{font-size:21px;font-weight:700;margin-top:3px}
-.kpi .d{font-size:11.5px;margin-top:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.kpi.risk{border-left:3px solid var(--red)}
+.kpi .l{font-size:12px;color:var(--ink3);letter-spacing:.03em;text-transform:uppercase}
+.kpi .v{font-size:24px;font-weight:700;margin-top:3px}
+.kpi.risk .v{color:var(--red)}
+.kpi .d{font-size:12px;margin-top:3px;color:var(--ink2)}
 .up{color:var(--green)} .dn{color:var(--red)} .fl{color:var(--ink3)} .warn{color:var(--orange)}
 
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:1450px){.grid2{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:14px}
-.card h2{font-size:13.5px;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:1500px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:18px}
+.card.focus{border-color:#f3c8c6;box-shadow:0 1px 3px rgba(34,48,60,.06)}
+.card h2{font-size:15px;font-weight:700;letter-spacing:-0.01em;line-height:1.25;margin-bottom:3px;display:flex;align-items:center;gap:8px}
 .card h2 .src{margin-left:auto;font-size:10px;font-weight:400;color:var(--ink3);font-family:'IBM Plex Mono'}
-.card .sub{font-size:11.5px;color:var(--ink3);margin-bottom:10px}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);font-weight:700}
-td{padding:7px 8px;border-bottom:1px solid #eef1f5;color:var(--ink2)}
+.card .sub{font-size:12px;color:var(--ink3);line-height:1.4;margin-bottom:12px}
+.seclabel{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin:2px 0 8px}
+table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.5}
+th{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2);text-align:left;padding:8px;border-bottom:1px solid var(--line);font-weight:700}
+th.qty,td.qty{text-align:right}
+td{padding:10px;border-bottom:1px solid #eef1f5;color:#3a4a57;line-height:1.5;vertical-align:top}
 td b{color:var(--ink);font-weight:700}
-td.n{font-family:'IBM Plex Mono';font-size:12px}
-tr.hot td{background:var(--red-soft)}
+td.n{font-family:'IBM Plex Mono';font-size:12.5px;font-variant-numeric:tabular-nums}
+td.note{max-width:280px}
+.cd{display:block;color:var(--ink3);font-size:12px;line-height:1.4;margin-top:2px;font-weight:400;font-family:'Lato',sans-serif}
+.status{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.status .cap{font-size:11px;color:var(--ink3);line-height:1.3}
+tr.hot td{background:#fff}
+tr.hot td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+tr.critical td{background:var(--red-soft)}
+tr.critical td:first-child{box-shadow:inset 3px 0 0 var(--red)}
 tr:hover td{background:#f7f9fb}
-tr.hot:hover td{background:#fbe2e2}
+tr.hot:hover td{background:#f7f9fb}
+tr.critical:hover td{background:#fbe2e2}
+.foldcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:18px}
+.foldcard>summary{list-style:none;cursor:pointer;font-size:15px;font-weight:700;letter-spacing:-0.01em;line-height:1.3;display:flex;align-items:center;gap:8px}
+.foldcard>summary::-webkit-details-marker{display:none}
+.foldcard>summary .src{margin-left:auto;font-size:10px;font-weight:400;color:var(--ink3);font-family:'IBM Plex Mono'}
+.foldcard>summary::after{content:'▸';font-size:12px;color:var(--ink3);flex-shrink:0;margin-left:10px}
+.foldcard[open]>summary::after{content:'▾'}
+.foldcard table{margin-top:14px}
 .pill{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
 .pg{background:var(--green-soft);color:var(--green)} .po{background:var(--orange-soft);color:var(--orange)} .pr{background:var(--red-soft);color:var(--red)} .pb{background:var(--blue-soft);color:var(--blue)}
 
@@ -98,7 +119,7 @@ tr.hot:hover td{background:#fbe2e2}
 .dnum{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px;flex-shrink:0}
 .dcard.done .dnum{background:var(--green)}
 .dbody{flex:1;min-width:0}
-.dbody b{display:block;font-size:12.5px;line-height:1.3}
+.dbody b{display:block;font-size:13px;line-height:1.3}
 .dbody span{display:block;font-size:11px;color:var(--ink2);margin-top:1px}
 .dbtns{display:flex;gap:6px;flex-shrink:0}
 .mini{font-size:11.5px;font-weight:700;border-radius:6px;padding:5px 10px;border:1px solid var(--line2);background:var(--card);color:var(--ink2)}
@@ -107,20 +128,20 @@ tr.hot:hover td{background:#fbe2e2}
 .mini.ok:hover{background:#2260b8}
 .mini.ok:disabled{background:var(--green);border-color:var(--green);cursor:default}
 
-.detail{border:1px solid var(--line2);border-radius:var(--r);padding:12px 13px;font-size:12.5px;line-height:1.5;margin:10px 0;background:#fbfcfe}
+.detail{border:1px solid var(--line2);border-radius:var(--r);padding:12px 13px;font-size:13.5px;line-height:1.5;margin:10px 0;background:#fbfcfe}
 .detail .dt{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .sev{font-size:9.5px;letter-spacing:.06em;padding:2px 7px;border-radius:5px;font-weight:700}
 .sev.r{background:var(--red-soft);color:var(--red)} .sev.a{background:var(--orange-soft);color:var(--orange)} .sev.g{background:var(--green-soft);color:var(--green)}
-.cstep{display:flex;gap:9px;align-items:flex-start}
+.cstep{display:flex;gap:9px;align-items:flex-start;padding:2px 0}
 .cnum{width:20px;height:20px;border-radius:50%;background:#eef1f5;border:1px solid var(--line2);color:var(--ink2);display:grid;place-items:center;font-family:'IBM Plex Mono';font-size:10.5px;flex-shrink:0;margin-top:1px}
 .cstep.root .cnum{background:var(--red-soft);border-color:var(--red);color:var(--red);font-weight:700}
-.cstep .ct{font-size:12px;line-height:1.45}
-.cstep .ct b{color:var(--blue);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;display:block}
+.cstep .ct{font-size:13.5px;line-height:1.5}
+.cstep .ct b{color:var(--blue);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;display:block}
 .cstep.root .ct b{color:var(--red)}
-.carr{margin:2px 0 3px 9px;color:var(--ink3);font-size:10px;border-left:2px dotted var(--line2);padding:2px 0 2px 13px}
-.cite{display:inline-block;background:#eef1f5;border:1px solid var(--line);color:var(--ink2);font-family:'IBM Plex Mono';font-size:10px;padding:1px 6px;border-radius:4px;margin:4px 3px 0 0}
+.carr{margin:4px 0 5px 9px;color:var(--ink3);font-size:11px;border-left:2px dotted var(--line2);padding:2px 0 2px 13px}
+.cite{display:inline-block;background:#eef1f5;border:1px solid var(--line);color:var(--ink2);font-family:'IBM Plex Mono';font-size:11px;padding:2px 6px;border-radius:4px;margin:5px 3px 0 0}
 .ift{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
-.ift div{border-radius:7px;padding:8px 9px;font-size:11.5px;line-height:1.45}
+.ift div{border-radius:7px;padding:9px 10px;font-size:12.5px;line-height:1.45}
 .ift .yes{background:var(--green-soft);border:1px solid #bfe6d2}
 .ift .no{background:var(--red-soft);border:1px solid #f3c8c6}
 .ift b{display:block;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
@@ -205,13 +226,14 @@ function renderSide(){
   }
   document.getElementById('side').innerHTML = h;
 }
-function raceCard(){return `<div class="card"><h2>Region race — this quarter's targets <span class="src">CRM Region_Targets</span></h2><div class="sub">Orders won vs the target each team was set · who wins, who's blocked, and why</div>
-   <table><tr><th>#</th><th>Region</th><th>Won / target</th><th>Of target</th><th>Growth vs last qtr</th><th>Status</th><th>Blocker / note</th></tr>
-   <tr><td class="n">1</td><td><b>North 🏆</b></td><td class="n">₹160L / ₹150L</td><td class="n">107%</td><td class="n up">▲ 10.1%</td><td><span class="pill pg">Achieved</span></td><td>Quarter winner — quote template is the company benchmark</td></tr>
-   <tr><td class="n">2</td><td><b>Export ⚡</b></td><td class="n">₹58L / ₹55L</td><td class="n">105%</td><td class="n up">▲ 14.8%</td><td><span class="pill pg">Achieved</span></td><td>Fastest-growing — but 2 vessel cutoffs put the September re-tender at risk</td></tr>
-   <tr><td class="n">3</td><td><b>West</b></td><td class="n">₹199L / ₹195L</td><td class="n">102%</td><td class="n up">▲ 9.2%</td><td><span class="pill pg">Achieved</span></td><td>Watch — Pune supply issue may cost August deliveries</td></tr>
-   <tr class="hot"><td class="n">4</td><td><b>South</b></td><td class="n">₹105L / ₹115L</td><td class="n">92%</td><td class="n dn">▼ 3.0%</td><td><span class="pill pr">Missed</span></td><td><b>Roadblock:</b> ₹52L stuck at pricing — releasing it clears the target</td></tr>
-   <tr class="hot"><td class="n">5</td><td><b>East &amp; NE</b></td><td class="n">₹28.5L / ₹35L</td><td class="n">81%</td><td class="n dn">▼ 3.4%</td><td><span class="pill pr">Missed</span></td><td><b>Roadblock:</b> freight 2× other regions — losing on landed price</td></tr></table></div>`;}
+function raceCard(){return `<details class="foldcard"><summary>Region race — North wins Q2 (107%); South &amp; East missed target <span class="src">CRM Region_Targets</span></summary>
+   <div class="sub" style="margin-top:12px">Orders won vs target — who wins, who's blocked, and why.</div>
+   <table><tr><th>#</th><th>Region</th><th class="qty">Won / target</th><th class="qty">Of target</th><th class="qty">Growth</th><th>Status</th><th>Blocker / note</th></tr>
+   <tr><td class="n">1</td><td><b>North 🏆</b></td><td class="n qty">₹160L / ₹150L</td><td class="n qty">107%</td><td class="n qty up">▲ 10.1%</td><td><span class="pill pg">Achieved</span></td><td class="note"><b>Quarter winner</b><span class="cd">Quote template is the company benchmark.</span></td></tr>
+   <tr><td class="n">2</td><td><b>Export ⚡</b></td><td class="n qty">₹58L / ₹55L</td><td class="n qty">105%</td><td class="n qty up">▲ 14.8%</td><td><span class="pill pg">Achieved</span></td><td class="note"><b>Fastest-growing</b><span class="cd">2 vessel cutoffs put the September re-tender at risk.</span></td></tr>
+   <tr><td class="n">3</td><td><b>West</b></td><td class="n qty">₹199L / ₹195L</td><td class="n qty">102%</td><td class="n qty up">▲ 9.2%</td><td><span class="pill pg">Achieved</span></td><td class="note"><b>Watch</b><span class="cd">Pune supply issue may cost August deliveries.</span></td></tr>
+   <tr class="critical"><td class="n">4</td><td><b>South</b></td><td class="n qty">₹105L / ₹115L</td><td class="n qty">92%</td><td class="n qty dn">▼ 3.0%</td><td><span class="pill pr">Missed</span></td><td class="note"><b>Roadblock: ₹52L stuck at pricing</b><span class="cd">Releasing it clears the target.</span></td></tr>
+   <tr class="hot"><td class="n">5</td><td><b>East &amp; NE</b></td><td class="n qty">₹28.5L / ₹35L</td><td class="n qty">81%</td><td class="n qty dn">▼ 3.4%</td><td><span class="pill pr">Missed</span></td><td class="note"><b>Roadblock: freight 2× other regions</b><span class="cd">Losing on landed price.</span></td></tr></table></details>`;}
 
 /* ================= decisions library ================= */
 const DEC = {
@@ -292,17 +314,17 @@ const DEC = {
 const ROLES = {
 board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisation',sub:'Week 29 · all regions · all plants',
  insight:`<b>One supplier is dragging three departments this week.</b> Meridian’s late soda ash idled Pune 11.2 hrs, made 2 deliveries late and put ₹33L of customer value at risk. Every fix is already routed to its owner below — the board’s own calls are the two network decisions on the right.`,
- kpis:[['Org productivity score','74 / 100','▼ 3 vs last week','dn'],['New orders this month','₹2.4Cr','▲ 6% vs last month','up'],['On-time delivery','88%','6 orders late this month','dn'],['Production waste','6.8%','up from 6.1% last week','warn'],['Money at risk','₹65L','3 causes — see below','warn']],
+ kpis:[['Org productivity score','74 / 100','▼ 3 vs last week','dn'],['New orders this month','₹2.4Cr','▲ 6% vs last month','up'],['On-time delivery','88%','6 orders late this month','dn'],['Production waste','6.8%','up from 6.1% last week','warn'],['Money at risk','₹65L','₹33L of it is one supplier','warn','risk']],
  main:()=>`
-  <div class="grid2">
-  <div class="card"><h2>Regions × plants <span class="src">CRM + Creator</span></h2><div class="sub">Score /100 = wins + on-time delivery + quality, weighted · plant efficiency = sellable output vs what the lines could make</div>
-   <table><tr><th>Region</th><th>Score /100</th><th>Deals won</th><th>Served by</th><th>Plant eff.</th><th>Status</th></tr>
-   <tr><td><b>North</b></td><td class="n">84</td><td class="n">55%</td><td>Vadodara</td><td class="n">79%</td><td><span class="pill pg">On track</span></td></tr>
-   <tr><td><b>West</b></td><td class="n">79</td><td class="n">49%</td><td>Pune</td><td class="n bad" style="color:var(--red)">66%</td><td><span class="pill pr">Supply issue</span></td></tr>
-   <tr><td><b>South</b></td><td class="n">62</td><td class="n">42%</td><td>Chennai</td><td class="n">86%</td><td><span class="pill po">Deals stuck</span></td></tr>
-   <tr class="hot"><td><b>East &amp; NE</b></td><td class="n">68</td><td class="n">15%</td><td>Chennai (5.8d away)</td><td class="n">—</td><td><span class="pill pr">Freight gap</span></td></tr>
-   <tr><td><b>Export</b></td><td class="n">71</td><td class="n">38%</td><td>Chennai Port</td><td class="n">86%</td><td><span class="pill po">Vessel cutoffs</span></td></tr></table></div>
-  <div class="card"><h2>Decision routing <span class="src">Zia agent</span></h2><div class="sub">Each fix sits with the person who can act — the board only tracks</div>
+  <div class="seclabel">The headline · where the ₹65L sits</div>
+  <div class="card focus" id="atrisk"><h2>Where the ₹65L at risk sits — and who's fixing it <span class="src">CRM + Creator + Desk</span></h2><div class="sub">Three problems, three owners, three fixes already in flight — approve them and this number falls.</div>
+   <table><tr><th>What's at risk</th><th class="qty">How much</th><th>Why — in one line</th><th>Fix in flight</th></tr>
+   <tr class="critical"><td><b>Sunrise &amp; GlassKart may leave</b></td><td class="n qty">₹33L<span class="cd">at stake now</span></td><td class="note">2 late deliveries triggered Sunrise's on-time penalty clause; their ₹18L renewal opens in October.</td><td data-status="west-sunrise">${pillFor('west-sunrise')}</td></tr>
+   <tr><td><b>Chennai furnace runs half-empty</b></td><td class="n qty">₹23L<span class="cd">this month</span></td><td class="note">At 68% full a furnace burns nearly the power of 95% — and the deals that would fill it are stuck in approvals.</td><td data-status="nsales-deleg">${pillFor('nsales-deleg')}</td></tr>
+   <tr><td><b>East deals lost to freight</b></td><td class="n qty">₹9L<span class="cd">this quarter</span></td><td class="note">Quotes land ~7% higher after freight from Chennai/Pune — we lose 85% of bids there.</td><td data-status="east-fob">${pillFor('east-fob')}</td></tr></table></div>
+
+  <div class="seclabel">Who acts · every fix routed to an owner</div>
+  <div class="card"><h2>Decision routing <span class="src">Zia agent</span></h2><div class="sub">Each fix sits with the person who can act — the board only tracks.</div>
    <table><tr><th>Decision</th><th>Owner</th><th>Status</th></tr>
    <tr><td>Dual-source soda ash</td><td>Procurement Head</td><td data-status="proc-dual">${pillFor('proc-dual')}</td></tr>
    <tr><td>Shift 3 batches to V2</td><td>Plant Head — Pune</td><td data-status="pune-shift">${pillFor('pune-shift')}</td></tr>
@@ -313,28 +335,33 @@ board:{av:'BD',crumb:'Global',title:'Board — Productivity across the organisat
    <tr><td>FOB pricing trial</td><td>Sales Head — East</td><td data-status="east-fob">${pillFor('east-fob')}</td></tr>
    <tr><td>Container pre-booking</td><td>Export Head</td><td data-status="exp-container">${pillFor('exp-container')}</td></tr>
    <tr><td>Sunrise pre-renewal call</td><td>Sales Head — West</td><td data-status="west-sunrise">${pillFor('west-sunrise')}</td></tr></table></div>
-  </div>
+
+  <div class="seclabel">The detail</div>
+  <div class="card"><h2>Regions × plants <span class="src">CRM + Creator</span></h2><div class="sub">Score /100 = wins + on-time + quality; plant eff. = sellable vs capable output.</div>
+   <table><tr><th>Region</th><th class="qty">Score /100</th><th class="qty">Deals won</th><th>Served by</th><th class="qty">Plant eff.</th><th>Status</th></tr>
+   <tr><td><b>North</b></td><td class="n qty">84</td><td class="n qty">55%</td><td>Vadodara</td><td class="n qty">79%</td><td><span class="pill pg">On track</span></td></tr>
+   <tr><td><b>West</b></td><td class="n qty">79</td><td class="n qty">49%</td><td>Pune</td><td class="n qty" style="color:var(--red)">66%</td><td><span class="pill pr">Supply issue</span></td></tr>
+   <tr><td><b>South</b></td><td class="n qty">62</td><td class="n qty">42%</td><td>Chennai</td><td class="n qty">86%</td><td><span class="pill po">Deals stuck</span></td></tr>
+   <tr class="hot"><td><b>East &amp; NE</b></td><td class="n qty">68</td><td class="n qty">15%</td><td>Chennai (5.8d away)</td><td class="n qty">—</td><td><span class="pill pr">Freight gap</span></td></tr>
+   <tr><td><b>Export</b></td><td class="n qty">71</td><td class="n qty">38%</td><td>Chennai Port</td><td class="n qty">86%</td><td><span class="pill po">Vessel cutoffs</span></td></tr></table></div>
+
   ${raceCard()}
-  <div class="grid2">
-  <div class="card"><h2>Where the ₹65L at risk sits — and who's fixing it <span class="src">CRM + Creator + Desk</span></h2><div class="sub">Three problems, three owners, three fixes already on the table — approve them and this number falls</div>
-   <table><tr><th>What's at risk</th><th>How much</th><th>Why — in one line</th><th>Fix in flight</th></tr>
-   <tr class="hot"><td><b>Sunrise &amp; GlassKart may leave us</b></td><td class="n">₹33L<br><span style="font-size:10px;color:var(--ink3)">at stake now</span></td><td>2 late deliveries triggered Sunrise's on-time penalty clause; their ₹18L renewal opens in October</td><td data-status="west-sunrise" style="white-space:nowrap">${pillFor('west-sunrise')}<br><span style="font-size:11px">save call — West head</span></td></tr>
-   <tr><td><b>Chennai furnace runs half-empty</b></td><td class="n">₹23L<br><span style="font-size:10px;color:var(--ink3)">this month</span></td><td>at 68% full a furnace burns nearly the power of 95% — and the deals that would fill it are stuck in approvals</td><td data-status="nsales-deleg" style="white-space:nowrap">${pillFor('nsales-deleg')}<br><span style="font-size:11px">approval rights &lt;₹5L</span></td></tr>
-   <tr><td><b>East deals lost to freight</b></td><td class="n">₹9L<br><span style="font-size:10px;color:var(--ink3)">this quarter</span></td><td>quotes land ~7% higher after freight from Chennai/Pune — we lose 85% of bids there</td><td data-status="east-fob" style="white-space:nowrap">${pillFor('east-fob')}<br><span style="font-size:11px">FOB trial — East head</span></td></tr></table></div>
-  <div class="card"><h2>What customers are telling us <span class="src">Zoho Desk</span></h2><div class="sub">This week's tickets — each traced to its cause on the ops floor, each already inside a decision</div>
+
+  <details class="foldcard"><summary>What customers told us — 4 signals, all already routed <span class="src">Zoho Desk</span></summary>
    <table><tr><th>Customer said</th><th>Because</th><th>What happens next</th></tr>
-   <tr class="hot"><td><b>4 warranty claims</b> — defects on amber bottles<br><span style="font-size:11px;color:var(--ink3)">Crown · Punjab · NCR · Kerala</span></td><td>C2 night crew was never trained after the Jul 6 machine service</td><td data-status="chn-train" style="white-space:nowrap">${pillFor('chn-train')}<br><span style="font-size:11px">night-crew training</span></td></tr>
-   <tr class="hot"><td><b>Sunrise invoked the late-delivery penalty</b></td><td>their order left 2 days late off the Pune line idled by the soda-ash stockout</td><td data-status="west-sunrise" style="white-space:nowrap">${pillFor('west-sunrise')}<br><span style="font-size:11px">pre-renewal call</span></td></tr>
-   <tr><td><b>Gulf Glass disputes port storage charges</b></td><td>their container missed the Jul 13 ship and sat at Chennai Port</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr>
-   <tr><td><b>East Africa Glassworks wants a firm ETA</b></td><td>their shipment sailed 3 days late — and they re-tender in September</td><td data-status="exp-container" style="white-space:nowrap">${pillFor('exp-container')}<br><span style="font-size:11px">container pre-booking</span></td></tr></table></div>
-  </div>
-  <div class="card"><h2>Products — what sells × how well we make it <span class="src">CRM Deals × Creator Production_Runs</span></h2><div class="sub">The agent joins sales (CRM) with the factory floor (Creator) — a view neither system shows on its own. Yield = sellable units out of everything produced.</div>
-   <table><tr><th>Product</th><th>Sold this qtr</th><th>Growth</th><th>Margin</th><th>Yield</th><th>Agent's read</th></tr>
-   <tr><td><b>Amber Beer Bottle 330ml</b></td><td class="n">₹90.8L</td><td class="n up">▲ 12%</td><td class="n">43%</td><td class="n">93%</td><td>Your cash cow — growing, profitable, well made. Protecting it is why the Pune supply fix is urgent.</td></tr>
-   <tr><td><b>Laminated Safety Glass</b></td><td class="n">₹79.9L</td><td class="n up">▲ 8%</td><td class="n">32%</td><td class="n">91%</td><td>Healthy — but it ships off C2, the line with the night-shift defect problem. Watch.</td></tr>
-   <tr><td><b>Food Jar 500ml</b></td><td class="n">₹66.0L</td><td class="n fl">flat</td><td class="n">39%</td><td class="n">93%</td><td>Solid but stalled — NCR Foods volumes plateaued (on the North watchlist).</td></tr>
-   <tr class="hot"><td><b>Solar Panel Glass 3.2mm</b></td><td class="n">₹63.5L</td><td class="n up">▲ 22%</td><td class="n" style="color:var(--red)">24%</td><td class="n" style="color:var(--red)"><b>84%</b></td><td><b>Fastest growth, worst yield AND worst margin</b> — every new order ships at our weakest economics. <span data-status="board-solar">${pillFor('board-solar')}</span> capacity study</td></tr>
-   <tr><td><b>Float Glass 4mm</b></td><td class="n">₹51.3L</td><td class="n up">▲ 5%</td><td class="n">32%</td><td class="n">96%</td><td>The benchmark — the yield every other line is measured against.</td></tr></table></div>`,
+   <tr><td><b>4 warranty claims</b> — amber-bottle defects<span class="cd">Crown · Punjab · NCR · Kerala</span></td><td class="note">C2 night crew was never trained after the Jul 6 machine service.</td><td data-status="chn-train">${pillFor('chn-train')}</td></tr>
+   <tr><td><b>Sunrise invoked the late-delivery penalty</b></td><td class="note">Their order left 2 days late off the Pune line idled by the soda-ash stockout.</td><td data-status="west-sunrise">${pillFor('west-sunrise')}</td></tr>
+   <tr><td><b>Gulf Glass disputes port storage charges</b></td><td class="note">Their container missed the Jul 13 ship and sat at Chennai Port.</td><td data-status="exp-container">${pillFor('exp-container')}</td></tr>
+   <tr><td><b>East Africa Glassworks wants a firm ETA</b></td><td class="note">Their shipment sailed 3 days late — and they re-tender in September.</td><td data-status="exp-container">${pillFor('exp-container')}</td></tr></table></details>
+
+  <details class="foldcard"><summary>Products — Amber is the cash cow; Solar grows fastest at our worst yield &amp; margin <span class="src">CRM × Creator</span></summary>
+   <div class="sub" style="margin-top:12px">Sales × factory yield, joined by the agent. Yield = sellable units out of everything produced.</div>
+   <table><tr><th>Product</th><th class="qty">Sold this qtr</th><th class="qty">Growth</th><th class="qty">Margin</th><th class="qty">Yield</th><th>Agent's read</th></tr>
+   <tr><td><b>Amber Beer Bottle 330ml</b></td><td class="n qty">₹90.8L</td><td class="n qty up">▲ 12%</td><td class="n qty">43%</td><td class="n qty">93%</td><td class="note"><b>Cash cow — protect it</b><span class="cd">Growing, profitable, well made; the Pune supply fix guards it.</span></td></tr>
+   <tr><td><b>Laminated Safety Glass</b></td><td class="n qty">₹79.9L</td><td class="n qty up">▲ 8%</td><td class="n qty">32%</td><td class="n qty">91%</td><td class="note"><b>Healthy — watch C2</b><span class="cd">Ships off C2, the line with the night-shift defect problem.</span></td></tr>
+   <tr><td><b>Food Jar 500ml</b></td><td class="n qty">₹66.0L</td><td class="n qty fl">flat</td><td class="n qty">39%</td><td class="n qty">93%</td><td class="note"><b>Solid but stalled</b><span class="cd">NCR Foods volumes plateaued (on the North watchlist).</span></td></tr>
+   <tr class="critical"><td><b>Solar Panel Glass 3.2mm</b></td><td class="n qty">₹63.5L</td><td class="n qty up">▲ 22%</td><td class="n qty" style="color:var(--red)">24%</td><td class="n qty" style="color:var(--red)"><b>84%</b></td><td class="note"><b style="color:var(--red)">Worst yield + worst margin</b><span class="cd">Fastest growth ships at our weakest economics. <span data-status="board-solar">${pillFor('board-solar')}</span> capacity study</span></td></tr>
+   <tr><td><b>Float Glass 4mm</b></td><td class="n qty">₹51.3L</td><td class="n qty up">▲ 5%</td><td class="n qty">32%</td><td class="n qty">96%</td><td class="note"><b>The benchmark</b><span class="cd">The yield every other line is measured against.</span></td></tr></table></details>`,
  decisions:['board-depot','board-solar'],
  statuses:[],
  handled:['Compiled this board pack from 6,204 records across CRM, Creator, Books & Desk','Routed 9 operational decisions to their owners with full reasoning','Re-scored all 24 accounts for leaving-risk (2 red: Sunrise, GlassKart)','Ranked the region race: North wins Q2 on attainment; Export is the growth leader'],
@@ -386,7 +413,7 @@ ssouth:{av:'SS',crumb:'Sales · South',title:'Sales Head — South',sub:'TN · K
  kpis:[['Region score','62 / 100','▼ 5 vs last week','dn'],['Stuck at price approval','9 deals','worth ₹52L','warn'],['Time to close','34 days','company average 22','dn'],['Chennai plant fill','68%','your orders feed it','warn']],
  main:()=>`<div class="card"><h2>Deals stuck at pricing approval <span class="src">CRM + Approval log</span></h2>
    <table><tr><th>Deal</th><th>Account</th><th>Value</th><th>Waiting</th></tr>
-   <tr class="hot"><td class="n">DEAL-3021</td><td>Crown Breweries</td><td class="n">₹9.2L</td><td class="n">14 d</td></tr>
+   <tr class="critical"><td class="n">DEAL-3021</td><td>Crown Breweries</td><td class="n qty">₹9.2L</td><td class="n qty">14 d</td></tr>
    <tr class="hot"><td class="n">DEAL-3014</td><td>MediPack Labs</td><td class="n">₹7.5L</td><td class="n">13 d</td></tr>
    <tr class="hot"><td class="n">DEAL-3007</td><td>AutoGlass India</td><td class="n">₹6.8L</td><td class="n">12 d</td></tr>
    <tr><td class="n">DEAL-3033</td><td>Kerala Spirits Co</td><td class="n">₹5.9L</td><td class="n">11 d</td></tr>
@@ -406,7 +433,7 @@ swest:{av:'SW',crumb:'Sales · West',title:'Sales Head — West',sub:'MH · GJ �
  kpis:[['Region score','79 / 100','▼ 2 vs last week','warn'],['Won vs target','₹199L / ₹195L','102% — target met','up'],['Accounts at risk of leaving','2','Sunrise & GlassKart','dn'],['Late deliveries','4','this month — all from Pune supply','dn']],
  main:()=>`<div class="card"><h2>Accounts at risk of leaving <span class="src">Churn_Scores + Dispatch</span></h2><div class="sub">Leave-risk /100 — above 60 is red</div>
    <table><tr><th>Account</th><th>Leave-risk</th><th>Why</th><th>Business at stake</th></tr>
-   <tr class="hot"><td><b>Sunrise Bottling</b></td><td class="n"><b>72</b></td><td>2 late orders · on-time clause · Oct renewal</td><td class="n">₹18L</td></tr>
+   <tr class="critical"><td><b>Sunrise Bottling</b></td><td class="n qty"><b>72</b></td><td class="note">2 late orders · on-time clause · Oct renewal</td><td class="n qty">₹18L</td></tr>
    <tr class="hot"><td><b>GlassKart</b></td><td class="n">61</td><td>Late order Jul 16 · buffer stock down to 4 days</td><td class="n">₹4L/mo</td></tr>
    <tr><td>SolarTech Modules</td><td class="n">34</td><td>—</td><td class="n">healthy</td></tr></table></div>
   <div class="card"><h2>Your top products <span class="src">CRM</span></h2>
@@ -442,7 +469,7 @@ sexp:{av:'EX',crumb:'Sales · Export',title:'Export Head — Sales & Supply Chai
  kpis:[['Export orders this quarter','₹58L','105% of target','up'],['Deals won','38%','company average 45%','fl'],['Ship deadlines met','7 of 9','2 missed → ₹1.2L port charges','dn'],['Factory → on board','6.4 days','the delay is booking, not roads','dn']],
  main:()=>`<div class="card"><h2>Export shipments — last 30 days <span class="src">Creator Dispatch</span></h2><div class="sub">Loading deadline = the date the container must reach the port to make its ship</div>
    <table><tr><th>Order</th><th>Customer</th><th>Loading deadline</th><th>Status</th></tr>
-   <tr class="hot"><td class="n">SO-1195</td><td>East Africa Glassworks</td><td class="n">Jul 8</td><td><span class="pill pr">Missed — sailed 3 days late</span></td></tr>
+   <tr class="critical"><td class="n">SO-1195</td><td>East Africa Glassworks</td><td class="n">Jul 8</td><td><span class="pill pr">Missed — sailed 3 days late</span></td></tr>
    <tr class="hot"><td class="n">SO-1198</td><td>Gulf Glass Traders</td><td class="n">Jul 13</td><td><span class="pill pr">Missed — paid port charges</span></td></tr>
    <tr><td class="n">SO-1201</td><td>Lanka Bottling Co</td><td class="n">Jul 15</td><td><span class="pill pg">Sailed ✓</span></td></tr>
    <tr><td class="n">SO-1204</td><td>SEA Facade Systems</td><td class="n">Jul 17</td><td><span class="pill pg">Sailed ✓</span></td></tr></table></div>
@@ -462,11 +489,11 @@ ppune:{av:'PP',crumb:'Production · Pune',title:'Plant Head — Pune',sub:'Lines
  kpis:[['Plant efficiency','66%','▼ 12 vs last week','dn'],['Time lost this week','11.2 hrs','all waiting for raw material','dn'],['Production waste','7.9%','up from 6.5% — restart scrap','dn'],['Soda ash left','2.1 days','critical — reorder point is 3','dn']],
  main:()=>`<div class="card"><h2>Your production lines <span class="src">Creator Production_Runs</span></h2><div class="sub">Efficiency = sellable output vs what the line could make in the planned hours</div>
    <table><tr><th>Line</th><th>Products</th><th>Efficiency</th><th>Stopped this week</th><th>Status</th></tr>
-   <tr class="hot"><td><b>P1</b></td><td>Amber 330ml · Jars</td><td class="n">52%</td><td class="n">11.2 hrs</td><td><span class="pill pr">Starved of material</span></td></tr>
+   <tr class="critical"><td><b>P1</b></td><td>Amber 330ml · Jars</td><td class="n qty">52%</td><td class="n qty">11.2 hrs</td><td><span class="pill pr">Starved of material</span></td></tr>
    <tr><td><b>P2</b></td><td>Flint 750ml · Tableware</td><td class="n">80%</td><td class="n">40 min</td><td><span class="pill pg">Normal</span></td></tr></table></div>
   <div class="card"><h2>Waste this week <span class="src">Creator</span></h2>
    <table><tr><th>Cause</th><th>Amount</th><th>Note</th></tr>
-   <tr class="hot"><td>Furnace restart scrap</td><td class="n">₹2.1L</td><td>3 cold restarts after idles</td></tr>
+   <tr class="critical"><td>Furnace restart scrap</td><td class="n qty">₹2.1L</td><td>3 cold restarts after idles</td></tr>
    <tr><td>Normal forming rejects</td><td class="n">₹1.9L</td><td>within range</td></tr>
    <tr><td>Extra energy (restarts)</td><td class="n">₹0.8L</td><td>+2.5% kWh/ton</td></tr></table></div>`,
  decisions:['pune-shift'],
@@ -487,12 +514,12 @@ pchn:{av:'PC',crumb:'Production · Chennai',title:'Plant Head — Chennai',sub:'
    <table><tr><th>Window</th><th>C2 Day</th><th>C2 Night</th></tr>
    <tr><td>Before Jul 6</td><td class="n">1.8%</td><td class="n">1.8%</td></tr>
    <tr class="hot"><td>After Jul 6 service</td><td class="n">1.8%</td><td class="n"><b>3.3%</b></td></tr></table></div>
-  <div class="card"><h2>Warranty claims — this week <span class="src">Zoho Desk</span></h2><div class="sub">All four trace to C2 night batches — the customer end of your training decision</div>
+  <div class="card"><h2>Warranty claims — this week <span class="pill pr">4 claims · all C2 night</span> <span class="src">Zoho Desk</span></h2><div class="sub">All four trace to C2 night batches — the customer end of your training decision.</div>
    <table><tr><th>Claim</th><th>Account</th><th>Batch</th><th>Status</th></tr>
-   <tr class="hot"><td class="n">CLAIM-2210</td><td>Crown Breweries</td><td class="n">B-C2-20260709-N</td><td><span class="pill pr">Open</span></td></tr>
-   <tr class="hot"><td class="n">CLAIM-2211</td><td>Punjab Distillers</td><td class="n">B-C2-20260710-N</td><td><span class="pill pr">Open</span></td></tr>
-   <tr class="hot"><td class="n">CLAIM-2212</td><td>NCR Foods</td><td class="n">B-C2-20260712-N</td><td><span class="pill pr">Open</span></td></tr>
-   <tr class="hot"><td class="n">CLAIM-2213</td><td>Kerala Spirits Co</td><td class="n">B-C2-20260713-N</td><td><span class="pill pr">Open</span></td></tr></table></div>`,
+   <tr><td class="n">CLAIM-2210</td><td>Crown Breweries</td><td class="n">B-C2-20260709-N</td><td><span class="pill pr">Open</span></td></tr>
+   <tr><td class="n">CLAIM-2211</td><td>Punjab Distillers</td><td class="n">B-C2-20260710-N</td><td><span class="pill pr">Open</span></td></tr>
+   <tr><td class="n">CLAIM-2212</td><td>NCR Foods</td><td class="n">B-C2-20260712-N</td><td><span class="pill pr">Open</span></td></tr>
+   <tr><td class="n">CLAIM-2213</td><td>Kerala Spirits Co</td><td class="n">B-C2-20260713-N</td><td><span class="pill pr">Open</span></td></tr></table></div>`,
  decisions:['chn-train','chn-cullet'],
  statuses:[],
  handled:['Linked the 4 new warranty claims to C2 night batch IDs','Verified Group A received controller training on Jul 6; Group B did not'],
@@ -503,7 +530,7 @@ proc:{av:'PR',crumb:'Supply Chain',title:'Procurement Head',sub:'15 suppliers ·
  kpis:[['Suppliers delivering on time','71%','target is 92%','dn'],['Meridian on-time','1 of 6','last 6 orders','dn'],['Emergency-buy premium','+14%','2 rush orders this month','dn'],['Pune soda ash left','2.1 days','critical — reorder point is 3','dn']],
  main:()=>`<div class="card"><h2>Supplier scorecard <span class="src">Creator Purchase_Orders</span></h2><div class="sub">On-time = delivered by the promised date · price vs the standard rate we budget</div>
    <table><tr><th>Supplier</th><th>Material</th><th>On-time</th><th>Price vs standard</th><th>Status</th></tr>
-   <tr class="hot"><td><b>Meridian Chemicals</b></td><td>Soda ash (Pune)</td><td class="n"><b>17%</b></td><td class="n">+1.9%</td><td><span class="pill pr">Critical</span></td></tr>
+   <tr class="critical"><td><b>Meridian Chemicals</b></td><td>Soda ash (Pune)</td><td class="n qty"><b>17%</b></td><td class="n qty">+1.9%</td><td><span class="pill pr">Critical</span></td></tr>
    <tr><td>Gujarat Alkalies</td><td>Soda ash (Vad.)</td><td class="n">98%</td><td class="n">+0.8%</td><td><span class="pill pg">Reliable</span></td></tr>
    <tr><td>Shree Minerals</td><td>Silica sand</td><td class="n">96%</td><td class="n">0%</td><td><span class="pill pg">Reliable</span></td></tr>
    <tr><td>EcoCullet</td><td>Recycled glass</td><td class="n">94%</td><td class="n">−2%</td><td><span class="pill pg">Saves energy</span></td></tr>
@@ -531,7 +558,7 @@ function render(role){
     `<div class="crumb">Home / ${R.crumb}</div>
      <div class="title"><h1>${R.title}</h1><span class="sub">${R.sub}</span></div>
      <div class="insight"><span class="tag">ZIA</span><div>${R.insight}</div></div>
-     <div class="kpis">${R.kpis.map(k=>`<div class="kpi"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="d ${k[3]}">${k[2]}</div></div>`).join('')}</div>
+     <div class="kpis">${R.kpis.map(k=>`<div class="kpi ${k[4]||''}"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="d ${k[3]}">${k[2]}</div></div>`).join('')}</div>
      ${R.main()}`;
   renderAgent();
 }
