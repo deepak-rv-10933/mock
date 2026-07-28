@@ -1,610 +1,644 @@
-<title>GlassOps: The Agent Workforce</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GlassOps — Executive Control Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
-  :root{
-    --ground:#0A1113; --panel:#0F1B1D; --panel-2:#122528;
-    --edge:rgba(120,160,155,.14); --edge-strong:rgba(120,160,155,.28);
-    --ink:#EAF1EE; --muted:#8AA09B; --faint:#5C716D;
-    --molten:#FF8A3D; --molten-2:#FFB672; --molten-dim:rgba(255,138,61,.13);
-    --glass:#3FD0C4; --glass-2:#7FE6DC; --glass-dim:rgba(63,208,196,.12);
-    --critical:#F0533A;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif;
-    --mono:ui-monospace,"SF Mono","JetBrains Mono","Menlo","Consolas",monospace;
-    --slide-pad:clamp(1.4rem,4.5vw,4.5rem);
-    --maxw:1080px;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;height:100%}
-  body{background:var(--ground); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow:hidden}
+:root{
+  --bg:#0b1020;
+  --line:rgba(255,255,255,.12); --line2:rgba(255,255,255,.07);
+  --text:#eff5ff; --ink:#eff5ff; --muted:#aebbd4; --ink2:#aebbd4; --soft:#7f8da9; --ink3:#7f8da9;
+  --blue:#72a5ff; --blue2:#4f7cff; --violet:#8b7bff; --cyan:#69d7ff;
+  --green:#3ad59f; --green-soft:rgba(58,213,159,.15);
+  --orange:#ffbc5c; --orange-soft:rgba(255,188,92,.15);
+  --red:#ff6d7f; --red-soft:rgba(255,109,127,.14);
+  --blue-soft:rgba(79,124,255,.18);
+  --panel:rgba(255,255,255,.06);
+  --panel2:rgba(255,255,255,.08);
+  --shadow:0 20px 60px rgba(0,0,0,.32);
+  --sidebar:238px; --agent:392px;
+  --r:8px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(91,129,255,.20), transparent 26%),
+    radial-gradient(circle at 85% 12%, rgba(70,214,255,.15), transparent 22%),
+    linear-gradient(180deg,#0b1020 0%,#0f1730 48%,#0b1020 100%);
+  background-attachment:fixed;font-size:14px;line-height:1.6;min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.mono{font-family:'IBM Plex Mono',monospace}
 
-  .deck{position:fixed; inset:0; overflow:hidden}
-  .slide{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
-    padding:var(--slide-pad); opacity:0; visibility:hidden; transform:translateY(8px);
-    transition:opacity .5s ease, transform .5s ease, visibility 0s linear .5s; overflow-y:auto}
-  .slide.active{opacity:1; visibility:visible; transform:none; transition:opacity .55s ease, transform .55s ease; z-index:2}
-  .stage{width:100%; max-width:var(--maxw); margin:0 auto}
-  .rise{opacity:0; transform:translateY(14px)}
-  .slide.active .rise{opacity:1; transform:none;
-    transition:opacity .5s ease, transform .55s cubic-bezier(.2,.7,.2,1);
-    transition-delay:calc(var(--i,0) * 75ms + 100ms)}
+/* top bar */
+.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:14px;padding:14px 22px;
+  background:rgba(8,12,25,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line2)}
+.logo{display:flex;align-items:center;gap:12px}
+.mark{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,var(--violet),var(--blue2));display:grid;place-items:center;font-weight:800;color:#fff}
+.logo .lt{font-size:15px;font-weight:800}
+.logo .ls{font-size:12px;color:var(--muted)}
+.topmeta{display:flex;align-items:center;gap:12px;margin-left:auto;color:var(--muted);font-size:12px}
+.pulse{width:10px;height:10px;border-radius:999px;background:var(--green);box-shadow:0 0 10px 1px rgba(58,213,159,.7)}
+.user{width:34px;height:34px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);display:grid;place-items:center;font-weight:700}
 
-  .eyebrow{font-family:var(--mono); font-size:clamp(.62rem,1vw,.74rem); letter-spacing:.22em;
-    text-transform:uppercase; color:var(--glass); display:flex; align-items:center; gap:.7em; margin:0 0 1.2rem}
-  .eyebrow::before{content:""; width:26px; height:1px; background:var(--glass); opacity:.7}
-  .eyebrow .by{color:var(--faint)}
-  h1,h2{margin:0; text-wrap:balance; font-weight:800; letter-spacing:-.025em; line-height:1.03}
-  h2{font-size:clamp(1.5rem,3.4vw,2.55rem)}
-  .lead{font-size:clamp(1.02rem,1.55vw,1.24rem); line-height:1.55; color:var(--muted); max-width:62ch}
-  .lead b{color:var(--ink); font-weight:600}
-  .amber{color:var(--molten)} .cyan{color:var(--glass)} .mono{font-family:var(--mono)}
+/* layout */
+.layout{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:calc(100vh - 68px)}
+.side{padding:16px 12px 24px;border-right:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01))}
+.side .sec{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:800;padding:14px 12px 8px}
+.side a{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:13px;color:var(--muted);text-decoration:none;margin-bottom:5px;border:1px solid transparent;font-weight:600;font-size:13.5px}
+.side a.on{background:linear-gradient(135deg,rgba(113,165,255,.18),rgba(139,123,255,.12));color:#fff;border-color:rgba(126,161,255,.28)}
+.side a:hover{background:rgba(255,255,255,.05)}
+.side a.dead{opacity:.5;cursor:default}
+.side a.dead:hover{background:transparent}
+.side .av2{width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:10px;font-weight:800;flex:0 0 24px}
+.side a.on .av2{background:linear-gradient(135deg,var(--violet),var(--blue2));color:#fff}
+.side .ic{width:16px;height:16px;border-radius:5px;background:var(--soft);opacity:.5}
+.side .badge{margin-left:auto;background:var(--orange-soft);color:var(--orange);padding:2px 8px;border-radius:999px;font-size:10px;font-weight:800;font-family:'IBM Plex Mono'}
+.side .badge.ok{background:var(--green-soft);color:var(--green)}
 
-  /* cover */
-  #s1{background:radial-gradient(120% 90% at 84% 16%, var(--molten-dim), transparent 55%),
-      radial-gradient(90% 80% at 8% 98%, var(--glass-dim), transparent 55%)}
-  .cover-title{font-size:clamp(2.7rem,8vw,5.6rem); line-height:.93; letter-spacing:-.045em}
-  .cover-title .o{color:var(--molten)}
-  .cover-sub{font-size:clamp(1.2rem,2.5vw,1.9rem); font-weight:600; letter-spacing:-.02em; line-height:1.25; color:var(--ink); max-width:26ch; margin:1.4rem 0 0}
-  .cover-sub em{font-style:normal; color:var(--glass)}
-  .metarow{display:flex; flex-wrap:wrap; gap:.6rem 1.05rem; margin-top:2rem; font-family:var(--mono); font-size:clamp(.66rem,1.1vw,.8rem); letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
-  .metarow span+span::before{content:"\00B7"; color:var(--faint); margin-right:.4rem}
+/* content-wrap: main + agent as its OWN column (no overlap) */
+.content-wrap{min-width:0;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) var(--agent);gap:18px;align-items:start}
+.main{min-width:0}
 
-  /* friction */
-  .fric{display:grid; grid-template-columns:1fr 1fr; gap:.5rem 1.4rem; margin-top:.4rem}
-  @media(max-width:760px){.fric{grid-template-columns:1fr}}
-  .fr{display:grid; grid-template-columns:auto 1fr; gap:.8rem; align-items:baseline; padding:.6rem 0; border-bottom:1px solid var(--edge)}
-  .fr .d{font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--molten); white-space:nowrap}
-  .fr .t{font-size:.94rem; line-height:1.4; color:var(--ink)}
-  .fricfoot{margin-top:1.4rem; font-size:clamp(1.05rem,1.8vw,1.35rem); font-weight:650; letter-spacing:-.015em; color:var(--ink); max-width:44ch}
-  .fricfoot .cyan{font-weight:800}
+/* hero */
+.hero{background:linear-gradient(135deg,rgba(110,130,255,.16),rgba(105,215,255,.09));border:1px solid var(--line);border-radius:26px;padding:22px 22px 18px;margin-bottom:18px;box-shadow:var(--shadow)}
+.crumb{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#d2dcf3;font-weight:800;margin-bottom:10px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.head h1{margin:0;font-size:28px;line-height:1.1;letter-spacing:-.03em}
+.head .sub{color:var(--muted);font-size:13px;margin-top:5px;max-width:52ch}
+.hero-right{display:grid;grid-template-columns:repeat(2,minmax(118px,1fr));gap:10px;min-width:260px}
+.mini-stat{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:16px;padding:11px 13px}
+.mini-stat .l{font-size:10.5px;color:var(--soft);text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.mini-stat .v{font-size:21px;font-weight:800;margin-top:3px;letter-spacing:-.02em}
+.banner{display:flex;gap:12px;align-items:flex-start;margin-top:18px;padding:14px 16px;background:rgba(8,16,36,.35);border:1px solid var(--line);border-radius:18px}
+.banner .tag{flex:0 0 auto;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#09111f;font-size:11px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;padding:5px 10px;border-radius:999px;height:fit-content}
+.banner b{display:block;font-size:15.5px;margin-bottom:3px;color:#fff;line-height:1.3}
 
-  /* agent slide */
-  .agent-name{font-size:clamp(1.9rem,4.2vw,3rem); font-weight:800; letter-spacing:-.03em; line-height:1}
-  .agent-lead{font-size:clamp(1.05rem,1.9vw,1.32rem); color:var(--muted); margin:.9rem 0 0; max-width:54ch; line-height:1.4}
-  .agent-lead b{color:var(--ink); font-weight:650}
-  .moment{margin-top:1.4rem; border:1px solid var(--edge); background:var(--panel); border-radius:14px; padding:1.15rem 1.3rem; max-width:66ch}
-  .moment.good{border-color:rgba(63,208,196,.3); background:linear-gradient(180deg,var(--glass-dim),var(--panel))}
-  .moment .mh{font-family:var(--mono); font-size:.64rem; letter-spacing:.18em; text-transform:uppercase; color:var(--faint); margin-bottom:.6rem}
-  .moment.good .mh{color:var(--glass)}
-  .prompt{font-family:var(--mono); font-size:.88rem; color:var(--molten-2); background:var(--molten-dim); border-radius:8px; padding:.5rem .7rem; display:inline-block; margin-bottom:.7rem; line-height:1.4}
-  .moment p{margin:0; font-size:.98rem; line-height:1.5; color:var(--ink)}
-  .moment p .g{color:var(--glass-2); font-weight:600}
-  .chips{display:flex; flex-wrap:wrap; gap:.42rem; margin-top:1.2rem}
-  .chips span{font-family:var(--mono); font-size:.66rem; letter-spacing:.05em; color:var(--muted); border:1px solid var(--edge-strong); border-radius:999px; padding:.33rem .7rem}
-  .chips span.k{color:var(--glass); border-color:var(--glass-dim); background:var(--glass-dim)}
-  .microfoot{margin-top:1rem; font-family:var(--mono); font-size:.74rem; letter-spacing:.06em; color:var(--faint); max-width:64ch}
-  .microfoot b{color:var(--glass)}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:15px 16px;box-shadow:var(--shadow)}
+.kpi.risk{border-color:rgba(255,109,127,.4);background:linear-gradient(135deg,rgba(255,109,127,.12),var(--panel))}
+.kpi .l{font-size:10.5px;color:var(--soft);text-transform:uppercase;letter-spacing:.1em;font-weight:800}
+.kpi .v{font-size:28px;line-height:1;font-weight:800;letter-spacing:-.03em;margin:8px 0 6px}
+.kpi.risk .v{color:var(--red)}
+.kpi .d{color:var(--muted);font-size:12px}
+.up{color:var(--green)} .dn{color:var(--red)} .fl{color:var(--soft)} .warn{color:var(--orange)}
 
-  /* three-up grid (workflows / silos) */
-  .tri{display:grid; grid-template-columns:repeat(3,1fr); gap:.7rem; margin-top:1.2rem}
-  @media(max-width:760px){.tri{grid-template-columns:1fr}}
-  .cell{border:1px solid var(--edge); background:var(--panel); border-radius:12px; padding:1rem 1.05rem}
-  .cell .ch{font-family:var(--mono); font-size:.62rem; letter-spacing:.13em; text-transform:uppercase; color:var(--glass); margin-bottom:.45rem}
-  .cell .cb{font-size:.88rem; line-height:1.42; color:var(--ink)}
-  .cell.silo{border-top:2px solid var(--edge-strong)}
-  .cell.silo .ch{color:var(--muted)}
-  .cell.silo .cv{font-family:var(--mono); font-size:1.05rem; color:var(--ink); margin:.5rem 0 .25rem; font-variant-numeric:tabular-nums}
-  .cell.silo .cn{font-size:.82rem; color:var(--faint); font-style:italic}
+/* cards + section labels */
+.seclabel{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:800;margin:4px 2px 10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:1150px){.grid2{grid-template-columns:1fr}}
+.card,.foldcard{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px 20px;margin-bottom:18px;box-shadow:var(--shadow)}
+.card.focus{border-color:rgba(255,109,127,.4)}
+.card h2{margin:0;font-size:17px;font-weight:800;letter-spacing:-.01em;line-height:1.25;display:flex;align-items:center;gap:8px}
+.card h2 .src,.foldcard>summary .src{margin-left:auto;font-size:10.5px;font-weight:500;color:var(--soft);font-family:'IBM Plex Mono'}
+.card .sub{font-size:12.5px;color:var(--muted);margin:4px 0 14px;line-height:1.45}
 
-  /* compact chain */
-  .atrisk{font-family:var(--mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--molten); margin:1.1rem 0 0}
-  .atrisk b{font-size:1.05rem}
-  .chain2{display:flex; flex-wrap:wrap; align-items:stretch; gap:.45rem; margin-top:.7rem}
-  .c2{flex:1 1 120px; min-width:110px; border:1px solid var(--edge); background:var(--panel); border-radius:10px; padding:.7rem .75rem; border-top:2px solid rgba(255,138,61,.3)}
-  .c2.root{border-top-color:var(--critical); background:linear-gradient(180deg,var(--molten-dim),var(--panel))}
-  .c2 .d{font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
-  .c2 .v{font-size:.85rem; line-height:1.3; color:var(--ink); margin-top:.3rem}
-  .c2.root .d{color:var(--critical)} .c2.root .v{font-weight:700}
-  .c2 .rt{display:inline-block; font-family:var(--mono); font-size:.52rem; letter-spacing:.12em; color:#160b06; background:var(--molten); padding:.1em .4em; border-radius:3px; margin-top:.4rem; font-weight:700}
+/* fold cards */
+.foldcard>summary{list-style:none;cursor:pointer;font-size:17px;font-weight:800;letter-spacing:-.01em;line-height:1.3;display:flex;align-items:center;gap:8px}
+.foldcard>summary::-webkit-details-marker{display:none}
+.foldcard>summary::after{content:'▸';font-size:12px;color:var(--soft);flex:0 0 auto;margin-left:10px}
+.foldcard[open]>summary::after{content:'▾'}
+.foldcard .sub{font-size:12.5px;color:var(--muted);line-height:1.45}
+.foldcard table{margin-top:14px}
 
-  /* pipeline row */
-  .pipe{display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-top:1.2rem}
-  .pipe .pn{border:1px solid var(--edge); background:var(--panel); border-radius:10px; padding:.6rem .8rem; font-size:.84rem; line-height:1.25; color:var(--ink)}
-  .pipe .pn.k{border-color:rgba(63,208,196,.35); background:linear-gradient(180deg,var(--glass-dim),var(--panel))}
-  .pipe .pn.amber{border-color:rgba(255,138,61,.3)}
-  .pipe .pa{font-family:var(--mono); color:var(--faint)}
-  @media(max-width:760px){.pipe{flex-direction:column; align-items:stretch}.pipe .pa{display:none}}
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.5;margin-top:6px}
+th{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:var(--soft);font-weight:800;padding:9px 10px;border-bottom:1px solid var(--line)}
+th.qty,td.qty{text-align:right}
+td{padding:11px 10px;border-bottom:1px solid var(--line2);color:#d7e3f7;vertical-align:top;line-height:1.5}
+td b{color:#fff;font-weight:700}
+td.n{font-family:'IBM Plex Mono';font-size:12.5px;font-variant-numeric:tabular-nums}
+td.note{max-width:300px}
+.cd{display:block;color:var(--soft);font-size:12px;line-height:1.4;margin-top:2px;font-weight:400;font-family:'Manrope',sans-serif}
+.status{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.status .cap{font-size:11px;color:var(--soft)}
+tr.hot td:first-child{box-shadow:inset 3px 0 0 var(--orange)}
+tr.critical td{background:rgba(255,109,127,.10)}
+tr.critical td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+tr:hover td{background:rgba(255,255,255,.03)}
+tr.critical:hover td{background:rgba(255,109,127,.16)}
 
-  /* master agent */
-  .masternode{border:1px solid rgba(63,208,196,.4); background:linear-gradient(180deg,var(--glass-dim),var(--panel)); border-radius:14px; padding:1.15rem 1.3rem; max-width:64ch; margin-top:.4rem}
-  .masternode .mn{font-size:1.15rem; font-weight:750; letter-spacing:-.015em}
-  .masternode .mn .mdl{font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; color:var(--glass); border:1px solid var(--glass-dim); border-radius:999px; padding:.2em .6em; margin-left:.5em; vertical-align:middle}
-  .masternode .ms{font-size:.96rem; color:var(--muted); line-height:1.45; margin-top:.5rem}
-  .flowdown{font-family:var(--mono); color:var(--faint); text-align:center; margin:.55rem 0; font-size:1rem}
-  .routes{display:flex; flex-wrap:wrap; gap:.5rem}
-  .routes span{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; color:var(--ink); border:1px solid var(--edge-strong); border-radius:8px; padding:.45rem .7rem; background:var(--panel)}
-  .autonomous{margin-top:1.3rem; border-left:2px solid var(--molten); background:var(--molten-dim); border-radius:0 10px 10px 0; padding:.9rem 1.15rem; max-width:66ch; font-size:.96rem; line-height:1.5; color:var(--muted)}
-  .autonomous b{color:var(--molten-2)}
-  .autonomous .mh{font-family:var(--mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--molten); margin-bottom:.4rem}
+/* pills */
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+.pg{background:var(--green-soft);color:var(--green)}
+.po{background:var(--orange-soft);color:var(--orange)}
+.pr{background:var(--red-soft);color:var(--red)}
+.pb{background:var(--blue-soft);color:var(--blue)}
 
-  /* close */
-  .endbg{background:radial-gradient(110% 90% at 50% 26%, var(--molten-dim), transparent 60%)}
-  .closeq{font-size:clamp(1.7rem,4.4vw,3.2rem); font-weight:800; letter-spacing:-.03em; line-height:1.14; text-wrap:balance; max-width:20ch; margin:0 auto; text-align:center}
-  .closeq .amber{color:var(--molten)} .closeq .cyan{color:var(--glass)}
-  .closesub{margin:1.4rem auto 0; text-align:center; font-size:clamp(1rem,1.7vw,1.2rem); color:var(--muted); max-width:54ch; line-height:1.5}
-  .credits{margin-top:2rem; display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem .9rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--faint)}
-  .credits b{color:var(--glass)}
+/* ===== agent (own column, becomes overlay on small screens) ===== */
+.agent{min-width:0;position:sticky;top:20px;max-height:calc(100vh - 40px);background:var(--panel);border:1px solid var(--line);border-radius:24px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow)}
+.ahead{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line2);background:rgba(255,255,255,.03)}
+.zicon{width:36px;height:36px;border-radius:14px;background:linear-gradient(135deg,var(--violet),var(--blue2));display:grid;place-items:center;font-weight:800;color:#fff;flex:0 0 36px}
+.atitle{font-size:16px;font-weight:800}
+.asub{font-size:11.5px;color:var(--muted)}
+.chip{margin-left:auto;background:var(--orange-soft);color:var(--orange);padding:5px 11px;border-radius:999px;font-size:11px;font-weight:800}
+.closeX{display:none;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);width:32px;height:32px;border-radius:11px;place-items:center;font-size:18px;margin-left:8px}
+.abody{padding:15px 16px;overflow:auto;flex:1}
+.seclabel2{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:800;margin:2px 0 10px}
+.seclabel2.mt{margin-top:16px}
+.allclear{color:var(--muted);font-size:12.5px;padding:6px 2px 10px}
 
-  /* chrome */
-  .chrome{position:fixed; left:0; right:0; bottom:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:.9rem clamp(1rem,3vw,2rem); pointer-events:none}
-  .chrome>*{pointer-events:auto}
-  .counter{font-family:var(--mono); font-size:.78rem; letter-spacing:.14em; color:var(--muted)} .counter .cur{color:var(--ink)}
-  .slug{font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); position:fixed; top:clamp(1rem,3vw,1.8rem); left:clamp(1rem,3vw,2rem); z-index:20; max-width:70vw}
-  .slug b{color:var(--glass)}
-  .dots{display:flex; gap:.36rem; align-items:center; flex-wrap:wrap; max-width:52vw; justify-content:center}
-  .dots button{width:8px; height:8px; padding:0; border:0; border-radius:50%; background:var(--edge-strong); cursor:pointer; transition:background .2s, transform .2s}
-  .dots button:hover{background:var(--muted)}
-  .dots button[aria-current="true"]{background:var(--molten); transform:scale(1.3); box-shadow:0 0 10px var(--molten-dim)}
-  .arrows{display:flex; gap:.5rem}
-  .arrows button{width:38px; height:38px; border-radius:10px; border:1px solid var(--edge); background:var(--panel); color:var(--ink); font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .2s, background .2s}
-  .arrows button:hover{border-color:var(--glass); background:var(--panel-2)}
-  .arrows button:disabled{opacity:.32; cursor:default}
-  :focus-visible{outline:2px solid var(--glass); outline-offset:3px; border-radius:6px}
-  .toprail{position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--molten),var(--glass)); z-index:30; transition:width .45s cubic-bezier(.2,.7,.2,1); width:0}
-  .hint{position:fixed; bottom:.9rem; left:50%; transform:translateX(-50%); z-index:20; font-family:var(--mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); transition:opacity .6s}
-  @media(prefers-reduced-motion:reduce){.slide,.slide.active,.rise,.slide.active .rise,.toprail{transition:none !important; transform:none !important}}
+/* action cards */
+.action{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:11px}
+.action.done{border-color:rgba(58,213,159,.4);background:linear-gradient(135deg,rgba(58,213,159,.10),var(--panel2))}
+.arow{display:flex;gap:12px;align-items:flex-start}
+.anum{width:30px;height:30px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:grid;place-items:center;font-weight:800;color:#07111d;flex:0 0 30px}
+.action.done .anum{background:linear-gradient(135deg,#5ee3b4,var(--green));color:#06231a}
+.abody2{min-width:0}
+.abody2 b{display:block;font-size:14px;line-height:1.35;color:#fff}
+.abody2 span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.dbtns{display:flex;gap:8px;margin-top:11px}
+.mini{flex:1;font-size:12px;font-weight:800;border-radius:12px;padding:8px 10px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--muted)}
+.mini:hover{border-color:var(--blue);color:#fff}
+.mini.ok{flex:1.3;background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;color:#08101d}
+.mini.ok:hover{filter:brightness(1.06)}
+.mini.ok:disabled{background:linear-gradient(135deg,#5ee3b4,var(--green));color:#06231a;cursor:default}
+
+/* detail (why-chain) */
+.detail{margin:12px 0;border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(8,15,32,.3)}
+.detail:empty{display:none}
+.dt{font-size:13.5px;font-weight:800;margin-bottom:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:#fff}
+.sev{font-size:9.5px;letter-spacing:.06em;padding:3px 8px;border-radius:999px;font-weight:800;text-transform:uppercase}
+.sev.r{background:var(--red-soft);color:var(--red)} .sev.a{background:var(--orange-soft);color:var(--orange)} .sev.g{background:var(--green-soft);color:var(--green)}
+.cstep{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.cnum{width:22px;height:22px;border-radius:999px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:11px;color:var(--muted);flex:0 0 22px;font-family:'IBM Plex Mono';margin-top:1px}
+.cstep.root .cnum{background:var(--red-soft);color:var(--red);font-weight:800}
+.ct{font-size:13px;color:#d7e3f7;line-height:1.5}
+.ct b{display:block;font-size:10.5px;color:var(--cyan);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;font-weight:800}
+.cstep.root .ct b{color:var(--red)}
+.carr{margin:2px 0 6px 10px;color:var(--soft);font-size:11px;border-left:2px dotted var(--line);padding:2px 0 2px 14px}
+.cite{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);font-family:'IBM Plex Mono';font-size:11px;padding:2px 7px;border-radius:8px;margin:6px 4px 0 0}
+.ift{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.ift div{border:1px solid var(--line);border-radius:13px;padding:11px;font-size:12px;line-height:1.45}
+.ift .yes{background:rgba(58,213,159,.09)}
+.ift .no{background:rgba(255,109,127,.09)}
+.ift b{display:block;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.ift .yes b{color:var(--green)} .ift .no b{color:var(--red)}
+.act{width:100%;margin-top:12px;border:none;border-radius:13px;padding:11px 14px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#08101d;font-weight:800}
+.act.done{background:linear-gradient(135deg,#5ee3b4,var(--green));color:#06231a}
+
+/* being handled + handled */
+.statusline{font-size:12px;color:var(--muted);border:1px dashed var(--line);border-radius:13px;padding:9px 11px;margin-bottom:8px;display:flex;gap:9px;align-items:center}
+.handled{border-top:1px solid var(--line2);margin-top:12px;padding-top:12px}
+.handled summary{font-size:11.5px;color:var(--soft);cursor:pointer;font-weight:800;letter-spacing:.04em}
+.hitem{display:flex;gap:8px;font-size:12px;color:var(--muted);padding:6px 0 0 2px}
+.hitem .ok{color:var(--green);flex:0 0 auto}
+
+/* ask */
+.ask{border-top:1px solid var(--line2);padding:15px 16px;background:rgba(255,255,255,.03)}
+.askrow{display:flex;gap:10px}
+.askrow input{flex:1;background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--text);border-radius:13px;padding:11px 13px;outline:none}
+.askrow input::placeholder{color:var(--soft)}
+.askrow input:focus{border-color:var(--blue)}
+.askrow button{border:none;border-radius:13px;background:#f4f7ff;color:#111a2c;padding:0 16px;font-weight:800}
+.hint{font-size:11px;color:var(--soft);margin-top:9px;line-height:1.8}
+.hint b{color:var(--muted);cursor:pointer;font-weight:700;text-decoration:underline;text-decoration-color:var(--line)}
+
+/* toggle + overlay (small screens) */
+.agent-toggle{display:none}
+.agent-overlay{display:none}
+@media(max-width:1150px){
+  .content-wrap{grid-template-columns:1fr}
+  .content-wrap>.agent{display:none}
+  .agent-toggle{display:flex;align-items:center;gap:8px;position:fixed;right:18px;bottom:18px;z-index:60;border:none;border-radius:999px;padding:13px 18px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#08101d;font-weight:800;box-shadow:0 12px 30px rgba(79,124,255,.45)}
+  .agent-overlay.open{display:flex;position:fixed;inset:0;z-index:70;background:rgba(3,6,16,.62);backdrop-filter:blur(8px);padding:16px;align-items:stretch;justify-content:flex-end}
+  .agent-overlay>.agent{display:flex;position:relative;top:0;max-height:100%;width:min(430px,100%)}
+  .agent-overlay>.agent .closeX{display:grid}
+}
+@media(max-width:960px){.content-wrap{padding:14px}.head h1{font-size:24px}.top{padding:12px 16px}}
+@media(max-width:640px){
+  .hero-right,.ift{grid-template-columns:1fr}
+  .hero,.card,.foldcard,.agent{border-radius:18px}
+  .banner{flex-direction:column}
+  .agent-overlay.open{padding:10px}
+  .agent-overlay>.agent{width:100%}
+}
 </style>
+</head>
+<body>
+<header class="top">
+  <div class="logo"><div class="mark">G</div><div><div class="lt">GlassOps</div><div class="ls">Executive control center</div></div></div>
+  <div class="topmeta"><span class="pulse"></span><span>Zia scanned 6,204 records across CRM, Creator &amp; Desk at 06:04</span><div class="user" id="av">BD</div></div>
+</header>
 
-<div class="toprail" id="toprail"></div>
-<div class="slug" id="slug"><b>GlassOps</b> &middot; the agent workforce</div>
-
-<div class="deck" id="deck">
-
-  <!-- 1 . COVER -->
-  <section class="slide" id="s1" data-slug="the agent workforce">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Zia Agents &middot; India glass manufacturing</div>
-      <h1 class="cover-title rise" style="--i:1">The Glass<span class="o">Ops</span><br>Agent Workforce</h1>
-      <p class="cover-sub rise" style="--i:2">Eight specialist agents and <em>one master</em> that run a glass manufacturer on Zoho.</p>
-      <div class="metarow rise" style="--i:3"><span>8 agents + 1 master</span><span>CRM &middot; Desk &middot; Creator</span><span>humans stay in control</span></div>
-    </div>
-  </section>
-
-  <!-- 2 . THE FRICTION -->
-  <section class="slide" id="s2" data-slug="the friction">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">The company, scaling</div>
-      <h2 class="rise" style="--i:1">GlassOps is growing. Every seam is quietly leaking.</h2>
-      <div class="fric" style="margin-top:1.2rem">
-        <div class="fr rise" style="--i:2"><span class="d">Setup</span><span class="t">Every team configures CRM its own way.</span></div>
-        <div class="fr rise" style="--i:3"><span class="d">Newcomers</span><span class="t">Anyone new to CRM needs hand-holding to know what to use.</span></div>
-        <div class="fr rise" style="--i:4"><span class="d">Sales</span><span class="t">Deals get committed before anyone checks capacity, stock or certification.</span></div>
-        <div class="fr rise" style="--i:5"><span class="d">Deal risk</span><span class="t">The signs a deal is slipping sit unread inside call and email notes.</span></div>
-        <div class="fr rise" style="--i:6"><span class="d">The day</span><span class="t">A rep opens a pile of records with no plan for what matters.</span></div>
-        <div class="fr rise" style="--i:7"><span class="d">Support</span><span class="t">Every ticket read, classified, answered and logged by hand.</span></div>
-        <div class="fr rise" style="--i:8"><span class="d">Churn</span><span class="t">False alarms bury the customers who are really leaving.</span></div>
-        <div class="fr rise" style="--i:9"><span class="d">The owner</span><span class="t">Sees that sales dipped, never why.</span></div>
-      </div>
-      <p class="fricfoot rise" style="--i:10">Software shows the data. Nobody connects it. So we built <span class="cyan">a team of agents</span>, one per seam.</p>
-    </div>
-  </section>
-
-  <!-- 3 . META (1/3) problem -->
-  <section class="slide" id="s3" data-slug="Onboarder Meta Agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">CRM governance</div>
-      <h2 class="agent-name rise" style="--i:1">Onboarder Meta Agent</h2>
-      <p class="agent-lead rise" style="--i:2">Automates CRM onboarding and metadata setup, layouts, fields, modules, currencies, users, <b>so setup is consistent, not improvised.</b></p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>GlassOps opens a new Export division and needs its CRM stood up. Today whoever does it improvises: module and field names drift, currencies differ, and across regions <span class="g" style="color:var(--molten-2)">reporting quietly stops lining up.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>everyone improvises</span><span>config drifts</span><span>reporting breaks</span></div>
-    </div>
-  </section>
-
-  <!-- 4 . META (2/3) in action -->
-  <section class="slide" id="s4" data-slug="Onboarder Meta &middot; in action">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Onboarder Meta &middot; in action</div>
-      <h2 class="rise" style="--i:1">Tell it the task. It asks only for what that task needs.</h2>
-      <div style="margin-top:1.1rem" class="rise"><span class="prompt">&ldquo;Add the Singapore Dollar and set up our Export module.&rdquo;</span></div>
-      <div class="tri">
-        <div class="cell rise" style="--i:2"><div class="ch">Currency</div><div class="cb">Give the name. It resolves the <b>ISO 4217 code</b>, pulls the <b>live INR rate</b>, shows it, and <b>creates it only after you confirm</b>.</div></div>
-        <div class="cell rise" style="--i:3"><div class="ch">Custom module</div><div class="cb">Give a name and plural. It creates the module, using the <b>plural as the API name</b>.</div></div>
-        <div class="cell rise" style="--i:4"><div class="ch">Contact invite</div><div class="cb">When a contact is created, it looks up the portal and user type and <b>sends the portal invite automatically</b>.</div></div>
-      </div>
-      <div class="microfoot rise" style="--i:5">It requests only the inputs a task needs, and <b>does not take an irreversible action without your confirmation</b>.</div>
-    </div>
-  </section>
-
-  <!-- 5 . META (3/3) payoff -->
-  <section class="slide" id="s5" data-slug="Onboarder Meta &middot; the payoff">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Onboarder Meta &middot; the payoff</div>
-      <h2 class="rise" style="--i:1">One governed setup, not a dozen improvised ones.</h2>
-      <p class="agent-lead rise" style="--i:2"><b>53 connected CRM tools</b>, applied through one agent with a confirmation step on every change.</p>
-      <div class="chips rise" style="--i:3"><span class="k">modules</span><span>fields</span><span>layouts</span><span>users</span><span>profiles</span><span>currencies</span><span>portal invites</span></div>
-      <div class="microfoot rise" style="--i:4">Consistent, repeatable onboarding config, so a new division or region <b>comes up the same way every time</b>.</div>
-    </div>
-  </section>
-
-  <!-- 6 . SMART GUIDE (1/3) problem -->
-  <section class="slide" id="s6" data-slug="Smart Guide Agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">CRM presales advisor</div>
-      <h2 class="agent-name rise" style="--i:1">Smart Guide Agent</h2>
-      <p class="agent-lead rise" style="--i:2">The advisor for anyone <b>new to Zoho CRM</b>: what it can do, and how to set it up right.</p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>Someone new to CRM does not know which features fit their process, which edition supports them, or how to configure them. A human consultant repeats the same guidance for every requirement, and <span class="g" style="color:var(--molten-2)">unverified advice can point them at features that do not exist.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>which feature fits</span><span>which edition</span><span>how to configure it</span></div>
-    </div>
-  </section>
-
-  <!-- 7 . SMART GUIDE (2/3) in action -->
-  <section class="slide" id="s7" data-slug="Smart Guide &middot; in action">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Smart Guide &middot; in action</div>
-      <h2 class="rise" style="--i:1">Describe the need. It recommends the simplest fit.</h2>
-      <div style="margin-top:1.1rem" class="rise"><span class="prompt">&ldquo;All our leads sit in a spreadsheet. We want CRM to auto-assign new leads to reps, round-robin. How, and which edition?&rdquo;</span></div>
-      <div class="tri">
-        <div class="cell rise" style="--i:2"><div class="ch">Understands</div><div class="cb">Asks only the <b>minimum</b> questions needed to pin the requirement.</div></div>
-        <div class="cell rise" style="--i:3"><div class="ch">Recommends</div><div class="cb">Simplest fit first: standard feature &rarr; config &rarr; automation &rarr; Deluge &rarr; API, <b>custom last</b>.</div></div>
-        <div class="cell rise" style="--i:4"><div class="ch">Verifies</div><div class="cb">Edition and steps <b>from the knowledge base only</b>, with the exact Help Article.</div></div>
-      </div>
-      <div class="microfoot rise" style="--i:5">It <b>never invents a feature or a Help Article URL</b>; if it cannot verify something, it says so.</div>
-    </div>
-  </section>
-
-  <!-- 8 . SMART GUIDE (3/3) payoff -->
-  <section class="slide" id="s8" data-slug="Smart Guide &middot; the payoff">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Smart Guide &middot; the payoff</div>
-      <h2 class="rise" style="--i:1">Consultant-grade CRM advice, on demand.</h2>
-      <p class="agent-lead rise" style="--i:2">Every user gets the <b>same accurate, edition-correct recommendation</b>, without booking a specialist.</p>
-      <div class="chips rise" style="--i:3"><span class="k">verified, never guessed</span><span>edition-aware</span><span>simplest solution first</span><span>domain-neutral</span><span>suggests the next step</span></div>
-      <div class="microfoot rise" style="--i:4">It even flags the next logical improvement, for example importing existing leads once assignment is set up, so <b>the guidance scales, not the consultant's calendar</b>.</div>
-    </div>
-  </section>
-
-  <!-- 9 . RESOURCE ALLOCATION (1/3) problem -->
-  <section class="slide" id="s9" data-slug="Resource Allocation Agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Deal feasibility</div>
-      <h2 class="agent-name rise" style="--i:1">Resource Allocation Agent</h2>
-      <p class="agent-lead rise" style="--i:2">Before a commitment is made, it reasons across sales, capacity and stock <b>together, never one in isolation.</b></p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>An RFQ lands and four questions have to be answered at once: who should own it, can the line make it, is raw stock ok, and when can we realistically deliver. <span class="g" style="color:var(--molten-2)">Today they live in four different places, so deals get promised before they are checked.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>owner fit</span><span>production capacity</span><span>stock risk</span><span>delivery date</span><span class="k">certification</span></div>
-    </div>
-  </section>
-
-  <!-- 10 . RESOURCE ALLOCATION (2/3) in action -->
-  <section class="slide" id="s10" data-slug="Resource Allocation &middot; in action">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Resource Allocation &middot; in action</div>
-      <h2 class="rise" style="--i:1">One RFQ. One grounded answer.</h2>
-      <div style="margin-top:1.1rem" class="rise"><span class="prompt">&ldquo;New RFQ, Tata Motors, 3,000 windshields, 6-week delivery. Who owns it, and can we make the date?&rdquo;</span></div>
-      <div class="tri">
-        <div class="cell rise" style="--i:2"><div class="ch">Owner</div><div class="cb"><b>Priya Raman</b>: auto-glass relationship history, open-deal load under the 8-deal limit.</div></div>
-        <div class="cell rise" style="--i:3"><div class="ch">Capacity &amp; stock</div><div class="cb">Line <b>82% booked</b> (Tight, feasible); interlayer stock below reorder, <b>flag a PO</b>.</div></div>
-        <div class="cell rise" style="--i:4"><div class="ch">Deliver &amp; certify</div><div class="cb">Delivery date from the queue vs the 6-week ask; <b>certification checked, no mismatch</b>.</div></div>
-      </div>
-      <div class="microfoot rise" style="--i:5">Every number is read from Zoho CRM (Deals, Products, Production Slots, Users); it says so when it falls back to a reference guide.</div>
-    </div>
-  </section>
-
-  <!-- 11 . RESOURCE ALLOCATION (3/3) guardrails -->
-  <section class="slide" id="s11" data-slug="Resource Allocation &middot; recommends, human commits">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Resource Allocation &middot; the guardrail</div>
-      <h2 class="rise" style="--i:1">It recommends. The human commits.</h2>
-      <p class="agent-lead rise" style="--i:2">A recommendation engine, <b>not an auto-executor</b>: it never books a slot, changes the deal owner, or raises a PO on its own.</p>
-      <div class="chips rise" style="--i:3"><span class="k">certification mismatch is a hard blocker</span><span>no delivery date promised to the customer</span><span>logs a task or note</span><span>asks when data is missing</span></div>
-      <div class="microfoot rise" style="--i:4">For safety glass, a <b>certification mismatch is treated as a blocker, not a suggestion</b>, and if the data is not there it asks rather than guesses.</div>
-    </div>
-  </section>
-
-  <!-- 12 . SMART AMBIENT (1/3) problem -->
-  <section class="slide" id="s12" data-slug="Smart Ambient Agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Sales deal-risk intelligence</div>
-      <h2 class="agent-name rise" style="--i:1">Smart Ambient Agent</h2>
-      <p class="agent-lead rise" style="--i:2">Reads the notes on a lead and tells the sales team <b>when a deal is quietly going cold.</b></p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>The signals that predict a lost deal, a customer &ldquo;evaluating other vendors,&rdquo; &ldquo;price is too high,&rdquo; a missed sample, days of silence, sit buried in call and email notes. <span class="g" style="color:var(--molten-2)">Reps skim past them and high-value deals go cold before anyone reacts.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>competitor mentions</span><span>pricing pushback</span><span>activity gaps</span></div>
-    </div>
-  </section>
-
-  <!-- 13 . SMART AMBIENT (2/3) how it works -->
-  <section class="slide" id="s13" data-slug="Smart Ambient &middot; how it works">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Smart Ambient &middot; how it works</div>
-      <h2 class="rise" style="--i:1">Read the notes. Classify. Act, on the team's side.</h2>
-      <div class="pipe">
-        <div class="pn rise" style="--i:2">Reads<br>call and email notes on the lead</div>
-        <span class="pa rise" style="--i:2">&rarr;</span>
-        <div class="pn amber rise" style="--i:3">Classifies<br>Normal / Alarming / High Deal / Escalated</div>
-        <span class="pa rise" style="--i:3">&rarr;</span>
-        <div class="pn k rise" style="--i:4">Schedules<br>an internal follow-up and a PM review</div>
-        <span class="pa rise" style="--i:4">&rarr;</span>
-        <div class="pn rise" style="--i:5">Assigns<br>an active Product Manager, round-robin</div>
-      </div>
-      <div class="chips rise" style="--i:6"><span class="k">acts autonomously, no confirmation</span><span>never contacts the customer</span><span>max 2 activities per lead per day</span></div>
-      <div class="microfoot rise" style="--i:7">It works <b>on behalf of the sales team, never the customer</b>: it creates internal activities and notes, and never sends an email or changes the deal value.</div>
-    </div>
-  </section>
-
-  <!-- 14 . SMART AMBIENT (3/3) example -->
-  <section class="slide" id="s14" data-slug="Smart Ambient &middot; an example">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Smart Ambient &middot; an example</div>
-      <h2 class="rise" style="--i:1">A deal turning, caught the same day.</h2>
-      <div style="margin-top:1.1rem" class="rise"><span class="prompt">&ldquo;Analyse the lead for Pratik Sundaram.&rdquo;</span></div>
-      <div class="moment good rise" style="--i:2">
-        <div class="mh">What the agent does</div>
-        <p>The notes show <span class="g">&ldquo;price is too high&rdquo; and &ldquo;evaluating other vendors,&rdquo;</span> with no activity for six days. It classifies the lead <b>Escalated</b>, schedules an urgent call and a sales-plus-PM review, round-robins the next active PM, flags the lead <b>At Risk</b>, and logs an escalation note, all inside CRM, without emailing the customer.</p>
-      </div>
-      <div class="microfoot rise" style="--i:3">Bounded by hard rules: it never reassigns the owner without approval and never edits or deletes existing records.</div>
-    </div>
-  </section>
-
-  <!-- 15 . DAY PLANNER (1/3) problem -->
-  <section class="slide" id="s15" data-slug="Day Planner Agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Personal daily planning</div>
-      <h2 class="agent-name rise" style="--i:1">Day Planner Agent</h2>
-      <p class="agent-lead rise" style="--i:2">Turns a rep's own open work into <b>a prioritised plan for today</b>, not a list of records.</p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>Monday morning, a rep faces a pile of open records with no order and no sense of what is urgent. <span class="g" style="color:var(--molten-2)">The important call and the deal about to slip look the same as everything else.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span class="k">your records only</span><span>today only</span><span>prioritised, with reasons</span></div>
-    </div>
-  </section>
-
-  <!-- 16 . DAY PLANNER (2/3) how it works -->
-  <section class="slide" id="s16" data-slug="Day Planner &middot; how it works">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Day Planner &middot; how it works</div>
-      <h2 class="rise" style="--i:1">Sees the risk. Names the next move.</h2>
-      <p class="agent-lead rise" style="--i:2">It reads only <b>your</b> meetings, calls, tasks, leads, contacts and deals for <b>today</b>, then ranks them and explains why.</p>
-      <div class="moment good rise" style="--i:3">
-        <div class="mh">Plan my day</div>
-        <p><span class="g">Today: 3 calls, 2 tasks due, a meeting at 11:00. 4 leads need attention.</span> Risk: the Acme deal (closing this week) has no activity logged, call before 11:00 or it slips. Start with the overdue task, then Acme.</p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>overlaps and thin buffers</span><span>deals closing with no activity</span><span class="k">the next best action</span><span>never invents a meeting time</span></div>
-    </div>
-  </section>
-
-  <!-- 17 . DAY PLANNER (3/3) the loop -->
-  <section class="slide" id="s17" data-slug="Day Planner &middot; morning to evening">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Day Planner &middot; the full loop</div>
-      <h2 class="rise" style="--i:1">Morning brief, day plan, evening review.</h2>
-      <div class="pipe">
-        <div class="pn rise" style="--i:2">Morning<br>what matters today, ranked</div>
-        <span class="pa rise" style="--i:2">&rarr;</span>
-        <div class="pn k rise" style="--i:3">Through the day<br>the schedule, inside working hours</div>
-        <span class="pa rise" style="--i:3">&rarr;</span>
-        <div class="pn rise" style="--i:4">Evening<br>what got done, what remains, tomorrow's top</div>
-      </div>
-      <div class="microfoot rise" style="--i:5">A <b>wrap-up review</b> closes the loop: which deals advanced, which customers still owe a reply, and the top priorities for tomorrow.</div>
-    </div>
-  </section>
-
-  <!-- 18 . PRODUCTIVITY (1/3) the blind spot -->
-  <section class="slide" id="s18" data-slug="GlassOps Productivity Agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Cross-department insight</div>
-      <h2 class="agent-name rise" style="--i:1">GlassOps Productivity Agent</h2>
-      <p class="agent-lead rise" style="--i:2">Answers the question the owner cannot: <b>&ldquo;why is sales down this month?&rdquo;</b></p>
-      <div class="tri">
-        <div class="cell silo rise" style="--i:3"><div class="ch">Sales &middot; CRM</div><div class="cv">On-time 88%</div><div class="cn">&ldquo;seasonal dip?&rdquo;</div></div>
-        <div class="cell silo rise" style="--i:4"><div class="ch">Production &middot; Creator</div><div class="cv">Pune idle 11.2h</div><div class="cn">&ldquo;we'll catch up.&rdquo;</div></div>
-        <div class="cell silo rise" style="--i:5"><div class="ch">Procurement &middot; Creator</div><div class="cv">Meridian late again</div><div class="cn">&ldquo;minor.&rdquo;</div></div>
-      </div>
-      <div class="microfoot rise" style="--i:6">Three teams, three dashboards, three shrugs. <b>No chart says they are the same problem.</b></div>
-    </div>
-  </section>
-
-  <!-- 19 . PRODUCTIVITY (2/3) the chain -->
-  <section class="slide" id="s19" data-slug="Productivity &middot; the chain">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Productivity &middot; the chain</div>
-      <h2 class="rise" style="--i:1">One chain. Five departments. One root cause.</h2>
-      <div class="atrisk rise" style="--i:2">Money at risk &nbsp;<b>&#8377;33L</b>&nbsp; &middot; &#8377;15L orders late + &#8377;18L renewal</div>
-      <div class="chain2">
-        <div class="c2 rise" style="--i:3"><div class="d">Customers</div><div class="v">2 accounts may leave</div></div>
-        <div class="c2 rise" style="--i:4"><div class="d">Delivery</div><div class="v">on-time fell to 88%</div></div>
-        <div class="c2 rise" style="--i:5"><div class="d">Production</div><div class="v">Pune idle 11.2 hours</div></div>
-        <div class="c2 rise" style="--i:6"><div class="d">Materials</div><div class="v">soda-ash down to 2.1 days</div></div>
-        <div class="c2 root rise" style="--i:7"><div class="d">Supplier</div><div class="v">Meridian late 5 of 6</div><span class="rt">Root cause</span></div>
-      </div>
-      <div class="moment good rise" style="--i:8">
-        <div class="mh">The decision, routed to Procurement</div>
-        <p>Dual-source with Gujarat Alkalies (98% on-time): <span class="g">&#8377;6L/week back</span>. Ignore it and the same chain repeats, week after week.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 20 . PRODUCTIVITY (3/3) how it stays honest -->
-  <section class="slide" id="s20" data-slug="Productivity &middot; how it stays honest">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Productivity &middot; how it stays honest</div>
-      <h2 class="rise" style="--i:1">Detectors do the maths. The agent only narrates.</h2>
-      <div class="pipe">
-        <div class="pn rise" style="--i:2">CRM &middot; Desk &middot; Creator<br>one session</div>
-        <span class="pa rise" style="--i:2">&rarr;</span>
-        <div class="pn amber rise" style="--i:3">Detectors<br>compute every number</div>
-        <span class="pa rise" style="--i:3">&rarr;</span>
-        <div class="pn k rise" style="--i:4">Agent<br>orders the facts</div>
-        <span class="pa rise" style="--i:4">&rarr;</span>
-        <div class="pn rise" style="--i:5">Validator<br>rejects anything ungrounded</div>
-        <span class="pa rise" style="--i:5">&rarr;</span>
-        <div class="pn rise" style="--i:6">Board</div>
-      </div>
-      <div class="chips rise" style="--i:7"><span>6,204 records</span><span>11 fact packs</span><span class="k">10 of 11 grounded</span><span class="k">0 hallucinated numbers</span><span>Zoho-hosted qwen-122B</span></div>
-      <div class="microfoot rise" style="--i:8">Every rupee comes from the detectors, so <b>the board is never made up</b>.</div>
-    </div>
-  </section>
-
-  <!-- 21 . CHURN (1/3) problem -->
-  <section class="slide" id="s21" data-slug="Churn Risk Verifier">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Churn, verified</div>
-      <h2 class="agent-name rise" style="--i:1">Churn Risk Verifier</h2>
-      <p class="agent-lead rise" style="--i:2">Confirms whether a customer is <b>genuinely</b> about to leave, so the churn list is real.</p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>Auto-flaggers tag every angry, urgent or badly-rated ticket as churn risk, and once a ticket is closed it drops off the radar. <span class="g" style="color:var(--molten-2)">The dashboard fills with false alarms while real churn hides inside closed threads.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>frustration is not churn</span><span>closed is not resolved</span><span>false alarms everywhere</span></div>
-    </div>
-  </section>
-
-  <!-- 22 . CHURN (2/3) how it verifies -->
-  <section class="slide" id="s22" data-slug="Churn &middot; how it verifies">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Churn &middot; how it verifies</div>
-      <h2 class="rise" style="--i:1">Evidence, or it is not churn.</h2>
-      <p class="agent-lead rise" style="--i:2">It re-reads the whole thread, forwarded and quoted messages included, using <b>only the conversation, never the ticket status</b>.</p>
-      <div class="chips rise" style="--i:3"><span class="k">confirms only on an explicit statement to leave</span><span>quotes the exact line, verbatim</span><span>no quote, not churn</span><span>designed to suppress false positives</span></div>
-      <div class="microfoot rise" style="--i:4">Frustration, urgency, complaints and bad ratings never count on their own, and a <b>closed ticket can still be flagged as live risk</b>.</div>
-    </div>
-  </section>
-
-  <!-- 23 . CHURN (3/3) the verdict -->
-  <section class="slide" id="s23" data-slug="Churn &middot; the verdict">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Churn &middot; the verdict</div>
-      <h2 class="rise" style="--i:1">Not a yes or no. A verdict you can act on.</h2>
-      <div class="moment rise" style="--i:2">
-        <div class="mh">Closed ticket, real risk</div>
-        <p>Customer wrote <span class="g">&ldquo;if this is not fixed by Friday we are moving to Freshdesk.&rdquo;</span> Verdict: churn <b>confirmed</b>, severity <b>Threatened</b>, competitor <b>Freshdesk</b>, still <b>at risk</b>, and kept on the dashboard even though the ticket is closed.</p>
-      </div>
-      <div class="chips rise" style="--i:3"><span>confirmed</span><span>severity: imminent / threatened / considering</span><span class="k">competitor named</span><span>outcome: at risk / churned / retained</span></div>
-    </div>
-  </section>
-
-  <!-- 24 . OPSPRISM (1/3) problem -->
-  <section class="slide" id="s24" data-slug="Zia OpsPrism &middot; Support">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Support, first line</div>
-      <h2 class="agent-name rise" style="--i:1">Zia OpsPrism &middot; Support</h2>
-      <p class="agent-lead rise" style="--i:2">The <b>first point of contact</b> for support, so the team handles the hard cases, not the repetitive ones.</p>
-      <div class="moment rise" style="--i:3">
-        <div class="mh">The problem</div>
-        <p>Support spans OEMs, distributors, contractors, opticians and lab partners across three product lines. <span class="g" style="color:var(--molten-2)">Every case is read, classified, answered and logged by hand, and the repetitive ones bury the complex ones.</span></p>
-      </div>
-      <div class="chips rise" style="--i:4"><span>first line, not a replacement</span><span>5 customer types</span><span>3 product lines</span></div>
-    </div>
-  </section>
-
-  <!-- 25 . OPSPRISM (2/3) how it works -->
-  <section class="slide" id="s25" data-slug="Zia OpsPrism &middot; how it works">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Zia OpsPrism &middot; how it works</div>
-      <h2 class="rise" style="--i:1">Classify, act in CRM, draft in Desk.</h2>
-      <div class="pipe">
-        <div class="pn rise" style="--i:2">Classifies<br>account, product, query, priority, path</div>
-        <span class="pa rise" style="--i:2">&rarr;</span>
-        <div class="pn amber rise" style="--i:3">Acts in CRM<br>logs a note, updates the case, raises tasks</div>
-        <span class="pa rise" style="--i:3">&rarr;</span>
-        <div class="pn k rise" style="--i:4">Drafts in Desk<br>a ready-to-send reply</div>
-        <span class="pa rise" style="--i:4">&rarr;</span>
-        <div class="pn rise" style="--i:5">Human<br>reviews, approves, sends</div>
-      </div>
-      <div class="chips rise" style="--i:6"><span>live CRM first, FAQ knowledge base as fallback</span><span class="k">tiered: resolve / assist / escalate</span></div>
-      <div class="microfoot rise" style="--i:7">It <b>never sends the email itself</b>: it prepares the draft so the human only reviews, approves and sends.</div>
-    </div>
-  </section>
-
-  <!-- 26 . OPSPRISM (3/3) example -->
-  <section class="slide" id="s26" data-slug="Zia OpsPrism &middot; an example">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">Zia OpsPrism &middot; an example</div>
-      <h2 class="rise" style="--i:1">One complaint, fully prepared.</h2>
-      <div class="moment rise" style="--i:2">
-        <div class="mh">Contractor, panels arrived cracked, third case this month</div>
-        <p>Classified <b>P2, repeat complaint</b>, case set to In Progress, a <span class="g">Task raised for the Quality team</span> due in one business day, the account manager <span class="g">flagged as a retention risk</span>, order history pulled, and a formatted reply drafted in Desk. A post-install structural failure would instead route to <b>P1, urgent</b>.</p>
-      </div>
-      <div class="chips rise" style="--i:3"><span class="k">never sends, human approves</span><span>no pricing or discounts</span><span>logs, never approves, a warranty claim</span><span>no delivery date promised</span></div>
-    </div>
-  </section>
-
-  <!-- 27 . MASTER AGENT -->
-  <section class="slide" id="s27" data-slug="the master agent">
-    <div class="stage">
-      <div class="eyebrow rise" style="--i:0">The master agent</div>
-      <h2 class="rise" style="--i:1">One front door. The master routes the rest.</h2>
-      <div class="masternode rise" style="--i:2">
-        <div class="mn">Silica AI-One <span class="mdl">qwen-122B</span></div>
-        <div class="ms">Reads the request, checks which specialist has the tools to answer, and hands it to the right one, all in a single conversation.</div>
-      </div>
-      <div class="flowdown rise" style="--i:3">routes to</div>
-      <div class="routes rise" style="--i:4">
-        <span>Onboarder Meta</span><span>Smart Guide</span><span>Resource Allocation</span><span>Smart Ambient</span><span>Day Planner</span><span>OpsPrism Support</span>
-      </div>
-      <div class="autonomous rise" style="--i:5">
-        <div class="mh">Runs on their own, outside the router</div>
-        <b>Productivity Agent</b> delivers a scheduled cross-department briefing, and the <b>Churn Verifier</b> checks tickets in the background. They act without being asked.
-      </div>
-    </div>
-  </section>
-
-  <!-- 28 . CLOSE -->
-  <section class="slide endbg" id="s28" data-slug="the pitch">
-    <div class="stage">
-      <p class="closeq rise" style="--i:0">We didn't build <span class="amber">an agent</span>.<br>We built an <span class="cyan">agent workforce</span> for GlassOps.</p>
-      <p class="closesub rise" style="--i:1">Eight specialists and a master, every seam covered, numbers never invented, and a human in control of every action.</p>
-      <div class="credits rise" style="--i:2"><span>Built by the team</span><span><b>Abbas &middot; Deepak &middot; Joshi &middot; Nickelson &middot; Rajesh &middot; Sabareesh</b></span></div>
-    </div>
-  </section>
-
-</div>
-
-<div class="chrome">
-  <div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">28</span></div>
-  <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
-  <div class="arrows">
-    <button id="prev" aria-label="Previous slide">&lsaquo;</button>
-    <button id="next" aria-label="Next slide">&rsaquo;</button>
+<div class="layout">
+  <aside class="side" id="side"></aside>
+  <div class="content-wrap" id="contentWrap">
+    <main class="main" id="main"></main>
+    <aside class="agent" id="agent"></aside>
   </div>
 </div>
-<div class="hint" id="hint">&larr; &rarr; to navigate</div>
+
+<button class="agent-toggle" id="openAgent" onclick="openPanel()">💬 Ask Zia <span id="togCount"></span></button>
+<div class="agent-overlay" id="agentOverlay" onclick="if(event.target===this)closePanel()"></div>
 
 <script>
-  (function(){
-    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-    var n = slides.length, i = 0;
-    var cur = document.getElementById('cur'), tot = document.getElementById('tot');
-    var prev = document.getElementById('prev'), next = document.getElementById('next');
-    var dotsWrap = document.getElementById('dots'), rail = document.getElementById('toprail');
-    var slug = document.getElementById('slug'), hint = document.getElementById('hint');
-    tot.textContent = String(n).padStart(2,'0');
-    var dots = slides.map(function(s, idx){
-      var b = document.createElement('button');
-      b.setAttribute('role','tab'); b.setAttribute('aria-label','Go to slide ' + (idx+1));
-      b.addEventListener('click', function(){ go(idx); }); dotsWrap.appendChild(b); return b;
-    });
-    function go(k){
-      i = Math.max(0, Math.min(n-1, k));
-      slides.forEach(function(s, idx){ s.classList.toggle('active', idx===i); });
-      dots.forEach(function(d, idx){ d.setAttribute('aria-current', idx===i ? 'true':'false'); });
-      cur.textContent = String(i+1).padStart(2,'0');
-      rail.style.width = ((i+1)/n*100) + '%';
-      prev.disabled = i===0; next.disabled = i===n-1;
-      slug.innerHTML = '<b>GlassOps</b> &middot; ' + (slides[i].getAttribute('data-slug') || '');
+/* ================= shared helpers ================= */
+const S = { approved:{}, handledExtra:{} };
+function chain(steps){
+  return steps.map((s,i)=>{
+    const root=s[2]?' root':''; const num=s[2]?'!':(i+1);
+    const arr=i<steps.length-1?'<div class="carr">because ↓</div>':'';
+    return `<div class="cstep${root}"><span class="cnum">${num}</span><div class="ct"><b>${s[0]}</b>${s[1]}</div></div>${arr}`;
+  }).join('');
+}
+function ift(y,n){return `<div class="ift"><div class="yes"><b>If you OK now</b>${y}</div><div class="no"><b>If you wait</b>${n}</div></div>`;}
+function cites(a){return a.map(c=>`<span class="cite">${c}</span>`).join('');}
+function pillFor(k){return S.approved[k]?'<span class="pill pg">✓ Approved</span>':'<span class="pill po">Pending</span>';}
+
+/* ================= sidebar ================= */
+const NAV = [
+  ['Command center', [['board', 'BD', 'Board — Global']]],
+  ['Sales teams', [['nsales', 'NS', 'National Sales'], ['snorth', 'N', 'North'], ['ssouth', 'S', 'South'],
+    ['swest', 'W', 'West'], ['seast', 'E', 'East & NE'], ['sexp', 'EX', 'Export']]],
+  ['Plants & supply', [['ppune', 'PU', 'Pune Plant'], ['pchn', 'CH', 'Chennai Plant'], ['proc', 'PR', 'Procurement']]],
+];
+const NAV_MODULES = [
+  ['Zoho modules', ['Sales (CRM)', 'Production (Creator)', 'Supply Chain (Creator)', 'Quality (Creator)', 'Support (Desk)']],
+  ['Intelligence', ['Zia Agent', 'Analytics']],
+];
+function renderSide(){
+  let h = '';
+  for (const [sec, items] of NAV) {
+    h += `<div class="sec">${sec}</div>`;
+    for (const [r, av, label] of items) {
+      const pend = ROLES[r].decisions.filter(k => !S.approved[k]).length;
+      h += `<a class="${cur === r ? 'on' : ''}" href="#" onclick="render('${r}');return false">
+            <span class="av2">${av}</span>${label}
+            ${pend ? `<span class="badge">${pend}</span>` : '<span class="badge ok">✓</span>'}</a>`;
     }
-    function step(d){ go(i+d); }
-    prev.addEventListener('click', function(){ step(-1); });
-    next.addEventListener('click', function(){ step(1); });
-    document.addEventListener('keydown', function(e){
-      if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); step(1); }
-      else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); step(-1); }
-      else if(e.key==='Home'){ e.preventDefault(); go(0); }
-      else if(e.key==='End'){ e.preventDefault(); go(n-1); }
-    });
-    var x0=null;
-    document.addEventListener('touchstart', function(e){ x0=e.touches[0].clientX; }, {passive:true});
-    document.addEventListener('touchend', function(e){ if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>50) step(dx<0?1:-1); x0=null; }, {passive:true});
-    setTimeout(function(){ if(hint) hint.style.opacity='0'; }, 4200);
-    go(0);
-  })();
+  }
+  for (const [sec, items] of NAV_MODULES) {
+    h += `<div class="sec">${sec}</div>`;
+    for (const label of items) h += `<a class="dead" href="#" onclick="return false"><span class="ic"></span>${label}</a>`;
+  }
+  document.getElementById('side').innerHTML = h;
+}
+function raceCard(){return `<details class="foldcard"><summary>Region race — North wins Q2 (107%); South &amp; East missed target <span class="src">CRM Region_Targets</span></summary>
+   <div class="sub" style="margin-top:12px">Orders won vs target — who wins, who's blocked, and why.</div>
+   <table><tr><th>#</th><th>Region</th><th class="qty">Won / target</th><th class="qty">Of target</th><th class="qty">Growth</th><th>Status</th><th>Blocker / note</th></tr>
+   <tr><td class="n">1</td><td><b>North 🏆</b></td><td class="n qty">₹160L / ₹150L</td><td class="n qty">107%</td><td class="n qty up">▲ 10.1%</td><td><span class="pill pg">Achieved</span></td><td class="note"><b>Quarter winner</b><span class="cd">Quote template is the company benchmark.</span></td></tr>
+   <tr><td class="n">2</td><td><b>Export ⚡</b></td><td class="n qty">₹58L / ₹55L</td><td class="n qty">105%</td><td class="n qty up">▲ 14.8%</td><td><span class="pill pg">Achieved</span></td><td class="note"><b>Fastest-growing</b><span class="cd">2 vessel cutoffs put the September re-tender at risk.</span></td></tr>
+   <tr><td class="n">3</td><td><b>West</b></td><td class="n qty">₹199L / ₹195L</td><td class="n qty">102%</td><td class="n qty up">▲ 9.2%</td><td><span class="pill pg">Achieved</span></td><td class="note"><b>Watch</b><span class="cd">Pune supply issue may cost August deliveries.</span></td></tr>
+   <tr class="critical"><td class="n">4</td><td><b>South</b></td><td class="n qty">₹105L / ₹115L</td><td class="n qty">92%</td><td class="n qty dn">▼ 3.0%</td><td><span class="pill pr">Missed</span></td><td class="note"><b>Roadblock: ₹52L stuck at pricing</b><span class="cd">Releasing it clears the target.</span></td></tr>
+   <tr class="hot"><td class="n">5</td><td><b>East &amp; NE</b></td><td class="n qty">₹28.5L / ₹35L</td><td class="n qty">81%</td><td class="n qty dn">▼ 3.4%</td><td><span class="pill pr">Missed</span></td><td class="note"><b>Roadblock: freight 2× other regions</b><span class="cd">Losing on landed price.</span></td></tr></table></details>`;}
+
+/* ================= decisions library ================= */
+const DEC = {
+ 'proc-dual':{sev:'r',title:'Use 2 suppliers for soda ash (60/40)',one:'stops the late-delivery chain · ₹6L/week back',owner:'Procurement Head',
+   h:()=>chain([['Customers','2 key accounts may leave — ₹15L orders late, ₹18L renewal in danger'],
+     ['Delivery','their orders missed promised dates (on-time fell to 88% this month)'],
+     ['Production','Pune plant stood still 11.2 hours'],
+     ['Materials','soda ash stock fell to 2.1 days'],
+     ['Supplier','Meridian delivered on time only 1 of last 6 POs',true]])
+   +cites(['PO-2214','PO-2221','DT-1142','SO-1188'])
+   +ift('Gujarat Alkalies (98% on-time) takes 40% from next order. ₹6L/week back, no more +14% emergency buys.','Chain repeats weekly ≈ ₹96L over 8 weeks; Sunrise likely walks in October.')},
+ 'pune-shift':{sev:'a',title:'Shift 3 stuck batches to Vadodara V2',one:'V2 has 18% spare capacity this week',owner:'Plant Head — Pune',
+   h:()=>chain([['Delivery','2 customer orders already late; 1 more due Friday'],
+     ['Production','P1 lost 11.2 hours; the batch plan is behind'],
+     ['Capacity','Vadodara V2 runs the same containers and has 18% spare this week',true]])
+   +cites(['DT-1142','RUN-V2-W29'])
+   +ift('3 batches move tonight — Friday order ships on time.','Third order goes late; support tickets and claims follow.')},
+ 'chn-train':{sev:'a',title:'Train the C2 night crew (1 week)',one:'stops defects reaching customers · ₹1.1L/week',owner:'Plant Head — Chennai',
+   h:()=>chain([['Customers','warranty claims jumped by 4 this week'],
+     ['Quality','all 4 trace to C2 night batches — 3.3% defects vs 1.8% on day shift'],
+     ['Production','machine settings changed in the Jul 6 service'],
+     ['People','the night crew (Group B) was never trained on the new settings',true]])
+   +cites(['QC-LOG-C2','MAINT-2065','CLAIM-2210'])
+   +ift('1 week pairing with the day-shift lead. Defects back to 1.8%, ₹1.1L/week saved.','Every night run leaks defects to customers; claims keep climbing.')},
+ 'chn-cullet':{sev:'g',title:'Adopt Vadodara’s 34% recycled-glass mix',one:'proven: energy −3%, waste down, quality flat',owner:'Plant Head — Chennai',
+   h:()=>chain([['Vadodara','raised recycled glass to 34% three weeks ago'],
+     ['Result','energy per ton down 3%, waste down 0.6 points, defect rate unchanged'],
+     ['Chennai','runs the same furnace chemistry — nothing blocks adoption',true]])
+   +cites(['BATCH-VAD','PO-2188','ENERGY-LOG'])
+   +ift('≈ ₹1.8L saved every month at Chennai, starting next batch plan.','Money stays on the table; Vadodara’s lesson goes unused.')},
+ 'nsales-deleg':{sev:'a',title:'Give South head price-approval rights <₹5L',one:'releases 9 stuck deals · ₹38L unlocked',owner:'National Sales Head',
+   h:()=>chain([['Production','Chennai plant runs 68% full — a furnace burns nearly the same power at 68% as at 95% (₹23L idle cost)'],
+     ['Sales','order book covers just 2.1 months and is shrinking'],
+     ['Process','9 South deals worth ₹52L wait ~11 days each for head-office price approval',true]])
+   +cites(['APPR-LOG','DEAL-3021','CAP-PLAN-CHN'])
+   +ift('South head approves deals under ₹5L himself. ₹38L released, furnace fills.','Deals age out; the furnace keeps burning money half-empty.')},
+ 'south-esc':{sev:'a',title:'Escalate the 3 oldest approvals today',one:'DEAL-3021 · 3014 · 3007 — waiting 12–14 days',owner:'Sales Head — South',
+   h:()=>chain([['Your pipeline','9 deals ₹52L stuck at pricing; the 3 oldest are 12–14 days'],
+     ['Customer risk','Crown Breweries hinted at a competitor quote on DEAL-3021'],
+     ['Process','delegation is pending with the National Sales Head — escalation is what YOU can do today',true]])
+   +cites(['APPR-LOG','DEAL-3021'])
+   +ift('Finance head reviews 3 today; ₹23.5L can close this week.','Oldest deals likely die; monthly target slips ~₹20L.')},
+ 'east-fob':{sev:'a',title:'Trial FOB pricing on next 3 East quotes',one:'isolates freight as the reason we lose',owner:'Sales Head — East & NE',
+   h:()=>chain([['Your results','East wins only 15% of deals vs ~45% elsewhere'],
+     ['Price','quotes run ~7% higher here — freight is 2× other regions'],
+     ['Transport','orders travel 5.8 days from Chennai/Pune; there is no closer stock',true]])
+   +cites(['FREIGHT-W29','DEAL-3140'])
+   +ift('3 FOB quotes this month prove (or clear) freight as the loss driver — data for the depot case.','Keep losing on landed price; ₹9L margin/quarter keeps leaking.')},
+ 'board-depot':{sev:'a',title:'Fund costing study: Kolkata stock point',one:'network decision — needs the board',owner:'Board',
+   h:()=>chain([['East & NE','weakest region: 15% win rate, freight 2× other regions'],
+     ['Transport','5.8 days to customer vs 4.1 company average'],
+     ['Network','no plant or warehouse east of Chennai — a structural gap only the board can fix',true]])
+   +cites(['FREIGHT-W29','DEAL-3140'])
+   +ift('Costing study (2 weeks). If viable: delivery 1.5 days, freight halves, East opens up.','East stays our permanently weakest region; competitors entrench.')},
+ 'west-sunrise':{sev:'a',title:'Pre-renewal save call with Sunrise Bottling',one:'₹18L Oct renewal · churn score 72 — highest of 24 accounts',owner:'Sales Head — West',
+   h:()=>chain([['Customers','Sunrise churn score hit 72 — highest of all 24 accounts; ₹18L renewal opens in October'],
+     ['Contract','their agreement has an on-time clause — 2 late orders this month triggered it'],
+     ['Delivery','SO-1188 (2 days late) and SO-1192 both came off the idled Pune line'],
+     ['Supply','Meridian’s late soda ash caused the idle — that fix is with Procurement; the relationship is YOURS',true]])
+   +cites(['SO-1188','DEAL-2871','CHURN-W29'])
+   +ift('Call + service credit this week, before renewal talks open. Churn score drops, ₹18L renewal safe.','Clause gets invoked at renewal; Sunrise shops the ₹18L contract around in October.')},
+ 'exp-container':{sev:'a',title:'Pre-book containers on a 14-day rolling plan',one:'2 ships missed last month · ₹1.2L/month in port charges back',owner:'Export Head',
+   h:()=>chain([['Customers','Nairobi and Dubai orders arrived late — East Africa Glassworks re-tenders in September'],
+     ['Shipping','2 of 9 export shipments missed their ship’s loading deadline; the next sailing added 7–9 days'],
+     ['Port','containers reached Chennai Port after the deadline and sat there — ₹1.2L in storage charges'],
+     ['Process','containers are booked 3–4 days before sailing; freight forwarders need 14',true]])
+   +cites(['SO-1195','SO-1198','CUTOFF-MISS-W29'])
+   +ift('Book containers 14 days ahead, straight from the dispatch plan. Ships caught, ₹1.2L/month in port charges gone, Nairobi re-tender safe.','Every missed ship adds 7–9 days to a customer promise; the September re-tender likely goes to a rival.')},
+ 'board-solar':{sev:'a',title:'Commission solar-glass capacity study',one:'fastest-growing product is our least efficient',owner:'Board',
+   h:()=>chain([['Sales','Solar glass (SOL32) revenue ₹63.5L this quarter, growing ~22% — now our #4 product'],
+     ['Production','it is our LEAST efficient product: 84% yield vs 96% on float glass'],
+     ['Capacity','demand will outrun the two lines that can run it within 2 quarters',true]])
+   +cites(['CRM-TOPSKU','RUN-YIELD-SOL32'])
+   +ift('Engineering study on a dedicated coating line / yield program before demand peaks.','We either refuse growing orders or ship at the worst margin in the catalog.')}
+};
+
+/* ================= role definitions ================= */
+const ROLES = {
+board:{av:'BD',crumb:'Global',title:'Productivity across the organisation',sub:'Week 29 · all regions · all plants',
+ insight:`<b>One supplier is dragging three departments this week.</b> Meridian’s late soda ash idled Pune 11.2 hrs, delayed 2 deliveries and put ₹33L of customer value at risk. Every fix is routed to its owner in the Zia panel.`,
+ kpis:[['Org productivity','74 / 100','▼ 3 vs last week','dn'],['New orders','₹2.4Cr','▲ 6% vs last month','up'],['On-time delivery','88%','6 orders late this month','dn'],['Production waste','6.8%','up from 6.1%','warn'],['Money at risk','₹65L','₹33L of it is one supplier','warn','risk']],
+ main:()=>`
+  <div class="seclabel">The headline · where the ₹65L sits</div>
+  <div class="card focus" id="atrisk"><h2>Where the ₹65L at risk sits <span class="src">CRM + Creator + Desk</span></h2><div class="sub">Three problems, three owners, three fixes already in flight — approve them and this number falls.</div>
+   <table><tr><th>What's at risk</th><th class="qty">How much</th><th>Why — in one line</th><th>Fix in flight</th></tr>
+   <tr class="critical"><td><b>Sunrise &amp; GlassKart may leave</b></td><td class="n qty">₹33L<span class="cd">at stake now</span></td><td class="note">2 late deliveries triggered Sunrise's on-time penalty; ₹18L renewal opens October.</td><td data-status="west-sunrise">${pillFor('west-sunrise')}</td></tr>
+   <tr><td><b>Chennai furnace runs half-empty</b></td><td class="n qty">₹23L<span class="cd">this month</span></td><td class="note">A furnace at 68% burns nearly the power of 95% — and the deals that would fill it are stuck.</td><td data-status="nsales-deleg">${pillFor('nsales-deleg')}</td></tr>
+   <tr><td><b>East deals lost to freight</b></td><td class="n qty">₹9L<span class="cd">this quarter</span></td><td class="note">Quotes land ~7% higher after freight; we lose 85% of bids there.</td><td data-status="east-fob">${pillFor('east-fob')}</td></tr></table></div>
+
+  <div class="seclabel">The detail</div>
+  <div class="grid2">
+  <div class="card"><h2>Regions × plants <span class="src">CRM + Creator</span></h2><div class="sub">Score /100 = wins + on-time + quality; plant eff. = sellable vs capable.</div>
+   <table><tr><th>Region</th><th class="qty">Score</th><th class="qty">Won</th><th>Plant</th><th class="qty">Eff.</th></tr>
+   <tr><td><b>North</b></td><td class="n qty">84</td><td class="n qty">55%</td><td>Vadodara</td><td class="n qty">79%</td></tr>
+   <tr><td><b>West</b></td><td class="n qty">79</td><td class="n qty">49%</td><td>Pune</td><td class="n qty" style="color:var(--red)">66%</td></tr>
+   <tr><td><b>South</b></td><td class="n qty">62</td><td class="n qty">42%</td><td>Chennai</td><td class="n qty">86%</td></tr>
+   <tr class="hot"><td><b>East &amp; NE</b></td><td class="n qty">68</td><td class="n qty">15%</td><td>Chennai</td><td class="n qty">—</td></tr>
+   <tr><td><b>Export</b></td><td class="n qty">71</td><td class="n qty">38%</td><td>Chn Port</td><td class="n qty">86%</td></tr></table></div>
+  <div class="card"><h2>What customers told us <span class="src">Zoho Desk</span></h2><div class="sub">This week's tickets, each traced to its cause — and already routed.</div>
+   <table><tr><th>Customer said</th><th>Because</th></tr>
+   <tr><td><b>4 warranty claims</b><span class="cd">Crown · Punjab · NCR · Kerala</span></td><td class="note">C2 night crew untrained after the Jul 6 service.</td></tr>
+   <tr><td><b>Sunrise invoked its penalty</b></td><td class="note">Order left 2 days late off the idled Pune line.</td></tr>
+   <tr><td><b>Gulf Glass disputes port charges</b></td><td class="note">Container missed the Jul 13 ship.</td></tr>
+   <tr><td><b>East Africa wants a firm ETA</b></td><td class="note">Shipment sailed 3 days late; re-tenders September.</td></tr></table></div>
+  </div>
+
+  ${raceCard()}
+
+  <details class="foldcard"><summary>Products — Amber is the cash cow; Solar grows fastest at our worst yield &amp; margin <span class="src">CRM × Creator</span></summary>
+   <div class="sub" style="margin-top:12px">Sales × factory yield, joined by the agent.</div>
+   <table><tr><th>Product</th><th class="qty">Sold</th><th class="qty">Growth</th><th class="qty">Margin</th><th class="qty">Yield</th></tr>
+   <tr><td><b>Amber Beer Bottle 330ml</b></td><td class="n qty">₹90.8L</td><td class="n qty up">▲ 12%</td><td class="n qty">43%</td><td class="n qty">93%</td></tr>
+   <tr><td><b>Laminated Safety Glass</b></td><td class="n qty">₹79.9L</td><td class="n qty up">▲ 8%</td><td class="n qty">32%</td><td class="n qty">91%</td></tr>
+   <tr><td><b>Food Jar 500ml</b></td><td class="n qty">₹66.0L</td><td class="n qty fl">flat</td><td class="n qty">39%</td><td class="n qty">93%</td></tr>
+   <tr class="critical"><td><b>Solar Panel Glass 3.2mm</b></td><td class="n qty">₹63.5L</td><td class="n qty up">▲ 22%</td><td class="n qty" style="color:var(--red)">24%</td><td class="n qty" style="color:var(--red)"><b>84%</b></td></tr>
+   <tr><td><b>Float Glass 4mm</b></td><td class="n qty">₹51.3L</td><td class="n qty up">▲ 5%</td><td class="n qty">32%</td><td class="n qty">96%</td></tr></table></details>`,
+ decisions:['board-depot','board-solar'],
+ statuses:[],
+ handled:['Compiled this board pack from 6,204 records across CRM, Creator & Desk','Routed 9 operational decisions to their owners','Re-scored all 24 accounts for leaving-risk (2 red: Sunrise, GlassKart)','Ranked the region race: North wins Q2; Export leads on growth'],
+ hints:[['what is our biggest risk?','board-depot'],['why is solar glass a problem?','board-solar']]},
+
+nsales:{av:'NS',crumb:'Sales',title:'National Sales Head',sub:'All regions · pipeline ₹6.1Cr',
+ insight:`<b>Three of five units are healthy.</b> South is your bottleneck — a process problem, not a people one: 9 deals sit in head-office pricing. East loses on freight; Export keeps missing vessel cutoffs.`,
+ kpis:[['Open pipeline','₹6.1Cr','~2 months of capacity','warn'],['Deals won','45%','East wins only 15%','dn'],['Time to close','22 days','South takes 34','warn'],['New orders','₹2.4Cr','▲ 6% vs last month','up']],
+ main:()=>`<div class="card"><h2>Regions <span class="src">CRM</span></h2>
+   <table><tr><th>Region</th><th class="qty">Score</th><th class="qty">Won</th><th class="qty">Close</th><th>Issue</th></tr>
+   <tr><td><b>North</b></td><td class="n qty">84</td><td class="n qty">55%</td><td class="n qty">17d</td><td>—</td></tr>
+   <tr><td><b>West</b></td><td class="n qty">79</td><td class="n qty">49%</td><td class="n qty">21d</td><td>Pune supply</td></tr>
+   <tr class="critical"><td><b>South</b></td><td class="n qty">62</td><td class="n qty">42%</td><td class="n qty">34d</td><td>9 deals stuck at pricing</td></tr>
+   <tr class="hot"><td><b>East &amp; NE</b></td><td class="n qty">68</td><td class="n qty">15%</td><td class="n qty">24d</td><td>Freight 2× others</td></tr>
+   <tr><td><b>Export</b></td><td class="n qty">71</td><td class="n qty">38%</td><td class="n qty">26d</td><td>2 vessel cutoffs</td></tr></table></div>
+  ${raceCard()}`,
+ decisions:['nsales-deleg'],
+ statuses:[['east-fob','FOB trial — with East head'],['south-esc','Escalation — with South head'],['exp-container','Container pre-booking — with Export head']],
+ handled:['Flagged Crown Breweries competitor-quote risk on DEAL-3021','Packaged North’s standard-quote template for South'],
+ hints:[['why is South slow?','nsales-deleg'],['what should East do?','east-fob']]},
+
+snorth:{av:'SN',crumb:'Sales · North',title:'Sales Head — North',sub:'DEL-NCR · PB · RJ · UP · served by Vadodara',
+ insight:`<b>You win the quarter. 🏆</b> 107% of target, +10.1% growth, 55% win rate — the company’s fastest cycle at 17 days. Nothing needs your OK today; the agent is watching the small signals.`,
+ kpis:[['Region score','84 / 100','#1 of 5 units','up'],['Won vs target','₹160L / ₹150L','107% — winner','up'],['Deals won','55%','company avg 45%','up'],['Time to close','17 days','fastest in company','up']],
+ main:()=>`<div class="card"><h2>Watchlist — small signals <span class="src">Zia agent</span></h2><div class="sub">No action needed yet; the agent flags these before they become problems.</div>
+   <table><tr><th>Signal</th><th>Detail</th><th>Status</th></tr>
+   <tr><td><b>Food Jar growth flat</b></td><td class="note">NCR Foods volumes plateaued — ₹66L, same as last quarter.</td><td><span class="pill po">Watching</span></td></tr>
+   <tr><td><b>Capital Auto OEM renewal</b></td><td class="note">November, on-time clause — Vadodara serving cleanly.</td><td><span class="pill pg">Healthy</span></td></tr>
+   <tr><td><b>Himalayan Waters</b></td><td class="note">Seasonal dip expected August — plan promo stock.</td><td><span class="pill po">Watching</span></td></tr></table></div>`,
+ decisions:[],
+ statuses:[['nsales-deleg','Your <₹5L delegation is the model being extended to South']],
+ handled:['Benchmarked your quote template for the South team','Flagged Capital Auto OEM (Nov renewal) for white-glove delivery'],
+ hints:[['what should I watch?','board-solar'],['why is South slow?','nsales-deleg']]},
+
+ssouth:{av:'SS',crumb:'Sales · South',title:'Sales Head — South',sub:'TN · KA · Kerala · served by Chennai plant',
+ insight:`<b>Your pipeline isn’t weak — it’s stuck.</b> 9 deals worth ₹52L wait at head-office pricing (11 days average). Delegation is pending above you; today you can escalate the 3 oldest.`,
+ kpis:[['Region score','62 / 100','▼ 5 vs last week','dn'],['Stuck at pricing','9 deals','worth ₹52L','warn'],['Time to close','34 days','company avg 22','dn'],['Chennai plant fill','68%','your orders feed it','warn']],
+ main:()=>`<div class="card"><h2>Deals stuck at pricing approval <span class="src">CRM + Approval log</span></h2><div class="sub">Waiting on head-office price sign-off.</div>
+   <table><tr><th>Deal</th><th>Account</th><th class="qty">Value</th><th class="qty">Waiting</th></tr>
+   <tr class="critical"><td class="n">DEAL-3021</td><td>Crown Breweries</td><td class="n qty">₹9.2L</td><td class="n qty">14 d</td></tr>
+   <tr class="hot"><td class="n">DEAL-3014</td><td>MediPack Labs</td><td class="n qty">₹7.5L</td><td class="n qty">13 d</td></tr>
+   <tr class="hot"><td class="n">DEAL-3007</td><td>AutoGlass India</td><td class="n qty">₹6.8L</td><td class="n qty">12 d</td></tr>
+   <tr><td class="n">DEAL-3033</td><td>Kerala Spirits Co</td><td class="n qty">₹5.9L</td><td class="n qty">11 d</td></tr>
+   <tr><td class="n">+ 5 more</td><td>₹22.6L combined</td><td class="n qty">—</td><td class="n qty">9–11 d</td></tr></table></div>`,
+ decisions:['south-esc'],
+ statuses:[['nsales-deleg','Approval rights <₹5L — pending with National Sales Head']],
+ handled:['Drafted follow-up notes for all 9 stuck accounts','Spotted Crown Breweries mentioning a competitor quote'],
+ hints:[['what can I do today?','south-esc'],['why is my score 62?','south-esc']]},
+
+swest:{av:'SW',crumb:'Sales · West',title:'Sales Head — West',sub:'MH · GJ · Goa · served by Pune plant',
+ insight:`<b>Best revenue, shakiest ground.</b> You beat target (₹199L vs ₹195L) — but both red churn accounts are yours, and both trace to Pune’s supply problem. Your move is the Sunrise pre-renewal call.`,
+ kpis:[['Region score','79 / 100','▼ 2 vs last week','warn'],['Won vs target','₹199L / ₹195L','102% — met','up'],['At risk of leaving','2','Sunrise & GlassKart','dn'],['Late deliveries','4','all from Pune supply','dn']],
+ main:()=>`<div class="card"><h2>Accounts at risk of leaving <span class="src">Churn_Scores + Dispatch</span></h2><div class="sub">Leave-risk /100 — above 60 is red.</div>
+   <table><tr><th>Account</th><th class="qty">Leave-risk</th><th>Why</th><th class="qty">At stake</th></tr>
+   <tr class="critical"><td><b>Sunrise Bottling</b></td><td class="n qty"><b>72</b></td><td class="note">2 late orders · on-time clause · Oct renewal.</td><td class="n qty">₹18L</td></tr>
+   <tr class="hot"><td><b>GlassKart</b></td><td class="n qty">61</td><td class="note">Late order Jul 16 · buffer down to 4 days.</td><td class="n qty">₹4L/mo</td></tr>
+   <tr><td>SolarTech Modules</td><td class="n qty">34</td><td>—</td><td class="n qty">healthy</td></tr></table></div>`,
+ decisions:['west-sunrise'],
+ statuses:[['proc-dual','Soda ash dual-sourcing — with Procurement Head'],['pune-shift','Batch reroute to V2 — with Pune plant head']],
+ handled:['Drafted the service-credit memo for Sunrise','Re-sequenced GlassKart’s next order to P2'],
+ hints:[['how do I protect Sunrise?','west-sunrise'],['when does supply normalise?','proc-dual']]},
+
+seast:{av:'SE',crumb:'Sales · East & NE',title:'Sales Head — East & North-East',sub:'WB · Assam · Odisha · served from Chennai/Pune',
+ insight:`<b>You’re not losing on product — you’re losing on kilometres.</b> Freight is 7% of order value here (2× other regions) and delivery takes 5.8 days. Prove the freight thesis with FOB quotes.`,
+ kpis:[['Region score','68 / 100','on the watch list','warn'],['Deals won','15%','company avg 45%','dn'],['Freight share','7%','2× other regions','dn'],['Delivery time','5.8 days','company avg 4.1','dn']],
+ main:()=>`<div class="card"><h2>Recent losses <span class="src">CRM</span></h2><div class="sub">Tagged by reason — freight dominates.</div>
+   <table><tr><th>Deal</th><th>Account</th><th class="qty">Value</th><th>Loss reason</th></tr>
+   <tr class="hot"><td class="n">DEAL-3140</td><td>EastBay Constructions</td><td class="n qty">₹6.2L</td><td>Price — freight</td></tr>
+   <tr><td class="n">DEAL-3128</td><td>Assam Bottlers</td><td class="n qty">₹2.4L</td><td>Delivery time</td></tr>
+   <tr><td class="n">DEAL-3117</td><td>Odisha Infra Glass</td><td class="n qty">₹3.1L</td><td>Price</td></tr></table></div>`,
+ decisions:['east-fob'],
+ statuses:[['board-depot','Kolkata stock point — pending with the Board']],
+ handled:['Tagged the last 12 East losses: 7 price, 3 delivery time, 2 product'],
+ hints:[['why do we keep losing here?','east-fob'],['what is the depot idea?','east-fob']]},
+
+sexp:{av:'EX',crumb:'Sales · Export',title:'Export Head — Sales & Supply Chain',sub:'MEA · ASEAN · SAARC · shipped from Chennai Port',
+ insight:`<b>Your product sells — your containers don’t sail.</b> 2 of 9 shipments missed their ship’s loading deadline, adding 7–9 days and ₹1.2L in port charges. Fix the booking rhythm and the Nairobi re-tender is safe.`,
+ kpis:[['Export orders','₹58L','105% of target','up'],['Deals won','38%','company avg 45%','fl'],['Ship deadlines met','7 of 9','₹1.2L port charges','dn'],['Factory → on board','6.4 days','delay is booking','dn']],
+ main:()=>`<div class="card"><h2>Export shipments — last 30 days <span class="src">Creator Dispatch</span></h2><div class="sub">Loading deadline = when the container must reach port to make its ship.</div>
+   <table><tr><th>Order</th><th>Customer</th><th class="qty">Deadline</th><th>Status</th></tr>
+   <tr class="critical"><td class="n">SO-1195</td><td>East Africa Glassworks</td><td class="n qty">Jul 8</td><td><span class="pill pr">Sailed 3d late</span></td></tr>
+   <tr class="hot"><td class="n">SO-1198</td><td>Gulf Glass Traders</td><td class="n qty">Jul 13</td><td><span class="pill pr">Paid port charges</span></td></tr>
+   <tr><td class="n">SO-1201</td><td>Lanka Bottling Co</td><td class="n qty">Jul 15</td><td><span class="pill pg">Sailed ✓</span></td></tr>
+   <tr><td class="n">SO-1204</td><td>SEA Facade Systems</td><td class="n qty">Jul 17</td><td><span class="pill pg">Sailed ✓</span></td></tr></table></div>`,
+ decisions:['exp-container'],
+ statuses:[['board-solar','Solar capacity study — with the Board']],
+ handled:['Filed the port-charge claim for the Jebel Ali shipment','Sent Nairobi a revised arrival date — acknowledged'],
+ hints:[['why did shipments slip?','exp-container'],['is the Nairobi account safe?','exp-container']]},
+
+ppune:{av:'PP',crumb:'Production · Pune',title:'Plant Head — Pune',sub:'Lines P1 · P2 · containers',
+ insight:`<b>Your plant didn’t fail — your material did.</b> P1 stood still 11.2 hours waiting for soda ash. The supply fix sits with Procurement; tonight you can move 3 stuck batches to Vadodara V2.`,
+ kpis:[['Plant efficiency','66%','▼ 12 vs last week','dn'],['Time lost','11.2 hrs','waiting for material','dn'],['Production waste','7.9%','up from 6.5%','dn'],['Soda ash left','2.1 days','reorder point is 3','dn']],
+ main:()=>`<div class="card"><h2>Your production lines <span class="src">Creator Production_Runs</span></h2><div class="sub">Efficiency = sellable output vs what the line could make.</div>
+   <table><tr><th>Line</th><th>Products</th><th class="qty">Eff.</th><th class="qty">Stopped</th><th>Status</th></tr>
+   <tr class="critical"><td><b>P1</b></td><td>Amber 330ml · Jars</td><td class="n qty">52%</td><td class="n qty">11.2 hrs</td><td><span class="pill pr">Starved</span></td></tr>
+   <tr><td><b>P2</b></td><td>Flint 750ml · Tableware</td><td class="n qty">80%</td><td class="n qty">40 min</td><td><span class="pill pg">Normal</span></td></tr></table></div>
+  <div class="card"><h2>Waste this week <span class="src">Creator</span></h2>
+   <table><tr><th>Cause</th><th class="qty">Amount</th><th>Note</th></tr>
+   <tr class="critical"><td>Furnace restart scrap</td><td class="n qty">₹2.1L</td><td class="note">3 cold restarts after idles.</td></tr>
+   <tr><td>Normal forming rejects</td><td class="n qty">₹1.9L</td><td>within range</td></tr>
+   <tr><td>Extra energy (restarts)</td><td class="n qty">₹0.8L</td><td>+2.5% kWh/ton</td></tr></table></div>`,
+ decisions:['pune-shift'],
+ statuses:[['proc-dual','Soda ash dual-sourcing — pending with Procurement Head']],
+ handled:['Re-sequenced P2 to cover two urgent SKUs','Pre-booked V2 window with Vadodara (awaiting your OK)'],
+ hints:[['why is P1 at 52%?','pune-shift'],['what fixes this for good?','pune-shift']]},
+
+pchn:{av:'PC',crumb:'Production · Chennai',title:'Plant Head — Chennai',sub:'Lines C1 · C2 · vials, windshields, laminated',
+ insight:`<b>Two decisions, one plant.</b> Fix: your C2 night crew was never trained after the Jul 6 service (defects 3.3% vs 1.8%, now surfacing as warranty claims). Opportunity: adopt Vadodara’s 34% recycled mix to save ≈ ₹1.8L/month.`,
+ kpis:[['Plant efficiency','86%','steady','fl'],['C2 night defects','3.3%','day shift makes 1.8%','dn'],['Warranty claims','4','all night batches','dn'],['Plant fill','68%','South deals stuck','warn']],
+ main:()=>`<div class="grid2">
+  <div class="card"><h2>Quality by line <span class="src">Creator QC</span></h2><div class="sub">Yield = sellable units out of everything produced.</div>
+   <table><tr><th>Product</th><th>Line</th><th class="qty">Yield</th></tr>
+   <tr><td>Pharma Vial 10ml</td><td class="n">C1</td><td class="n qty">91%</td></tr>
+   <tr><td>Fire-rated 60min</td><td class="n">C1</td><td class="n qty">90%</td></tr>
+   <tr class="critical"><td><b>Amber 330ml — night</b></td><td class="n">C2</td><td class="n qty"><b>3.3% def.</b></td></tr>
+   <tr><td>Laminated Safety</td><td class="n">C2</td><td class="n qty">91%</td></tr></table></div>
+  <div class="card"><h2>Warranty claims — this week <span class="pill pr">4 · all C2 night</span> <span class="src">Zoho Desk</span></h2><div class="sub">All four trace to C2 night batches — the customer end of your training decision.</div>
+   <table><tr><th>Claim</th><th>Account</th><th>Batch</th></tr>
+   <tr><td class="n">CLAIM-2210</td><td>Crown Breweries</td><td class="n">B-C2-…-N</td></tr>
+   <tr><td class="n">CLAIM-2211</td><td>Punjab Distillers</td><td class="n">B-C2-…-N</td></tr>
+   <tr><td class="n">CLAIM-2212</td><td>NCR Foods</td><td class="n">B-C2-…-N</td></tr>
+   <tr><td class="n">CLAIM-2213</td><td>Kerala Spirits Co</td><td class="n">B-C2-…-N</td></tr></table></div>
+  </div>`,
+ decisions:['chn-train','chn-cullet'],
+ statuses:[],
+ handled:['Linked the 4 new warranty claims to C2 night batches','Verified Group A trained Jul 6; Group B did not'],
+ hints:[['why night shift only?','chn-train'],['is the recycled mix safe?','chn-cullet']]},
+
+proc:{av:'PR',crumb:'Supply Chain',title:'Procurement Head',sub:'15 suppliers · 8 materials · 3 plants',
+ insight:`<b>One supplier is 80% of your problem.</b> Meridian delivered on time just 1 of its last 6 soda-ash orders. That idled Pune 11.2 hours and forced 2 emergency buys at +14%. Gujarat Alkalies (98% on-time) can take 40% of the next order.`,
+ kpis:[['On-time suppliers','71%','target is 92%','dn'],['Meridian on-time','1 of 6','last 6 orders','dn'],['Emergency premium','+14%','2 rush orders','dn'],['Pune soda ash','2.1 days','reorder point is 3','dn']],
+ main:()=>`<div class="card"><h2>Supplier scorecard <span class="src">Creator Purchase_Orders</span></h2><div class="sub">On-time = delivered by the promised date.</div>
+   <table><tr><th>Supplier</th><th>Material</th><th class="qty">On-time</th><th class="qty">vs std</th><th>Status</th></tr>
+   <tr class="critical"><td><b>Meridian Chemicals</b></td><td>Soda ash</td><td class="n qty"><b>17%</b></td><td class="n qty">+1.9%</td><td><span class="pill pr">Critical</span></td></tr>
+   <tr><td>Gujarat Alkalies</td><td>Soda ash</td><td class="n qty">98%</td><td class="n qty">+0.8%</td><td><span class="pill pg">Reliable</span></td></tr>
+   <tr><td>Shree Minerals</td><td>Silica sand</td><td class="n qty">96%</td><td class="n qty">0%</td><td><span class="pill pg">Reliable</span></td></tr>
+   <tr><td>EcoCullet</td><td>Recycled glass</td><td class="n qty">94%</td><td class="n qty">−2%</td><td><span class="pill pg">Saves energy</span></td></tr>
+   <tr><td>Deccan Lime</td><td>Limestone</td><td class="n qty">83%</td><td class="n qty">+1.2%</td><td><span class="pill po">Watch</span></td></tr>
+   <tr><td colspan="5" style="color:var(--soft)">+ 10 more · portfolio on-time 71% vs 92% target</td></tr></table></div>`,
+ decisions:['proc-dual'],
+ statuses:[['pune-shift','Batch reroute to V2 — with Pune plant head']],
+ handled:['Exited the NovaCoat primer trial; reverted to PrimeBond','Priced Gujarat Alkalies for a 60/40 split'],
+ hints:[['why two suppliers now?','proc-dual'],['what did the emergency buys cost?','proc-dual']]}
+};
+
+/* ================= rendering ================= */
+let cur='board';
+function render(role){
+  cur=role; const R=ROLES[role];
+  const av=document.getElementById('av'); if(av) av.textContent=R.av;
+  document.getElementById('main').innerHTML =
+    `<section class="hero">
+       <div class="crumb">Home / ${R.crumb}</div>
+       <div class="head"><div><h1>${R.title}</h1><div class="sub">${R.sub}</div></div>
+         <div class="hero-right">${R.kpis.slice(0,4).map(k=>`<div class="mini-stat"><div class="l">${k[0]}</div><div class="v">${k[1]}</div></div>`).join('')}</div></div>
+       <div class="banner"><div class="tag">Headline</div><div>${R.insight}</div></div>
+     </section>
+     <section class="kpis">${R.kpis.map(k=>`<div class="kpi ${k[4]||''}"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="d ${k[3]}">${k[2]}</div></div>`).join('')}</section>
+     ${R.main()}`;
+  renderAgent();
+}
+function renderAgent(){
+  renderSide();
+  const R=ROLES[cur];
+  const pend=R.decisions.filter(k=>!S.approved[k]).length;
+  const chip = pend? `${pend} open` : 'All clear ✓';
+  let acts='';
+  R.decisions.forEach((k,i)=>{
+    const d=DEC[k]; const done=S.approved[k];
+    acts+=`<article class="action${done?' done':''}">
+      <div class="arow"><div class="anum">${done?'✓':i+1}</div>
+        <div class="abody2"><b>${d.title}</b><span>Owner: ${d.owner} · ${d.one}</span></div></div>
+      <div class="dbtns"><button class="mini" onclick="showDec('${k}')">Why?</button>
+        <button class="mini ok" ${done?'disabled':''} onclick="okDec('${k}',this)">${done?'✓ Approved':'OK — do it'}</button></div>
+    </article>`;
+  });
+  let stat='';
+  if(R.statuses.length){
+    stat=`<div class="seclabel2 mt">Being handled elsewhere</div>`+
+      R.statuses.map(([k,label])=>`<div class="statusline" data-status="${k}">${pillFor(k)}<span>${label}</span></div>`).join('');
+  }
+  const extra=(S.handledExtra[cur]||[]);
+  const handled=`<details class="handled"><summary>Handled by the agent — ${R.handled.length+extra.length} ✓</summary>`+
+    extra.concat(R.handled).map(x=>`<div class="hitem"><span class="ok">✓</span><span>${x}</span></div>`).join('')+`</details>`;
+  const inner=`
+    <div class="ahead"><div class="zicon">Z</div>
+      <div><div class="atitle">Zia Agent</div><div class="asub">Morning brief · ${R.crumb}</div></div>
+      <span class="chip">${chip}</span>
+      <button class="closeX" onclick="closePanel()" aria-label="Close">×</button></div>
+    <div class="abody">
+      <div class="seclabel2">${pend?'Needs your OK':'Recommended by the agent'}</div>
+      ${acts||`<div class="allclear">Nothing needs your OK today. The agent is watching the small signals for you.</div>`}
+      <div class="detail" id="detail"></div>
+      ${stat}
+      ${handled}
+    </div>
+    <div class="ask"><div class="askrow"><input id="ask" placeholder="Ask about your area, product, region or risk" onkeydown="if(event.key==='Enter')freeAsk()"><button onclick="freeAsk()">Ask</button></div><div class="hint" id="hints"></div></div>`;
+  document.getElementById('agent').innerHTML=inner;
+  const tog=document.getElementById('togCount'); if(tog) tog.textContent = pend? `· ${pend}`:'';
+  document.getElementById('hints').innerHTML='Try: '+R.hints.map(x=>`<b onclick="showDec('${x[1]}');document.getElementById('ask').value='${x[0]}'">${x[0]}</b>`).join(' · ');
+  if(R.decisions.length) showDec(R.decisions[0]);
+}
+function showDec(k){
+  const d=DEC[k]; if(!d)return;
+  const btn = S.approved[k]
+    ? `<button class="act done" disabled>✓ Approved — teams notified</button>`
+    : (ROLES[cur].decisions.includes(k)
+        ? `<button class="act" onclick="okDec('${k}',this)">OK — do it</button>`
+        : `<button class="act" style="background:rgba(255,255,255,.08);color:var(--muted)" disabled>Owner: ${d.owner}</button>`);
+  const el=document.getElementById('detail'); if(!el)return;
+  el.innerHTML =
+    `<div class="dt"><span class="sev ${d.sev}">${d.sev==='r'?'URGENT':d.sev==='a'?'ATTENTION':'OPPORTUNITY'}</span>${d.title}</div>${d.h()}${btn}`;
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function okDec(k,btn){
+  S.approved[k]=true;
+  (S.handledExtra[cur]=S.handledExtra[cur]||[]).unshift(`Approved: ${DEC[k].title} — owner & teams notified in Cliq, task created in Projects`);
+  document.querySelectorAll(`[data-status="${k}"]`).forEach(el=>{ if(el.tagName==='TD'||el.classList.contains('statusline')) el.querySelector('.pill') ? el.querySelector('.pill').outerHTML=pillFor(k) : el.innerHTML=pillFor(k); });
+  renderAgent();
+}
+function freeAsk(){
+  const inp=document.getElementById('ask'); const v=(inp?inp.value:'').toLowerCase();
+  const R=ROLES[cur];
+  const hit=R.hints.find(h=>v.includes(h[0].split(' ')[2]||'zzz')) || null;
+  if(v.includes('biggest')||v.includes('risk')||v.includes('problem')) showDec(R.decisions[0]);
+  else if(hit) showDec(hit[1]);
+  else if(v.trim()){ const el=document.getElementById('detail'); if(el) el.innerHTML =
+    `<div class="dt"><span class="sev a">LIVE</span>Live agent call</div>In the real build this goes to the Zia agent on Catalyst with your role, region/plant and current filters as context — it reads CRM + Creator + Desk and answers here with a why-chain and proof records. This demo has wired answers for the questions under the ask box and every decision.`; }
+}
+/* ===== agent panel move (own column ⇄ overlay, never overlaps) ===== */
+function openPanel(){ document.getElementById('agentOverlay').appendChild(document.getElementById('agent')); document.getElementById('agentOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closePanel(){ document.getElementById('contentWrap').appendChild(document.getElementById('agent')); document.getElementById('agentOverlay').classList.remove('open'); document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.getElementById('agentOverlay').classList.contains('open')) closePanel(); });
+window.addEventListener('resize',()=>{ if(window.innerWidth>1150 && document.getElementById('agentOverlay').classList.contains('open')) closePanel(); });
+
+render('board');
 </script>
+</body>
+</html>
