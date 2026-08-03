@@ -543,7 +543,7 @@
   <div style="border-top:4px solid #4a4644; padding:34px 100px; display:flex; align-items:center; gap:36px;">
     <span style="font-size:24px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#ff9783;">Live demo</span>
     <span style="font-size:32px; font-weight:700;">Zia Ops Prism</span>
-    <span style="margin-left:auto; flex:none; white-space:nowrap; border:3px dashed #6d6866; padding:16px 34px; font-size:26px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#8a8482;">Drop recording here</span>
+    <button type="button" onClick="{{ openPrism }}" style="margin-left:auto; flex:none; white-space:nowrap; border:3px solid #ec3013; background:transparent; font-family:inherit; cursor:pointer; padding:16px 34px; font-size:26px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#ff9783;" style-hover="background:#ec3013; color:#f3f2f2;">Play recording</button>
   </div>
 </section>
 
@@ -647,6 +647,17 @@
     <div onClick="{{ stop }}" style="flex:1; width:100%; display:flex; min-height:0;"><video src="https://autopilot-media-development.zohostratus.in/Onboarder%20Meta%20Agent.mp4" controls playsinline autoplay preload="metadata" title="Onboarder Meta Agent" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video></div>
   </div>
 </sc-if>
+<sc-if value="{{ prismOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closePrism }}" style="position:fixed; inset:0; z-index:9999; background:rgba(32,30,29,.88); display:flex; flex-direction:column; padding:40px; font-family:Archivo, sans-serif;">
+    <div style="display:flex; align-items:center; gap:24px; padding-bottom:20px; color:#f3f2f2;">
+      <span style="font-size:15px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#ff9783;">Live demo</span>
+      <span style="font-size:20px; font-weight:700;">Zia Ops Prism</span>
+      <a href="https://autopilot-media-development.zohostratus.in/ziaopsprism.mov" target="_blank" rel="noopener" onClick="{{ stop }}" style="margin-left:auto; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#f3f2f2; text-decoration:none; border-bottom:2px solid #ec3013;">Open in new tab</a>
+      <button type="button" onClick="{{ closePrism }}" style="border:2px solid #6d6866; background:transparent; color:#f3f2f2; font-family:inherit; cursor:pointer; padding:8px 18px; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;" style-hover="background:#ec3013; border-color:#ec3013;">Close</button>
+    </div>
+    <div onClick="{{ stop }}" style="flex:1; width:100%; display:flex; min-height:0;"><video src="https://autopilot-media-development.zohostratus.in/ziaopsprism.mov" controls playsinline autoplay preload="metadata" title="Zia Ops Prism" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video></div>
+  </div>
+</sc-if>
 <sc-if value="{{ allocOpen }}" hint-placeholder-val="{{ false }}">
   <div onClick="{{ closeAlloc }}" style="position:fixed; inset:0; z-index:9999; background:rgba(32,30,29,.88); display:flex; flex-direction:column; padding:40px; font-family:Archivo, sans-serif;">
     <div style="display:flex; align-items:center; gap:24px; padding-bottom:20px; color:#f3f2f2;">
@@ -660,9 +671,9 @@
 </sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{}">class Component extends DCLogic {
-  state = { churnOpen: false, onbOpen: false, allocOpen: false };
+  state = { churnOpen: false, onbOpen: false, allocOpen: false, prismOpen: false };
   componentDidMount() {
-    this._esc = (e) => { if (e.key === 'Escape') this.setState({ churnOpen: false, onbOpen: false, allocOpen: false }); };
+    this._esc = (e) => { if (e.key === 'Escape') this.setState({ churnOpen: false, onbOpen: false, allocOpen: false, prismOpen: false }); };
     window.addEventListener('keydown', this._esc, true);
   }
   componentWillUnmount() { window.removeEventListener('keydown', this._esc, true); }
@@ -679,6 +690,9 @@
       allocOpen: this.state.allocOpen,
       openAlloc: (e) => { stop(e); this.setState({ allocOpen: true }); },
       closeAlloc: (e) => { stop(e); this.setState({ allocOpen: false }); },
+      prismOpen: this.state.prismOpen,
+      openPrism: (e) => { stop(e); this.setState({ prismOpen: true }); },
+      closePrism: (e) => { stop(e); this.setState({ prismOpen: false }); },
       openProd: (e) => { stop(e); window.open('https://autopilots.onslate.in/pitch.html', 'walkthrough', 'popup,width=1400,height=860'); },
     };
   }
