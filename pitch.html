@@ -1,4 +1,4 @@
-<title>GlassOps: Why an Agent, Not a Dashboard</title>
+<title>GlassOps — Zia + Catalyst</title>
 <style>
   /* ============================ tokens ============================ */
   :root{
@@ -61,7 +61,7 @@
   .cover-title{font-size:clamp(3.4rem,10vw,7.2rem); line-height:.92; letter-spacing:-.045em}
   .cover-title .o{color:var(--molten)}
   .cover-thesis{font-size:clamp(1.3rem,2.7vw,2.05rem); font-weight:600; letter-spacing:-.02em;
-    line-height:1.25; color:var(--ink); max-width:20ch; margin:1.5rem 0 0}
+    line-height:1.25; color:var(--ink); max-width:22ch; margin:1.5rem 0 0}
   .cover-thesis em{font-style:normal; color:var(--molten)}
   .metarow{display:flex; flex-wrap:wrap; gap:.6rem 1.1rem; margin-top:2.2rem;
     font-family:var(--mono); font-size:clamp(.66rem,1.1vw,.8rem); letter-spacing:.14em;
@@ -93,43 +93,17 @@
   .tile{border:1px solid var(--edge); background:var(--panel); border-radius:14px; padding:1.3rem 1.25rem; position:relative; overflow:hidden}
   .tile::after{content:""; position:absolute; inset:0 0 auto 0; height:2px; background:var(--edge-strong)}
   .tile .tl{font-family:var(--mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted)}
-  .tile .tv{font-family:var(--mono); font-size:clamp(1.3rem,2.6vw,1.9rem); font-weight:600; color:var(--ink); margin:.7rem 0 .2rem; font-variant-numeric:tabular-nums}
+  .tile .tv{font-size:clamp(1.25rem,2.4vw,1.7rem); font-weight:700; letter-spacing:-.02em; color:var(--ink); margin:.7rem 0 .2rem}
   .tile .tn{font-size:.86rem; color:var(--faint); font-style:italic}
-  .shrug{margin-top:1.7rem; font-size:clamp(1rem,1.6vw,1.2rem); color:var(--muted); line-height:1.5; max-width:66ch}
+  .shrug{margin-top:1.7rem; font-size:clamp(1rem,1.6vw,1.2rem); color:var(--muted); line-height:1.5; max-width:70ch}
   .shrug b{color:var(--ink); font-weight:600}
 
-  /* ============================ slide 4 - the chain ============================ */
-  .chain-wrap{display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(1.2rem,3vw,2.6rem); align-items:start}
-  @media(max-width:900px){.chain-wrap{grid-template-columns:1fr}}
-  .chain{display:flex; flex-direction:column; gap:0; position:relative}
-  .step{display:grid; grid-template-columns:96px 1fr; gap:.9rem; align-items:baseline;
-    padding:.72rem 0 .72rem .9rem; border-left:2px solid var(--edge-strong); position:relative}
-  .step .dept{font-family:var(--mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
-  .step .txt{font-size:clamp(.95rem,1.5vw,1.1rem); line-height:1.35; color:var(--ink)}
-  .step .pid{font-family:var(--mono); font-size:.7rem; color:var(--faint); margin-left:.5em}
-  /* amber intensifies toward the root */
-  .step:nth-child(1){border-left-color:rgba(255,138,61,.20)}
-  .step:nth-child(2){border-left-color:rgba(255,138,61,.34)}
-  .step:nth-child(3){border-left-color:rgba(255,138,61,.5)}
-  .step:nth-child(4){border-left-color:rgba(255,138,61,.7)}
-  .step.root{border-left-color:var(--critical); background:linear-gradient(90deg,var(--molten-dim),transparent 80%); border-radius:0 10px 10px 0}
-  .step.root .dept{color:var(--critical)}
-  .step.root .txt{font-weight:700}
-  .roottag{display:inline-block; font-family:var(--mono); font-size:.6rem; letter-spacing:.18em;
-    color:#160b06; background:var(--molten); padding:.16em .5em; border-radius:4px; margin-left:.6em; vertical-align:middle; font-weight:700}
-  .atrisk{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--molten); margin:.2rem 0 1rem}
-  .atrisk b{font-size:1.05rem}
+  /* ============================ concept slides (lead + highlight) ============================ */
+  .rule{margin-top:1.8rem; border-left:2px solid var(--glass); background:var(--glass-dim); padding:.9rem 1.2rem; border-radius:0 10px 10px 0; font-size:1rem; line-height:1.5; color:var(--muted); max-width:72ch}
+  .rule b{color:var(--ink)}
+  .rule.amber-rule{border-left-color:var(--molten); background:var(--molten-dim)}
 
-  .action{border:1px solid var(--glass-dim); background:linear-gradient(180deg,var(--glass-dim),transparent); border-radius:14px; padding:1.3rem 1.35rem}
-  .action .ah{font-family:var(--mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--glass); margin-bottom:.9rem; display:flex; align-items:center; gap:.6rem}
-  .action .ah::before{content:""; width:8px;height:8px;border-radius:50%;background:var(--glass);box-shadow:0 0 10px var(--glass)}
-  .action dl{margin:0; display:flex; flex-direction:column; gap:.85rem}
-  .action dt{font-family:var(--mono); font-size:.63rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
-  .action dd{margin:.2rem 0 0; font-size:.98rem; line-height:1.4; color:var(--ink)}
-  .action dd.good{color:var(--glass-2)} .action dd.bad{color:var(--molten-2)}
-  .action .owner{margin-top:.2rem; font-family:var(--mono); font-size:.8rem; color:var(--ink)}
-
-  /* ============================ slide 5 - comparison ============================ */
+  /* ============================ comparison table ============================ */
   .tbl-scroll{overflow-x:auto; margin-top:.5rem}
   table.cmp{width:100%; border-collapse:collapse; min-width:560px}
   table.cmp th,table.cmp td{text-align:left; padding:.85rem 1rem; border-bottom:1px solid var(--edge); vertical-align:top}
@@ -141,20 +115,22 @@
   table.cmp td.agent b{color:var(--glass-2); font-weight:700}
   table.cmp tbody tr:hover{background:rgba(120,160,155,.04)}
 
-  /* ============================ slide 6 - pipeline ============================ */
+  /* ============================ pipeline ============================ */
   .flow{display:flex; align-items:stretch; gap:.6rem; margin-top:.6rem; flex-wrap:wrap}
   .node{flex:1 1 150px; min-width:140px; border:1px solid var(--edge); background:var(--panel); border-radius:12px; padding:1rem 1rem}
   .node.compute{border-color:rgba(255,138,61,.3)}
-  .node.judge{border-color:rgba(63,208,196,.35); background:linear-gradient(180deg,var(--glass-dim),var(--panel))}
-  .node .nh{font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem}
+  .node.judge{border-color:rgba(63,208,196,.45); background:linear-gradient(180deg,var(--glass-dim),var(--panel)); box-shadow:0 0 24px rgba(63,208,196,.08)}
+  .node .nh{font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem}
   .node.compute .nh{color:var(--molten)} .node.judge .nh{color:var(--glass)}
   .node .nb{font-size:.9rem; line-height:1.4; color:var(--ink)}
   .arrow{align-self:center; color:var(--faint); font-family:var(--mono); font-size:1.1rem}
   @media(max-width:820px){.arrow{display:none}.flow{flex-direction:column}}
-  .rule{margin-top:1.8rem; border-left:2px solid var(--glass); background:var(--glass-dim); padding:.9rem 1.2rem; border-radius:0 10px 10px 0; font-size:1rem; line-height:1.5; color:var(--muted); max-width:70ch}
-  .rule b{color:var(--ink)}
+  .legend{display:flex; gap:1.4rem; flex-wrap:wrap; margin-top:1.2rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+  .legend span{display:flex; align-items:center; gap:.5rem}
+  .legend i{width:10px; height:10px; border-radius:3px; display:inline-block}
+  .legend .c-cat{background:var(--molten)} .legend .c-zia{background:var(--glass)}
 
-  /* ============================ slide 7 - proof KPIs ============================ */
+  /* ============================ proof KPIs ============================ */
   .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.7rem,1.6vw,1.15rem); margin-top:.3rem}
   @media(max-width:820px){.kpis{grid-template-columns:1fr 1fr}}
   @media(max-width:520px){.kpis{grid-template-columns:1fr}}
@@ -165,12 +141,20 @@
   .proof-foot{margin-top:1.7rem; font-family:var(--mono); font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
   .proof-foot b{color:var(--glass)}
 
-  /* ============================ slide 8 - close ============================ */
-  #s8{background:radial-gradient(110% 90% at 50% 30%, var(--molten-dim), transparent 60%)}
-  .closeq{font-size:clamp(1.6rem,4vw,3rem); font-weight:800; letter-spacing:-.03em; line-height:1.15; text-wrap:balance; max-width:22ch; margin:0 auto; text-align:center}
+  /* ============================ close / cliffhanger ============================ */
+  #s9{background:radial-gradient(110% 90% at 50% 30%, var(--molten-dim), transparent 60%)}
+  .closeq{font-size:clamp(1.9rem,5.5vw,4rem); font-weight:800; letter-spacing:-.03em; line-height:1.08; text-wrap:balance; max-width:16ch; margin:0 auto; text-align:center}
   .closeq .amber{color:var(--molten)} .closeq .cyan{color:var(--glass)}
-  .closefoot{margin-top:2.2rem; text-align:center; font-family:var(--mono); font-size:.82rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted)}
-  .closefoot b{color:var(--ink)}
+  .closesub{margin:1.5rem auto 0; text-align:center; font-size:clamp(1rem,1.7vw,1.28rem); line-height:1.5; color:var(--muted); max-width:52ch}
+  .closesub b{color:var(--ink); font-weight:600}
+  .cta{margin:2.3rem auto 0; display:flex; justify-content:center}
+  .cta a{display:inline-flex; align-items:center; gap:.7rem; text-decoration:none;
+    font-family:var(--mono); font-size:.92rem; letter-spacing:.06em; color:#160b06; font-weight:700;
+    background:linear-gradient(180deg,var(--molten-2),var(--molten)); padding:.85rem 1.5rem; border-radius:999px;
+    box-shadow:0 6px 24px rgba(255,138,61,.28)}
+  .cta a .ar{font-size:1.05rem}
+  .closefoot{margin-top:1.7rem; text-align:center; font-family:var(--mono); font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:var(--faint)}
+  .closefoot b{color:var(--glass)}
 
   /* ============================ chrome: nav / counter ============================ */
   .chrome{position:fixed; left:0; right:0; bottom:0; z-index:20; display:flex; align-items:center;
@@ -210,11 +194,11 @@
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">Operations intelligence &middot; India glass manufacturing</div>
       <h1 class="cover-title rise" style="--i:1">Glass<span class="o">Ops</span></h1>
-      <p class="cover-thesis rise" style="--i:2">One board that tells the owner <em>why</em> sales fell, not just that it did.</p>
+      <p class="cover-thesis rise" style="--i:2">It finds the problem hiding across your business &mdash; and <em>fixes it before you ask</em>.</p>
       <div class="metarow rise" style="--i:3">
         <span>3 plants</span><span>5 regions</span><span>24 clients</span><span>CRM &middot; Desk &middot; Books &middot; Inventory &middot; Creator</span>
       </div>
-      <div class="tagpill rise" style="--i:4"><span class="dot"></span>A Zia agent, not another dashboard</div>
+      <div class="tagpill rise" style="--i:4"><span class="dot"></span>Powered by Zia + Catalyst</div>
     </div>
   </section>
 
@@ -240,118 +224,111 @@
     </div>
   </section>
 
-  <!-- 3 &middot; THE BLIND SPOT -->
-  <section class="slide" id="s3" data-slug="What a dashboard shows">
+  <!-- 3 &middot; THREE SHRUGS (generic, no specifics) -->
+  <section class="slide" id="s3" data-slug="The everyday">
     <div class="stage">
-      <div class="eyebrow rise" style="--i:0">What a dashboard shows</div>
-      <h2 class="rise" style="--i:1">Three teams. Three dashboards. Three shrugs.</h2>
+      <div class="eyebrow rise" style="--i:0">The everyday</div>
+      <h2 class="rise" style="--i:1">Three teams. Three screens. Three shrugs.</h2>
       <div class="tiles" style="margin-top:1.7rem">
-        <div class="tile rise" style="--i:2"><div class="tl">Sales &middot; CRM</div><div class="tv">On-time 88%</div><div class="tn">&ldquo;seasonal dip?&rdquo;</div></div>
-        <div class="tile rise" style="--i:3"><div class="tl">Production &middot; Creator</div><div class="tv">Pune idle 11.2h</div><div class="tn">&ldquo;we'll catch up.&rdquo;</div></div>
-        <div class="tile rise" style="--i:4"><div class="tl">Procurement &middot; Creator</div><div class="tv">Meridian late again</div><div class="tn">&ldquo;minor.&rdquo;</div></div>
+        <div class="tile rise" style="--i:2"><div class="tl">Sales &middot; CRM</div><div class="tv">a number dips</div><div class="tn">&ldquo;seasonal?&rdquo;</div></div>
+        <div class="tile rise" style="--i:3"><div class="tl">Production &middot; Creator</div><div class="tv">a line stalls</div><div class="tn">&ldquo;we'll catch up.&rdquo;</div></div>
+        <div class="tile rise" style="--i:4"><div class="tl">Procurement &middot; Creator</div><div class="tv">a vendor slips</div><div class="tn">&ldquo;minor.&rdquo;</div></div>
       </div>
-      <p class="shrug rise" style="--i:5">Each looks minor on its own screen. <b>No chart says they are the same problem.</b> To connect them you'd have to already suspect a question that spans five Zoho systems and five departments, so no one ever asks it.</p>
+      <p class="shrug rise" style="--i:5">Three systems, three shrugs &mdash; and <b>nothing tells them it's the same problem.</b> To connect the dots you'd have to already suspect a question that spans five systems and five departments. So no one ever asks it.</p>
     </div>
   </section>
 
-  <!-- 4 &middot; THE REVEAL -->
-  <section class="slide" id="s4" data-slug="What the agent sees">
+  <!-- 4 &middot; THE BLIND SPOT (concept, no reveal) -->
+  <section class="slide" id="s4" data-slug="The blind spot">
     <div class="stage">
-      <div class="eyebrow rise" style="--i:0">The answer to &ldquo;why is sales down&rdquo;</div>
-      <h2 class="rise" style="--i:1">Two key customers are about to leave. <span class="amber">&#8377;33L at risk.</span></h2>
-      <div class="atrisk rise" style="--i:2">The agent traces it through five departments to one root cause</div>
-      <div class="chain-wrap">
-        <div class="chain">
-          <div class="step rise" style="--i:3"><span class="dept">Customers</span><span class="txt">2 key accounts may leave, &#8377;15L orders late + &#8377;18L renewal<span class="pid">SO-1188</span></span></div>
-          <div class="step rise" style="--i:4"><span class="dept">Delivery</span><span class="txt">orders missed promised dates, on-time fell to 88%<span class="pid">SO-1192</span></span></div>
-          <div class="step rise" style="--i:5"><span class="dept">Production</span><span class="txt">Pune plant stood idle 11.2 hours<span class="pid">DT-1142</span></span></div>
-          <div class="step rise" style="--i:6"><span class="dept">Materials</span><span class="txt">soda-ash stock fell to 2.1 days<span class="pid">STK-PUN-W29</span></span></div>
-          <div class="step root rise" style="--i:7"><span class="dept">Supplier</span><span class="txt">Meridian delivered late 5 of 6 orders<span class="roottag">Root cause</span><span class="pid">PO-2214</span></span></div>
-        </div>
-        <div class="action rise" style="--i:8">
-          <div class="ah">The agent's decision</div>
-          <dl>
-            <div><dt>Do this</dt><dd>Dual-source soda ash 60/40 with Gujarat Alkalies (98% on-time).</dd></div>
-            <div><dt>If done</dt><dd class="good">&#8377;6L/week back &middot; customers safe.</dd></div>
-            <div><dt>If ignored</dt><dd class="bad">~&#8377;96L over 8 weeks &middot; Sunrise likely walks.</dd></div>
-          </dl>
-          <div class="owner">&rarr; routed to <span class="cyan">Procurement Head</span></div>
-        </div>
+      <div class="eyebrow rise" style="--i:0">The blind spot</div>
+      <h2 class="rise" style="--i:1">The problem never lives on <span class="amber">one</span> screen.</h2>
+      <p class="lead rise" style="--i:2; margin-top:1.3rem">It hides in the seams <b>between</b> systems &mdash; a small, forgivable signal in each, invisible as a whole. A dashboard can only surface it if you already knew to ask. So the question that matters never gets asked&hellip;</p>
+      <div class="qbox rise" style="--i:3">
+        <div class="qs">The question no one asks</div>
+        <div class="q">&ldquo;Which five small things, in five systems, are actually <em style="font-style:normal;color:var(--molten)">one</em> problem?&rdquo;</div>
       </div>
+      <p class="lead rise" style="--i:4; margin-top:1.3rem">&hellip;and it compounds &mdash; quietly &mdash; until a customer walks.</p>
     </div>
   </section>
 
-  <!-- 5 &middot; WHY AN AGENT -->
-  <section class="slide" id="s5" data-slug="Why an agent, not a dashboard">
+  <!-- 5 &middot; A DIFFERENT IDEA (the turn + autonomy hype) -->
+  <section class="slide" id="s5" data-slug="A different idea">
     <div class="stage">
-      <div class="eyebrow rise" style="--i:0">The difference</div>
-      <h2 class="rise" style="--i:1">A dashboard shows <span class="amber">what</span>. The agent answers <span class="cyan">why</span>, and who fixes it.</h2>
-      <div class="tbl-scroll rise" style="--i:2">
-        <table class="cmp">
-          <thead><tr><th></th><th>Analytics dashboard</th><th class="agent">GlassOps agent</th></tr></thead>
-          <tbody>
-            <tr><td class="k">Joins</td><td class="dash">Siloed per source; cross-department joins need modelled ETL</td><td class="agent">Links CRM, Desk, Books, Inventory &amp; Creator into <b>one causal chain</b></td></tr>
-            <tr><td class="k">Answer</td><td class="dash">What: metrics &amp; charts</td><td class="agent"><b>Why</b>: the root cause, named</td></tr>
-            <tr><td class="k">Mode</td><td class="dash">Pull: you ask, it charts</td><td class="agent"><b>Push</b>: surfaces the one thing that matters, unasked</td></tr>
-            <tr><td class="k">Priority</td><td class="dash">Every tile equal; a human triages</td><td class="agent">Ranked by <b>money at risk</b>, org-wide</td></tr>
-            <tr><td class="k">Owner</td><td class="dash">Nobody: it's a screen</td><td class="agent"><b>Routed</b> to the owner, region head or plant head</td></tr>
-            <tr><td class="k">Action</td><td class="dash">Read-only</td><td class="agent">Approve &rarr; <b>creates the task / PO</b></td></tr>
-            <tr><td class="k">Follow-up</td><td class="dash">New report, new query</td><td class="agent">Ask &ldquo;what if we wait?&rdquo;, <b>answered in-session</b></td></tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="eyebrow rise" style="--i:0">A different idea</div>
+      <h2 class="rise" style="--i:1">Don't add another screen.<br><span class="cyan">Put an agent on top of all of them.</span></h2>
+      <p class="lead rise" style="--i:2; margin-top:1.3rem">Every morning, <b>before anyone logs in</b>, one Zia agent reads across all five systems, follows the trail to the root cause, and writes <b>one decision for each owner</b> &mdash; then quietly handles the routine ones itself.</p>
+      <div class="rule rise" style="--i:3">You don't open a chart and go looking. <b>You wake up to answers</b> &mdash; ranked by money at risk, each already routed to the person who can act.</div>
     </div>
   </section>
 
-  <!-- 6 &middot; HOW IT WORKS -->
-  <section class="slide" id="s6" data-slug="Architecture">
+  <!-- 6 &middot; ZIA + CATALYST (the tech power) -->
+  <section class="slide" id="s6" data-slug="Zia + Catalyst">
     <div class="stage">
-      <div class="eyebrow rise" style="--i:0">How it works</div>
-      <h2 class="rise" style="--i:1">Analytics-grade numbers. The judgment layer BI never had.</h2>
-      <div class="flow">
-        <div class="node rise" style="--i:2"><div class="nh">Sources</div><div class="nb">CRM &middot; Desk &middot; Books &middot; Inventory &middot; Creator, joined in one session</div></div>
+      <div class="eyebrow rise" style="--i:0">The magic &middot; Zia + Catalyst</div>
+      <h2 class="rise" style="--i:1">Zia is already a wonder. With <span class="amber">Catalyst</span>, it becomes <span class="cyan">magic</span>.</h2>
+      <p class="lead rise" style="--i:2; margin-top:1.2rem; max-width:76ch">Zia Agent reads, reasons and decides &mdash; a wonder on its own. Catalyst gives it a heartbeat: it wakes on its own, reaches into every system, grounds every number and serves the answer live. <b>One reasons, one runs</b> &mdash; and your business starts fixing itself before anyone logs in.</p>
+      <div class="flow" style="margin-top:1.4rem">
+        <div class="node compute rise" style="--i:2"><div class="nh">Catalyst &middot; Cron</div><div class="nb">Wakes at dawn, every day &mdash; no one presses go</div></div>
         <div class="arrow rise" style="--i:2">&rarr;</div>
-        <div class="node compute rise" style="--i:3"><div class="nh">Detectors</div><div class="nb">Compute every number, deterministically</div></div>
+        <div class="node compute rise" style="--i:3"><div class="nh">Catalyst &middot; Pull + Detectors</div><div class="nb">Reads CRM, Creator &amp; Desk; computes every number, deterministically</div></div>
         <div class="arrow rise" style="--i:3">&rarr;</div>
-        <div class="node judge rise" style="--i:4"><div class="nh">Agent</div><div class="nb">Orders the facts, picks the root, routes the owner</div></div>
+        <div class="node judge rise" style="--i:4"><div class="nh">Zia &middot; Agent</div><div class="nb">Reasons the cause-chain, picks the root, writes one decision per owner</div></div>
         <div class="arrow rise" style="--i:4">&rarr;</div>
-        <div class="node rise" style="--i:5"><div class="nh">Validator</div><div class="nb">Rejects any ungrounded number</div></div>
-        <div class="arrow rise" style="--i:5">&rarr;</div>
-        <div class="node rise" style="--i:6"><div class="nh">Board</div><div class="nb">Decision + one-click action</div></div>
+        <div class="node compute rise" style="--i:5"><div class="nh">Catalyst &middot; Store + Host</div><div class="nb">Validates, saves the decisions, serves the live board</div></div>
       </div>
-      <div class="rule rise" style="--i:7">The agent <b>never does arithmetic</b>. Every &#8377; comes from the detectors, so &#8377;52L is always &#8377;52L, never invented. It runs on a <b>Zoho-hosted model</b>: no API key, data never leaves Zoho.</div>
+      <div class="legend rise" style="--i:6"><span><i class="c-cat"></i>Catalyst &mdash; runtime, data &amp; hosting</span><span><i class="c-zia"></i>Zia &mdash; reasoning</span></div>
+      <div class="rule rise" style="--i:7">The agent <b>never does arithmetic</b> &mdash; every number comes from the detectors, so it can't be invented. And it runs on a <b>Zoho-hosted model</b>: no API key, your data never leaves Zoho.</div>
     </div>
   </section>
 
-  <!-- 7 &middot; PROOF -->
-  <section class="slide" id="s7" data-slug="Proven on real data">
+  <!-- 7 &middot; WHAT THE AGENT DOES (positive, no comparison) -->
+  <section class="slide" id="s7" data-slug="What the agent does">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">What the agent does</div>
+      <h2 class="rise" style="--i:1">It doesn't just <span class="amber">show</span> you the problem. <span class="cyan">It solves it.</span></h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:clamp(.7rem,1.6vw,1rem); margin-top:1.6rem">
+        <div class="src rise" style="--i:2"><div class="sh">Follows the trail</div><div class="sb">Links CRM, Creator &amp; Desk into one causal chain &mdash; the story no single screen tells.</div></div>
+        <div class="src rise" style="--i:3"><div class="sh">Names the why</div><div class="sb">Not just the number that moved &mdash; the root cause behind it.</div></div>
+        <div class="src rise" style="--i:4"><div class="sh">Comes to you</div><div class="sb">Surfaces the one thing that matters each morning, unasked.</div></div>
+        <div class="src rise" style="--i:5"><div class="sh">Ranks by money</div><div class="sb">Every finding prioritised by rupees at risk, across the whole org.</div></div>
+        <div class="src rise" style="--i:6"><div class="sh">Routes the owner</div><div class="sb">Hands each decision to the person who can act &mdash; region head, plant head, procurement.</div></div>
+        <div class="src rise" style="--i:7"><div class="sh">Acts on it</div><div class="sb">Approve and it creates the task or PO; ask &ldquo;what if we wait?&rdquo; and it answers in-session.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 &middot; PROOF (no spoiler numbers) -->
+  <section class="slide" id="s8" data-slug="Proven on real data">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">Proven on real data, not a mockup</div>
-      <h2 class="rise" style="--i:1">It runs end to end today.</h2>
+      <h2 class="rise" style="--i:1">It runs end to end &mdash; today.</h2>
       <div class="kpis" style="margin-top:1.5rem">
-        <div class="kpi k-plain rise" style="--i:2"><div class="n">6,204</div><div class="l">records across 22 tables &rarr; 11 cross-department cases</div></div>
-        <div class="kpi k-good rise" style="--i:3"><div class="n">10/11</div><div class="l">decisions grounded &amp; rendered by the agent (1 safe fallback)</div></div>
-        <div class="kpi k-good rise" style="--i:4"><div class="n">0</div><div class="l">hallucinated numbers, the guardrail rejects every ungrounded figure</div></div>
-        <div class="kpi k-plain rise" style="--i:5"><div class="n">5 &rarr; 1</div><div class="l">CRM &middot; Desk &middot; Books &middot; Inventory &middot; Creator, unified on one board</div></div>
-        <div class="kpi k-risk rise" style="--i:6"><div class="n">&#8377;33L</div><div class="l">churn + late-order risk surfaced from a supplier no one was watching</div></div>
+        <div class="kpi k-plain rise" style="--i:2"><div class="n">6,204</div><div class="l">records across 22 tables, read every morning</div></div>
+        <div class="kpi k-plain rise" style="--i:3"><div class="n">5 &rarr; 1</div><div class="l">CRM &middot; Desk &middot; Books &middot; Inventory &middot; Creator, unified on one board</div></div>
+        <div class="kpi k-good rise" style="--i:4"><div class="n">11</div><div class="l">cross-department decisions, each routed to an owner</div></div>
+        <div class="kpi k-good rise" style="--i:5"><div class="n">10/11</div><div class="l">grounded &amp; written by the agent (1 safe fallback)</div></div>
+        <div class="kpi k-good rise" style="--i:6"><div class="n">0</div><div class="l">hallucinated numbers &mdash; the guardrail rejects every ungrounded figure</div></div>
         <div class="kpi k-plain rise" style="--i:7"><div class="n">Qwen-122B</div><div class="l">Zoho-hosted, no external key, data stays in Zoho</div></div>
       </div>
       <div class="proof-foot rise" style="--i:8">Built on <b>Zoho Zia Agents</b> + <b>Zoho Catalyst</b></div>
     </div>
   </section>
 
-  <!-- 8 &middot; CLOSE -->
-  <section class="slide" id="s8" data-slug="The takeaway">
+  <!-- 9 &middot; CLIFFHANGER -> LIVE DEMO -->
+  <section class="slide" id="s9" data-slug="See it live">
     <div class="stage">
-      <p class="closeq rise" style="--i:0">BI needs you to <span class="amber">know the question</span>.<br>The agent already knew the answer spanned procurement, production and sales, and <span class="cyan">said so before the customer walked.</span></p>
-      <div class="closefoot rise" style="--i:1">GlassOps &middot; <b>one owner, one board</b></div>
+      <p class="closeq rise" style="--i:0">So &mdash; what did it find <span class="amber">this morning</span>?</p>
+      <p class="closesub rise" style="--i:1">One problem, hiding across five systems. <b>Eleven decisions, already routed</b> to their owners before anyone logged in. BI would still be waiting for someone to ask the right question.</p>
+      <div class="cta rise" style="--i:2"><a href="/">Open the live board <span class="ar">&rarr;</span></a></div>
+      <div class="closefoot rise" style="--i:3">GlassOps &middot; <b>the board is live</b></div>
     </div>
   </section>
 
 </div>
 
 <div class="chrome">
-  <div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">08</span></div>
+  <div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">09</span></div>
   <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
   <div class="arrows">
     <button id="prev" aria-label="Previous slide">&lsaquo;</button>
