@@ -17,6 +17,18 @@
     return ((ar + (br - ar) * t) << 16 | (ag + (bg - ag) * t) << 8 | (ab + (bb - ab) * t)) & 0xffffff;
   };
 
+  /* Browsers cap live WebGL contexts (~8-16); a deck with a dozen canvases
+     silently loses the oldest ones. Boot only slides that become active and
+     keep an LRU of live contexts, tearing down the rest. */
+  const LIVE = [];
+  const MAX_LIVE = 4;
+  const touch = (el) => {
+    const i = LIVE.indexOf(el);
+    if (i >= 0) LIVE.splice(i, 1);
+    LIVE.push(el);
+    while (LIVE.length > MAX_LIVE) LIVE.shift().teardown();
+  };
+
   class Agent3D extends HTMLElement {
     connectedCallback() {
       if (this._booted) return;
@@ -47,15 +59,47 @@
       this.addEventListener('pointerleave', this._onLeave);
 
       this._progress = 0;
-      this.boot();
+
+      this._slideSection = this.closest('deck-stage') ? this.closest('section') : null;
+      this._wake = () => {
+        if (this._dead) return;
+        if (this._slideSection && !this._slideSection.hasAttribute('data-deck-active')) return;
+        touch(this);
+        if (this._live) return;
+        this._live = true;
+        this.boot();
+      };
+      if (this._slideSection) {
+        this._mo = new MutationObserver(this._wake);
+        this._mo.observe(this._slideSection, { attributes: true, attributeFilter: ['data-deck-active'] });
+      }
+      this._wake();
+    }
+
+    teardown() {
+      if (!this._live) return;
+      this._live = false;
+      cancelAnimationFrame(this._raf);
+      this._ro && this._ro.disconnect();
+      this._io && this._io.disconnect();
+      this._ro = this._io = null;
+      this._tick = null; this._labelTick = null; this._fit = null; this._fs = null;
+      if (this._renderer) {
+        this._renderer.forceContextLoss && this._renderer.forceContextLoss();
+        this._renderer.dispose();
+      }
+      this._renderer = null; this._scene = null; this._camera = null;
+      this._holder.textContent = '';
+      this._overlay.textContent = '';
+      const i = LIVE.indexOf(this);
+      if (i >= 0) LIVE.splice(i, 1);
     }
 
     disconnectedCallback() {
       this._dead = true;
       cancelAnimationFrame(this._raf);
-      this._ro && this._ro.disconnect();
-      this._io && this._io.disconnect();
-      this._renderer && this._renderer.dispose();
+      this._mo && this._mo.disconnect();
+      this.teardown();
     }
 
     setProgress(p) { this._progress = Math.max(0, Math.min(1, p)); }
@@ -65,8 +109,9 @@
     }
 
     async boot() {
+      const gen = (this._gen = (this._gen || 0) + 1);
       const THREE = await loadThree();
-      if (this._dead) return;
+      if (this._dead || !this._live || gen !== this._gen) return;
       this.THREE = THREE;
       const variant = this.getAttribute('variant') || 'mesh';
       const dark = this.getAttribute('theme') === 'dark';
@@ -131,7 +176,7 @@
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const clock = new THREE.Clock();
       const loop = () => {
-        if (this._dead) return;
+        if (this._dead || !this._live || gen !== this._gen) return;
         this._raf = requestAnimationFrame(loop);
         /* deck-stage keeps non-active slides in layout (visibility:hidden), so
            IntersectionObserver alone can't tell which slide is showing. */
