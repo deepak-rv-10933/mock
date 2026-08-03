@@ -487,7 +487,7 @@
   <div style="border-top:4px solid #201e1d; padding:34px 80px; display:flex; align-items:center; gap:36px; background:#201e1d; color:#f3f2f2;">
     <span style="font-size:24px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#ff9783;">Live demo</span>
     <span style="font-size:32px; font-weight:700;">Productivity Agent — live walkthrough</span>
-    <a href="https://autopilots.onslate.in/pitch.html" target="_blank" rel="noopener" onClick="{{ stop }}" style="margin-left:auto; flex:none; white-space:nowrap; border:3px solid #ec3013; text-decoration:none; padding:16px 34px; font-size:26px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#ff9783;" style-hover="background:#ec3013; color:#f3f2f2;">Open walkthrough</a>
+    <button type="button" onClick="{{ openProd }}" style="margin-left:auto; flex:none; white-space:nowrap; border:3px solid #ec3013; background:transparent; font-family:inherit; cursor:pointer; padding:16px 34px; font-size:26px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#ff9783;" style-hover="background:#ec3013; color:#f3f2f2;">Open walkthrough</button>
   </div>
 </section>
 
@@ -679,6 +679,7 @@
       allocOpen: this.state.allocOpen,
       openAlloc: (e) => { stop(e); this.setState({ allocOpen: true }); },
       closeAlloc: (e) => { stop(e); this.setState({ allocOpen: false }); },
+      openProd: (e) => { stop(e); window.open('https://autopilots.onslate.in/pitch.html', 'walkthrough', 'popup,width=1400,height=860'); },
     };
   }
 }</script>
