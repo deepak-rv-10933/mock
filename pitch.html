@@ -88,16 +88,11 @@
   .src .sb{font-size:.96rem; color:var(--muted); line-height:1.4}
   .src .sb b{color:var(--ink); font-weight:600}
 
-  /* ============================ slide 3 - blame cycle ============================ */
-  .cycle{display:flex; flex-wrap:wrap; align-items:center; gap:.65rem .9rem; margin-top:1.7rem}
-  .team{border:1px solid var(--edge-strong); background:var(--panel); border-radius:12px;
-    padding:.7rem 1.05rem; font-weight:700; font-size:clamp(1rem,1.9vw,1.3rem); letter-spacing:-.01em; color:var(--ink)}
-  .blame{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--molten)}
-  .loop{flex-basis:100%; margin-top:.7rem; display:flex; align-items:center; gap:.6rem;
-    font-family:var(--mono); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
-  .loop .arc{color:var(--molten); font-size:1.1rem}
-  .loop b{color:var(--molten)}
-  .shrug{margin-top:1.7rem; font-size:clamp(1rem,1.6vw,1.2rem); color:var(--muted); line-height:1.5; max-width:72ch}
+  /* ============================ slide 3 - blame ring ============================ */
+  .blamesvg{width:100%; max-width:470px; height:auto; margin:1.5rem auto .2rem; display:block}
+  .blamesvg .tlabel{font-family:var(--sans); font-size:13px; font-weight:700; fill:var(--ink)}
+  .blamesvg .ctext{font-family:var(--mono); font-size:11px; letter-spacing:.05em; fill:var(--faint)}
+  .shrug{margin-top:1.4rem; font-size:clamp(1rem,1.6vw,1.2rem); color:var(--muted); line-height:1.5; max-width:72ch}
   .shrug b{color:var(--ink); font-weight:600}
 
   /* ============================ slide 5 - the knot (cross-app) ============================ */
@@ -195,7 +190,7 @@
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">Operations intelligence &middot; India glass manufacturing</div>
       <h1 class="cover-title rise" style="--i:1">Glass<span class="o">Ops</span></h1>
-      <p class="cover-thesis rise" style="--i:2">It finds the problem hiding across your business &mdash; and <em>fixes it before you ask</em>.</p>
+      <p class="cover-thesis rise" style="--i:2">It finds the problem hiding across your business, and <em>fixes it before you ask</em>.</p>
       <div class="metarow rise" style="--i:3">
         <span>3 plants</span><span>5 regions</span><span>24 clients</span><span>CRM &middot; Desk &middot; Books &middot; Inventory &middot; Creator</span>
       </div>
@@ -209,18 +204,18 @@
       <div>
         <div class="eyebrow rise" style="--i:0">The setup</div>
         <h2 class="rise" style="--i:1">One owner.<br>Five apps.<br>Five versions of the truth.</h2>
-        <p class="lead rise" style="--i:2; margin-top:1.3rem">Plants in <b>Chennai, Pune and Vadodara</b>. A <b>region head</b> in every market, a <b>plant head</b> on every floor. Every team lives in its own Zoho app &mdash; and each holds only <b>one piece</b> of the picture.</p>
+        <p class="lead rise" style="--i:2; margin-top:1.3rem">Plants in <b>Chennai, Pune and Vadodara</b>. A <b>region head</b> in every market, a <b>plant head</b> on every floor. Every team lives in its own Zoho app, and each holds only <b>one piece</b> of the picture.</p>
         <div class="qbox rise" style="--i:3">
           <div class="qs">The question on the owner's desk</div>
           <div class="q">&ldquo;Why is sales down this month?&rdquo;</div>
         </div>
       </div>
       <div class="srclist">
-        <div class="src rise" style="--i:2"><div class="sh">Zoho CRM</div><div class="sb"><b>Sales</b> &mdash; deals, accounts, approvals, churn signals.</div></div>
-        <div class="src rise" style="--i:3"><div class="sh">Zoho Creator (MES)</div><div class="sb"><b>The factory floor</b> &mdash; production, downtime, stock, QC, dispatch.</div></div>
-        <div class="src rise" style="--i:4"><div class="sh">Zoho Desk</div><div class="sb"><b>The customer's voice</b> &mdash; complaints &amp; warranty claims.</div></div>
-        <div class="src rise" style="--i:5"><div class="sh">Zoho Books</div><div class="sb"><b>The money</b> &mdash; invoices, receivables, margins.</div></div>
-        <div class="src rise" style="--i:6"><div class="sh">Zoho Inventory</div><div class="sb"><b>Movement</b> &mdash; stock &amp; warehouses across regions.</div></div>
+        <div class="src rise" style="--i:2"><div class="sh">Zoho CRM</div><div class="sb"><b>Sales:</b> deals, accounts, approvals, churn signals.</div></div>
+        <div class="src rise" style="--i:3"><div class="sh">Zoho Creator (MES)</div><div class="sb"><b>The factory floor:</b> production, downtime, stock, QC, dispatch.</div></div>
+        <div class="src rise" style="--i:4"><div class="sh">Zoho Desk</div><div class="sb"><b>The customer's voice:</b> complaints &amp; warranty claims.</div></div>
+        <div class="src rise" style="--i:5"><div class="sh">Zoho Books</div><div class="sb"><b>The money:</b> invoices, receivables, margins.</div></div>
+        <div class="src rise" style="--i:6"><div class="sh">Zoho Inventory</div><div class="sb"><b>Movement:</b> stock &amp; warehouses across regions.</div></div>
       </div>
     </div>
   </section>
@@ -230,15 +225,30 @@
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">The blame cycle</div>
       <h2 class="rise" style="--i:1">Everyone's pointing. <span class="amber">No one's connecting.</span></h2>
-      <div class="cycle">
-        <span class="team rise" style="--i:2">Sales</span><span class="blame rise" style="--i:2">blames &rarr;</span>
-        <span class="team rise" style="--i:3">Production</span><span class="blame rise" style="--i:3">blames &rarr;</span>
-        <span class="team rise" style="--i:4">Procurement</span><span class="blame rise" style="--i:4">blames &rarr;</span>
-        <span class="team rise" style="--i:5">Logistics</span><span class="blame rise" style="--i:5">blames &rarr;</span>
-        <span class="team rise" style="--i:6">Quality</span>
-        <span class="loop rise" style="--i:7"><span class="arc">&#8630;</span> &hellip;and Quality blames Sales. <b>Round and round.</b></span>
-      </div>
-      <p class="shrug rise" style="--i:8">Each team is looking at its own app, and each is <b>a little bit right</b>. The real problem is the thread running through all of them &mdash; and no one can see the whole thread, so no one owns it.</p>
+      <svg class="blamesvg rise" style="--i:2" viewBox="0 0 520 400" role="img" aria-label="A blame cycle: five teams, each pointing at the next, in a loop that returns to the start.">
+        <defs>
+          <marker id="ah" markerWidth="9" markerHeight="8" refX="6.5" refY="3" orient="auto">
+            <path d="M0,0 L7,3 L0,6 Z" fill="var(--molten)"></path>
+          </marker>
+        </defs>
+        <g stroke="var(--molten)" stroke-width="2.4" fill="none" marker-end="url(#ah)">
+          <line x1="298.8" y1="78.3"  x2="370.0" y2="130.3"></line>
+          <line x1="397.1" y1="206.6" x2="370.1" y2="289.6"></line>
+          <line x1="306"   y1="339"   x2="218"   y2="339"></line>
+          <line x1="151.1" y1="293.4" x2="124.1" y2="210.5"></line>
+          <line x1="146.8" y1="132.7" x2="218.0" y2="80.7"></line>
+        </g>
+        <g>
+          <circle cx="260" cy="50"  r="46" fill="var(--panel)" stroke="var(--edge-strong)" stroke-width="1.5"></circle><text class="tlabel" x="260" y="55"  text-anchor="middle">Sales</text>
+          <circle cx="412" cy="161" r="46" fill="var(--panel)" stroke="var(--edge-strong)" stroke-width="1.5"></circle><text class="tlabel" x="412" y="166" text-anchor="middle">Production</text>
+          <circle cx="354" cy="339" r="46" fill="var(--panel)" stroke="var(--edge-strong)" stroke-width="1.5"></circle><text class="tlabel" x="354" y="344" text-anchor="middle">Procurement</text>
+          <circle cx="166" cy="339" r="46" fill="var(--panel)" stroke="var(--edge-strong)" stroke-width="1.5"></circle><text class="tlabel" x="166" y="344" text-anchor="middle">Logistics</text>
+          <circle cx="108" cy="161" r="46" fill="var(--panel)" stroke="var(--edge-strong)" stroke-width="1.5"></circle><text class="tlabel" x="108" y="166" text-anchor="middle">Quality</text>
+        </g>
+        <text class="ctext" x="260" y="204" text-anchor="middle">no one sees</text>
+        <text class="ctext" x="260" y="222" text-anchor="middle">the whole thread</text>
+      </svg>
+      <p class="shrug rise" style="--i:3">Each team is looking at its own app, and each is <b>a little bit right</b>. The real problem is the thread running through all of them, and no one can see the whole thread, so no one owns it.</p>
     </div>
   </section>
 
@@ -247,12 +257,12 @@
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">The blind spot</div>
       <h2 class="rise" style="--i:1">The problem never lives in <span class="amber">one</span> app.</h2>
-      <p class="lead rise" style="--i:2; margin-top:1.3rem">It hides in the seams <b>between</b> them &mdash; a small, forgivable signal in each, invisible as a whole. To catch it, someone would have to already suspect a question that spans five apps and five departments&hellip;</p>
+      <p class="lead rise" style="--i:2; margin-top:1.3rem">It hides in the seams <b>between</b> them: a small, forgivable signal in each, invisible as a whole. To catch it, someone would have to already suspect a question that spans five apps and five departments&hellip;</p>
       <div class="qbox rise" style="--i:3">
         <div class="qs">The question no one asks</div>
         <div class="q">&ldquo;Which five small things, in five apps, are actually <em style="font-style:normal;color:var(--molten)">one</em> problem?&rdquo;</div>
       </div>
-      <p class="lead rise" style="--i:4; margin-top:1.3rem">&hellip;so it never gets asked &mdash; and the problem compounds, quietly, until a customer walks.</p>
+      <p class="lead rise" style="--i:4; margin-top:1.3rem">&hellip;so it never gets asked, and the problem compounds, quietly, until a customer walks.</p>
     </div>
   </section>
 
@@ -260,15 +270,15 @@
   <section class="slide" id="s5" data-slug="The knot">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">The idea</div>
-      <h2 class="rise" style="--i:1">One agent, over every app &mdash; <span class="cyan">tying the symptom to its cause.</span></h2>
+      <h2 class="rise" style="--i:1">One agent, over every app, <span class="cyan">tying the symptom to its cause.</span></h2>
       <div class="knot">
         <div class="app rise" style="--i:2"><div class="an">Zoho CRM</div><div class="ad">A deal slips. Churn creeps up.</div><div class="atag">the symptom you see</div></div>
         <div class="karr rise" style="--i:2">&larr; caused by</div>
         <div class="app rise" style="--i:3"><div class="an">Zoho Creator</div><div class="ad">A line sat idle. Stock ran thin.</div><div class="atag">the cause you don't</div></div>
         <div class="karr rise" style="--i:3">&larr; caused by</div>
-        <div class="app root rise" style="--i:4"><div class="an">Procurement</div><div class="ad">A supplier slipped &mdash; weeks ago.</div><div class="atag">the root, hidden upstream</div></div>
+        <div class="app root rise" style="--i:4"><div class="an">Procurement</div><div class="ad">A supplier slipped, weeks ago.</div><div class="atag">the root, hidden upstream</div></div>
       </div>
-      <p class="shrug rise" style="--i:5">The agent reads every app at once and <b>ties a symptom in one to its cause in another</b> &mdash; the sales dip in CRM back to the idle line in Creator, back to the vendor who slipped. One thread, drawn under all the blame.</p>
+      <p class="shrug rise" style="--i:5">The agent reads every app at once and <b>ties a symptom in one to its cause in another:</b> the sales dip in CRM back to the idle line in Creator, back to the vendor who slipped. One thread, drawn under all the blame.</p>
     </div>
   </section>
 
@@ -277,9 +287,9 @@
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">The magic &middot; Zia + Catalyst</div>
       <h2 class="rise" style="--i:1">Zia is already a wonder. With <span class="amber">Catalyst</span>, it becomes <span class="cyan">magic</span>.</h2>
-      <p class="lead rise" style="--i:2; margin-top:1.2rem; max-width:78ch">A Zia agent reads, reasons and decides &mdash; a wonder on its own. Catalyst gives it a heartbeat: it wakes on its own, reaches into every app, and serves the answer live. <b>One reasons, one runs.</b></p>
+      <p class="lead rise" style="--i:2; margin-top:1.2rem; max-width:78ch">A Zia agent reads, reasons and decides: a wonder on its own. Catalyst gives it a heartbeat. It wakes on its own, reaches into every app, and serves the answer live. <b>One reasons, one runs.</b></p>
       <div class="flow" style="margin-top:1.4rem">
-        <div class="node compute rise" style="--i:3"><div class="nh">Catalyst &middot; Cron</div><div class="nb">Wakes at dawn, every day &mdash; no one presses go</div></div>
+        <div class="node compute rise" style="--i:3"><div class="nh">Catalyst &middot; Cron</div><div class="nb">Wakes at dawn, every day. No one presses go.</div></div>
         <div class="arrow rise" style="--i:3">&rarr;</div>
         <div class="node compute rise" style="--i:4"><div class="nh">Catalyst &middot; Reaches every app</div><div class="nb">Pulls the pieces from CRM, Creator &amp; Desk into one place</div></div>
         <div class="arrow rise" style="--i:4">&rarr;</div>
@@ -287,8 +297,8 @@
         <div class="arrow rise" style="--i:5">&rarr;</div>
         <div class="node compute rise" style="--i:6"><div class="nh">Catalyst &middot; Serves it live</div><div class="nb">Saves the decisions and hosts the board the teams open</div></div>
       </div>
-      <div class="legend rise" style="--i:7"><span><i class="c-cat"></i>Catalyst &mdash; the runtime, data &amp; hosting</span><span><i class="c-zia"></i>Zia &mdash; the reasoning</span></div>
-      <div class="rule rise" style="--i:8">Alone, an agent is clever. Wired into Catalyst &mdash; its dawn cron, its reach into every app, its live board &mdash; it becomes an operator that <b>never sleeps</b>. That combination is the magic: <b>your business quietly untangling itself</b> before anyone logs in.</div>
+      <div class="legend rise" style="--i:7"><span><i class="c-cat"></i>Catalyst: the runtime, data &amp; hosting</span><span><i class="c-zia"></i>Zia: the reasoning</span></div>
+      <div class="rule rise" style="--i:8">Alone, an agent is clever. Wired into Catalyst (its dawn cron, its reach into every app, its live board), it becomes an operator that <b>never sleeps</b>. That combination is the magic: <b>your business quietly untangling itself</b> before anyone logs in.</div>
     </div>
   </section>
 
@@ -298,11 +308,11 @@
       <div class="eyebrow rise" style="--i:0">What the agent does</div>
       <h2 class="rise" style="--i:1">It doesn't just <span class="amber">show</span> you the problem. <span class="cyan">It solves it.</span></h2>
       <div class="caps">
-        <div class="src rise" style="--i:2"><div class="sh">Follows the trail</div><div class="sb">Ties CRM, Creator &amp; Desk into one causal chain &mdash; the story no single app tells.</div></div>
-        <div class="src rise" style="--i:3"><div class="sh">Names the why</div><div class="sb">Not just the number that moved &mdash; the root cause behind it.</div></div>
+        <div class="src rise" style="--i:2"><div class="sh">Follows the trail</div><div class="sb">Ties CRM, Creator &amp; Desk into one causal chain: the story no single app tells.</div></div>
+        <div class="src rise" style="--i:3"><div class="sh">Names the why</div><div class="sb">Not just the number that moved. The root cause behind it.</div></div>
         <div class="src rise" style="--i:4"><div class="sh">Comes to you</div><div class="sb">Surfaces the one thing that matters each morning, unasked.</div></div>
         <div class="src rise" style="--i:5"><div class="sh">Ranks by money</div><div class="sb">Every finding prioritised by rupees at risk, across the whole org.</div></div>
-        <div class="src rise" style="--i:6"><div class="sh">Routes the owner</div><div class="sb">Hands each decision to the person who can act &mdash; region head, plant head, procurement.</div></div>
+        <div class="src rise" style="--i:6"><div class="sh">Routes the owner</div><div class="sb">Hands each decision to the person who can act: region head, plant head, procurement.</div></div>
         <div class="src rise" style="--i:7"><div class="sh">Acts on it</div><div class="sb">Approve and it creates the task or PO; ask &ldquo;what if we wait?&rdquo; and it answers in-session.</div></div>
       </div>
     </div>
@@ -312,7 +322,7 @@
   <section class="slide" id="s8" data-slug="Proven on real data">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">Proven on real data, not a mockup</div>
-      <h2 class="rise" style="--i:1">It runs end to end &mdash; today.</h2>
+      <h2 class="rise" style="--i:1">It runs end to end, today.</h2>
       <div class="kpis" style="margin-top:1.5rem">
         <div class="kpi k-plain rise" style="--i:2"><div class="n">6,204</div><div class="l">records across 22 tables, read every morning</div></div>
         <div class="kpi k-plain rise" style="--i:3"><div class="n">5 &rarr; 1</div><div class="l">five apps, tied together on one board</div></div>
@@ -327,7 +337,7 @@
   <!-- 9 &middot; CLIFFHANGER -> LIVE DEMO -->
   <section class="slide" id="s9" data-slug="See it live">
     <div class="stage">
-      <p class="closeq rise" style="--i:0">So &mdash; what did it find <span class="amber">this morning</span>?</p>
+      <p class="closeq rise" style="--i:0">So&hellip; what did it find <span class="amber">this morning</span>?</p>
       <p class="closesub rise" style="--i:1">One problem, hiding across five apps. <b>Eleven decisions, already routed</b> to their owners before anyone logged in. Let's open the board and see what it found.</p>
       <div class="cta rise" style="--i:2"><a href="/">Open the live board <span class="ar">&rarr;</span></a></div>
       <div class="closefoot rise" style="--i:3">GlassOps &middot; <b>the board is live</b></div>
