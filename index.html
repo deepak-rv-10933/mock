@@ -238,6 +238,18 @@ tr.critical:hover td{background:rgba(255,109,127,.16)}
 <div class="agent-overlay" id="agentOverlay" onclick="if(event.target===this)closePanel()"></div>
 
 <script>
+/* ================= live-data config =================
+   The dashboard loads its data from the Catalyst API (GET /api/board?role=<role>).
+   Set it to a full origin to point the client at a remote backend. Here it points
+   at the GlassOps Board API (Catalyst AppSail), which reads the agent's decisions
+   from the Data Store table `agent_decisions` and serves GET /api/board?role=. */
+const API_BASE = 'https://glassops.development.catalystappsail.in';
+const ALL_ROLES = ['board','nsales','snorth','ssouth','swest','seast','sexp','ppune','pchn','proc'];
+function sevFromSeverity(sev){
+  if(!sev) return null;
+  return ({urgent:'r',attention:'a',healthy:'g',good_news:'g'})[sev] || null;
+}
+
 /* ================= shared helpers ================= */
 const S = { approved:{}, handledExtra:{} };
 function chain(steps){
@@ -288,8 +300,8 @@ function raceCard(){return `<details class="foldcard"><summary>Region race — N
    <tr class="critical"><td class="n">4</td><td><b>South</b></td><td class="n qty">₹105L / ₹115L</td><td class="n qty">92%</td><td class="n qty dn">▼ 3.0%</td><td><span class="pill pr">Missed</span></td><td class="note"><b>Roadblock: ₹52L stuck at pricing</b><span class="cd">Releasing it clears the target.</span></td></tr>
    <tr class="hot"><td class="n">5</td><td><b>East &amp; NE</b></td><td class="n qty">₹28.5L / ₹35L</td><td class="n qty">81%</td><td class="n qty dn">▼ 3.4%</td><td><span class="pill pr">Missed</span></td><td class="note"><b>Roadblock: freight 2× other regions</b><span class="cd">Losing on landed price.</span></td></tr></table></details>`;}
 
-/* ================= decisions library ================= */
-const DEC = {
+/* ================= decisions library (bundled fallback) ================= */
+const FALLBACK_DEC = {
  'proc-dual':{sev:'r',title:'Use 2 suppliers for soda ash (60/40)',one:'stops the late-delivery chain · ₹6L/week back',owner:'Procurement Head',
    h:()=>chain([['Customers','2 key accounts may leave — ₹15L orders late, ₹18L renewal in danger'],
      ['Delivery','their orders missed promised dates (on-time fell to 88% this month)'],
@@ -363,8 +375,8 @@ const DEC = {
    +ift('Engineering study on a dedicated coating line / yield program before demand peaks.','We either refuse growing orders or ship at the worst margin in the catalog.')}
 };
 
-/* ================= role definitions ================= */
-const ROLES = {
+/* ================= role definitions (bundled fallback) ================= */
+const FALLBACK_ROLES = {
 board:{av:'BD',crumb:'Global',title:'Productivity across the organisation',sub:'Week 29 · all regions · all plants',
  insight:`<b>One supplier is dragging three departments this week.</b> Meridian’s late soda ash idled Pune 11.2 hrs, delayed 2 deliveries and put ₹33L of customer value at risk. Every fix is routed to its owner in the Zia panel.`,
  kpis:[['Org productivity','74 / 100','▼ 3 vs last week','dn'],['New orders','₹2.4Cr','▲ 6% vs last month','up'],['On-time delivery','88%','6 orders late this month','dn'],['Production waste','6.8%','up from 6.1%','warn'],['Money at risk','₹65L','₹33L of it is one supplier','warn','risk']],
@@ -548,6 +560,90 @@ proc:{av:'PR',crumb:'Supply Chain',title:'Procurement Head',sub:'15 suppliers ·
  hints:[['why two suppliers now?','proc-dual'],['what did the emergency buys cost?','proc-dual']]}
 };
 
+/* ================= live data wiring + fallback ================= */
+/* The bundled objects above are the demo-safe fallback. The dashboard normally
+   renders from the API; if any part of the load fails we drop back to these so
+   the demo never breaks. */
+window.__FALLBACK__ = { ROLES: FALLBACK_ROLES, DEC: FALLBACK_DEC };
+let ROLES = FALLBACK_ROLES;
+let DEC = FALLBACK_DEC;
+
+/* Build a render-ready DEC entry from an API decision (backtrack-plan §1 shape),
+   reusing the existing chain()/cites()/ift() renderers. Falls back per-field. */
+function hydrateDec(id, d){
+  const fb = FALLBACK_DEC[id] || {};
+  if(!d) return fb;
+  const rawChain = d.chain || d.h_chain;
+  let h = fb.h;
+  if(Array.isArray(rawChain)){
+    const steps = rawChain.map(s => Array.isArray(s) ? s : [s.dept, s.text, s.root]);
+    const proof = d.cites || d.proof || [];
+    h = ()=> chain(steps) + cites(proof) + ift(d.if_ok || '', d.if_wait || '');
+  }
+  return {
+    sev:   d.sev || sevFromSeverity(d.severity) || fb.sev,
+    title: d.title || fb.title,
+    one:   d.one || d.one_liner || fb.one,
+    owner: d.owner || (d.action && d.action.owner) || fb.owner,
+    h:     h
+  };
+}
+
+/* Build a render-ready ROLES entry from an API board, keeping the fallback's
+   render function for main() unless the board ships pre-rendered mainHtml. */
+function hydrateRole(role, b){
+  const fb = FALLBACK_ROLES[role] || {};
+  if(!b) return fb;
+  return {
+    av:        b.av || fb.av,
+    crumb:     b.crumb || fb.crumb,
+    title:     b.title || fb.title,
+    sub:       b.sub || fb.sub,
+    insight:   b.insight || fb.insight,
+    kpis:      b.kpis || fb.kpis,
+    main:      (typeof b.mainHtml === 'string') ? (()=>b.mainHtml) : fb.main,
+    decisions: b.decisions || fb.decisions,
+    statuses:  b.statuses || fb.statuses,
+    handled:   b.handled || fb.handled,
+    hints:     b.hints || fb.hints
+  };
+}
+
+function applyBoards(boards){
+  const roles = {};
+  const dec = Object.assign({}, FALLBACK_DEC);
+  for(const r of ALL_ROLES){
+    const b = boards[r];
+    roles[r] = hydrateRole(r, b);
+    if(b && b.dec){ for(const id in b.dec) dec[id] = hydrateDec(id, b.dec[id]); }
+  }
+  ROLES = roles;
+  DEC = dec;
+}
+
+async function loadBoards(){
+  const results = await Promise.all(ALL_ROLES.map(async r=>{
+    const res = await fetch(`${API_BASE}/api/board?role=${encodeURIComponent(r)}`, { headers:{ Accept:'application/json' } });
+    if(!res.ok) throw new Error(`GET /api/board?role=${r} -> ${res.status}`);
+    const data = await res.json();
+    return [r, (data && data.board) ? data.board : data];
+  }));
+  const boards = {};
+  for(const [r,b] of results) boards[r] = b;
+  return boards;
+}
+
+async function bootstrap(){
+  try{
+    applyBoards(await loadBoards());
+  }catch(err){
+    console.warn('GlassOps: live board load failed — using bundled fallback data.', err);
+    ROLES = window.__FALLBACK__.ROLES;
+    DEC = window.__FALLBACK__.DEC;
+  }
+  render('board');
+}
+
 /* ================= rendering ================= */
 let cur='board';
 function render(role){
@@ -638,7 +734,8 @@ function closePanel(){ document.getElementById('contentWrap').appendChild(docume
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.getElementById('agentOverlay').classList.contains('open')) closePanel(); });
 window.addEventListener('resize',()=>{ if(window.innerWidth>1150 && document.getElementById('agentOverlay').classList.contains('open')) closePanel(); });
 
-render('board');
+/* Load live board data from /api, then render (falls back to bundled data on failure). */
+bootstrap();
 </script>
 </body>
 </html>
