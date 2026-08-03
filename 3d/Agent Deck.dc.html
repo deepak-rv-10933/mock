@@ -633,7 +633,7 @@
       <a href="https://autopilot-media-development.zohostratus.in/Zoho%20Desk%20Churn%20Alert.mp4" target="_blank" rel="noopener" onClick="{{ stop }}" style="margin-left:auto; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#f3f2f2; text-decoration:none; border-bottom:2px solid #ec3013;">Open in new tab</a>
       <button type="button" onClick="{{ closeChurn }}" style="border:2px solid #6d6866; background:transparent; color:#f3f2f2; font-family:inherit; cursor:pointer; padding:8px 18px; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;" style-hover="background:#ec3013; border-color:#ec3013;">Close</button>
     </div>
-    <video src="https://autopilot-media-development.zohostratus.in/Zoho%20Desk%20Churn%20Alert.mp4" controls playsinline preload="metadata" title="Zoho Desk Churn Alert" onClick="{{ stop }}" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video>
+    <div onClick="{{ stop }}" style="flex:1; width:100%; display:flex; min-height:0;"><video src="https://autopilot-media-development.zohostratus.in/Zoho%20Desk%20Churn%20Alert.mp4" controls playsinline autoplay preload="metadata" title="Zoho Desk Churn Alert" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video></div>
   </div>
 </sc-if>
 <sc-if value="{{ onbOpen }}" hint-placeholder-val="{{ false }}">
@@ -644,7 +644,7 @@
       <a href="https://autopilot-media-development.zohostratus.in/Onboarder%20Meta%20Agent.mp4" target="_blank" rel="noopener" onClick="{{ stop }}" style="margin-left:auto; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#f3f2f2; text-decoration:none; border-bottom:2px solid #ec3013;">Open in new tab</a>
       <button type="button" onClick="{{ closeOnb }}" style="border:2px solid #6d6866; background:transparent; color:#f3f2f2; font-family:inherit; cursor:pointer; padding:8px 18px; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;" style-hover="background:#ec3013; border-color:#ec3013;">Close</button>
     </div>
-    <video src="https://autopilot-media-development.zohostratus.in/Onboarder%20Meta%20Agent.mp4" controls playsinline preload="metadata" title="Onboarder Meta Agent" onClick="{{ stop }}" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video>
+    <div onClick="{{ stop }}" style="flex:1; width:100%; display:flex; min-height:0;"><video src="https://autopilot-media-development.zohostratus.in/Onboarder%20Meta%20Agent.mp4" controls playsinline autoplay preload="metadata" title="Onboarder Meta Agent" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video></div>
   </div>
 </sc-if>
 <sc-if value="{{ allocOpen }}" hint-placeholder-val="{{ false }}">
@@ -655,7 +655,7 @@
       <a href="https://autopilot-media-development.zohostratus.in/Resouce%20Allocation%20Agent.mp4" target="_blank" rel="noopener" onClick="{{ stop }}" style="margin-left:auto; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#f3f2f2; text-decoration:none; border-bottom:2px solid #ec3013;">Open in new tab</a>
       <button type="button" onClick="{{ closeAlloc }}" style="border:2px solid #6d6866; background:transparent; color:#f3f2f2; font-family:inherit; cursor:pointer; padding:8px 18px; font-size:14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;" style-hover="background:#ec3013; border-color:#ec3013;">Close</button>
     </div>
-    <video src="https://autopilot-media-development.zohostratus.in/Resouce%20Allocation%20Agent.mp4" controls playsinline preload="metadata" title="Resource Allocation Agent" onClick="{{ stop }}" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video>
+    <div onClick="{{ stop }}" style="flex:1; width:100%; display:flex; min-height:0;"><video src="https://autopilot-media-development.zohostratus.in/Resouce%20Allocation%20Agent.mp4" controls playsinline autoplay preload="metadata" title="Resource Allocation Agent" style="flex:1; width:100%; border:2px solid #4a4644; background:#000; object-fit:contain;"></video></div>
   </div>
 </sc-if>
 </x-dc>
@@ -671,13 +671,13 @@
     return {
       churnOpen: this.state.churnOpen,
       stop,
-      openChurn: (e) => { stop(e); window.open('https://autopilot-media-development.zohostratus.in/Zoho%20Desk%20Churn%20Alert.mp4', 'demo', 'popup,width=1280,height=760'); },
+      openChurn: (e) => { stop(e); this.setState({ churnOpen: true }); },
       closeChurn: (e) => { stop(e); this.setState({ churnOpen: false }); },
       onbOpen: this.state.onbOpen,
-      openOnb: (e) => { stop(e); window.open('https://autopilot-media-development.zohostratus.in/Onboarder%20Meta%20Agent.mp4', 'demo', 'popup,width=1280,height=760'); },
+      openOnb: (e) => { stop(e); this.setState({ onbOpen: true }); },
       closeOnb: (e) => { stop(e); this.setState({ onbOpen: false }); },
       allocOpen: this.state.allocOpen,
-      openAlloc: (e) => { stop(e); window.open('https://autopilot-media-development.zohostratus.in/Resouce%20Allocation%20Agent.mp4', 'demo', 'popup,width=1280,height=760'); },
+      openAlloc: (e) => { stop(e); this.setState({ allocOpen: true }); },
       closeAlloc: (e) => { stop(e); this.setState({ allocOpen: false }); },
     };
   }
