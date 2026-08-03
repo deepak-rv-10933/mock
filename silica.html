@@ -1,0 +1,698 @@
+<title>Silica AI: an agentic workforce for glass operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#201e1d; --bg2:#1a1817; --panel:#2a2725; --panel2:#332f2c;
+    --edge:rgba(243,242,242,.10); --edge2:rgba(243,242,242,.20);
+    --accent:#ec3013; --accent2:#ff6a4d; --accent-dim:rgba(236,48,19,.14);
+    --ink:#f3f2f2; --muted:#a8a09b; --faint:#6f6863;
+    --sans:'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --pad:clamp(1.4rem,4.5vw,4.6rem); --maxw:1140px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow:hidden}
+
+  .deck{position:fixed; inset:0; overflow:hidden}
+  .slide{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:var(--pad);
+    opacity:0; visibility:hidden; transform:translateY(8px);
+    transition:opacity .5s ease, transform .5s ease, visibility 0s linear .5s; overflow-y:auto}
+  .slide.active{opacity:1; visibility:visible; transform:none; transition:opacity .55s ease, transform .55s ease; z-index:2}
+  .stage{width:100%; max-width:var(--maxw); margin:0 auto}
+  .rise{opacity:0; transform:translateY(14px)}
+  .slide.active .rise{opacity:1; transform:none; transition:opacity .5s ease, transform .55s cubic-bezier(.2,.7,.2,1); transition-delay:calc(var(--i,0) * 80ms + 110ms)}
+
+  .eyebrow{font-family:var(--mono); font-size:clamp(.62rem,1vw,.74rem); letter-spacing:.24em; text-transform:uppercase; color:var(--accent2); display:flex; align-items:center; gap:.7em; margin:0 0 1.3rem}
+  .eyebrow::before{content:""; width:24px; height:1px; background:var(--accent); opacity:.8}
+  h1,h2{margin:0; text-wrap:balance; font-weight:800; letter-spacing:-.025em; line-height:1.03}
+  h2{font-size:clamp(1.5rem,3.4vw,2.7rem)}
+  .lead{font-size:clamp(1.02rem,1.5vw,1.24rem); line-height:1.55; color:var(--muted); max-width:64ch}
+  .lead b{color:var(--ink); font-weight:600}
+  .accent{color:var(--accent2)}
+
+  /* cover */
+  #s1{background:radial-gradient(120% 90% at 84% 16%, var(--accent-dim), transparent 55%), radial-gradient(90% 80% at 8% 98%, rgba(243,242,242,.05), transparent 55%)}
+  .cover-title{font-size:clamp(3.6rem,12vw,9rem); font-weight:900; line-height:.9; letter-spacing:-.05em}
+  .cover-title .o{color:var(--accent)}
+  .cover-thesis{font-size:clamp(1.2rem,2.4vw,1.85rem); font-weight:600; letter-spacing:-.02em; color:var(--ink); max-width:26ch; margin:1.3rem 0 0}
+  .teamline{margin-top:1.9rem; display:flex; flex-direction:column; gap:.5rem}
+  .teamline .tn{font-size:clamp(1.05rem,1.8vw,1.35rem); font-weight:800; letter-spacing:-.01em}
+  .teamline .tn .accent{font-weight:800}
+  .teamline .ts{font-family:var(--mono); font-size:.8rem; letter-spacing:.1em; color:var(--muted); text-transform:uppercase}
+  .members{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.4rem}
+  .member{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--muted); border:1px solid var(--edge); background:var(--panel); border-radius:999px; padding:.35rem .8rem}
+  .badge{margin-top:1.6rem; display:inline-flex; align-items:center; gap:.6rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent2); border:1px solid var(--accent-dim); background:var(--accent-dim); padding:.5rem .9rem; border-radius:999px}
+  .badge .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent)}
+
+  .split{display:grid; grid-template-columns:1.02fr .98fr; gap:clamp(1.4rem,4vw,3.2rem); align-items:center}
+  @media(max-width:860px){.split{grid-template-columns:1fr; gap:1.5rem}}
+
+  /* agent intro */
+  .agentnum{font-family:var(--mono); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent2); margin-bottom:1rem}
+  .agentname{font-size:clamp(2.4rem,5.5vw,4rem); font-weight:900; letter-spacing:-.035em; line-height:.98}
+  .agentdesc{margin-top:1.2rem; font-size:clamp(1.02rem,1.6vw,1.28rem); line-height:1.5; color:var(--muted); max-width:44ch}
+  .agentdesc b{color:var(--ink); font-weight:600}
+
+  /* image placeholder */
+  .imgph{border:1.5px dashed var(--edge2); background:linear-gradient(180deg,var(--panel),var(--bg2)); border-radius:18px;
+    min-height:clamp(220px,38vh,360px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; padding:1.4rem; text-align:center}
+  .imgph svg{width:clamp(64px,10vw,104px); height:auto; opacity:.9}
+  .imgph .cap{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .imgph .cap b{color:var(--accent2); font-weight:600}
+
+  /* recording frame */
+  .recwrap{margin-top:1.4rem}
+  .rec{position:relative; width:100%; aspect-ratio:16/9; border:1.5px dashed var(--edge2); border-radius:16px;
+    background:linear-gradient(180deg,var(--panel),var(--bg2)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem}
+  .rec .play{width:64px; height:64px; border-radius:50%; border:2px solid var(--accent); display:grid; place-items:center}
+  .rec .play::before{content:""; border-style:solid; border-width:11px 0 11px 18px; border-color:transparent transparent transparent var(--accent); margin-left:4px}
+  .rec .rc{font-family:var(--mono); font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; color:var(--faint)}
+  .recdot{display:inline-flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent2); position:absolute; top:14px; left:16px}
+  .recdot i{width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent)}
+
+  /* stats */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:clamp(.8rem,1.8vw,1.2rem); margin-top:1.7rem}
+  .stat{border:1px solid var(--edge); background:linear-gradient(180deg,var(--panel),var(--bg2)); border-radius:16px; padding:1.5rem 1.4rem; position:relative; overflow:hidden}
+  .stat::after{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--accent)}
+  .stat .n{font-size:clamp(2.4rem,5vw,3.6rem); font-weight:900; letter-spacing:-.03em; line-height:.95; color:var(--ink)}
+  .stat .n .u{font-size:.42em; font-weight:700; color:var(--accent2); letter-spacing:0}
+  .stat .k{margin-top:.7rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent2)}
+  .stat .d{margin-top:.4rem; font-size:.92rem; line-height:1.4; color:var(--muted)}
+  .stat.ph .n{color:var(--faint)}
+
+  /* points */
+  .points{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(.8rem,1.8vw,1.15rem); margin-top:1.7rem}
+  .point{border:1px solid var(--edge); background:var(--panel); border-radius:16px; padding:1.4rem 1.4rem}
+  .point .ic{width:44px; height:44px; border-radius:11px; background:var(--accent-dim); border:1px solid var(--accent-dim); display:grid; place-items:center; margin-bottom:1rem}
+  .point .ic svg{width:24px; height:24px}
+  .point h3{margin:0 0 .4rem; font-size:1.12rem; font-weight:700; letter-spacing:-.01em}
+  .point p{margin:0; font-size:.96rem; line-height:1.45; color:var(--muted)}
+
+  /* process flow */
+  .flow{display:flex; flex-wrap:wrap; gap:.6rem; align-items:stretch; margin-top:1.6rem}
+  .fnode{flex:1 1 150px; min-width:140px; border:1px solid var(--edge); background:var(--panel); border-radius:13px; padding:1.1rem 1.1rem; position:relative}
+  .fnode .fn{font-family:var(--mono); font-size:1.1rem; font-weight:700; color:var(--accent); letter-spacing:.02em}
+  .fnode .ft{margin-top:.5rem; font-size:1rem; font-weight:700; letter-spacing:-.01em}
+  .fnode .fd{margin-top:.3rem; font-size:.84rem; line-height:1.35; color:var(--muted)}
+  .farr{align-self:center; color:var(--faint); font-family:var(--mono); font-size:1rem}
+  @media(max-width:860px){.farr{display:none}}
+
+  /* agent mesh */
+  .hub{margin:1.4rem auto .2rem; display:flex; flex-direction:column; align-items:center; gap:.5rem}
+  .hubnode{display:inline-flex; align-items:center; gap:.7rem; border:1.5px solid var(--accent); background:var(--accent-dim); border-radius:14px; padding:.8rem 1.3rem; font-size:1.3rem; font-weight:900; letter-spacing:-.02em}
+  .hubnode .hd{width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent)}
+  .hubstem{width:2px; height:22px; background:linear-gradient(var(--accent),var(--edge2))}
+  .mesh{display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; margin-top:.2rem}
+  @media(max-width:860px){.mesh{grid-template-columns:repeat(2,1fr)}}
+  .amini{border:1px solid var(--edge); background:var(--panel); border-radius:12px; padding:.85rem .9rem}
+  .amini .at{font-size:.98rem; font-weight:700; letter-spacing:-.01em}
+  .amini .ar{margin-top:.25rem; font-size:.78rem; line-height:1.35; color:var(--muted)}
+  .amini .an{font-family:var(--mono); font-size:.62rem; color:var(--accent2); letter-spacing:.1em}
+
+  /* growth chart slide 2 */
+  .growcard{border:1px solid var(--edge); background:linear-gradient(180deg,var(--panel),var(--bg2)); border-radius:18px; padding:1.3rem; margin-top:.4rem}
+  .growcard svg{width:100%; height:auto; display:block}
+
+  /* email scene (slide 15) */
+  .fields{display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.3rem}
+  .field{font-family:var(--mono); font-size:.76rem; letter-spacing:.04em; color:var(--ink); border:1px solid var(--accent-dim); background:var(--accent-dim); border-radius:999px; padding:.45rem .9rem}
+  .field .fx{color:var(--accent2)}
+  .scenecap{margin-top:1.3rem; font-size:1rem; color:var(--muted); line-height:1.5; max-width:64ch}
+  .scenecap b{color:var(--ink)}
+
+  /* checklist monitor (slide 16) */
+  .donelist{display:flex; flex-direction:column; gap:.6rem; margin-top:.2rem}
+  .donerow{display:flex; align-items:center; gap:.7rem; border:1px solid var(--edge); background:var(--panel); border-radius:11px; padding:.75rem .95rem; font-size:.98rem}
+  .donerow .tick{width:22px; height:22px; flex:0 0 auto; border-radius:50%; background:var(--accent); display:grid; place-items:center}
+  .donerow .tick svg{width:13px; height:13px}
+
+  /* seven views chips */
+  .views{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.3rem}
+  .view{font-family:var(--mono); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); border:1px solid var(--edge); background:var(--panel); border-radius:8px; padding:.4rem .75rem}
+
+  /* touchpoints */
+  .touch{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:.7rem; margin-top:1.6rem}
+  .tp{border:1px solid var(--edge); background:var(--panel); border-radius:14px; padding:1.2rem 1.2rem}
+  .tp .tt{font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent2)}
+  .tp .th{margin-top:.5rem; font-size:1.1rem; font-weight:700}
+  .tp .tps{margin-top:.3rem; font-size:.88rem; color:var(--muted); line-height:1.4}
+
+  /* workforce roll-call (slide 29) */
+  .roll{display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.5rem}
+  .roll span{font-family:var(--mono); font-size:.82rem; letter-spacing:.04em; color:var(--ink); border:1px solid var(--edge2); background:var(--panel); border-radius:8px; padding:.5rem .85rem}
+  .roll span .n{color:var(--accent2)}
+
+  /* close */
+  #s30{background:radial-gradient(110% 90% at 50% 32%, var(--accent-dim), transparent 60%)}
+  .closebig{font-size:clamp(3rem,10vw,7rem); font-weight:900; letter-spacing:-.05em; line-height:.9; text-align:center}
+  .closebig .o{color:var(--accent)}
+  .closesub{margin:1.4rem auto 0; text-align:center; font-size:clamp(1.05rem,1.9vw,1.4rem); color:var(--muted); max-width:40ch}
+  .closefoot{margin-top:1.8rem; text-align:center; font-family:var(--mono); font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:var(--faint)}
+  .closefoot b{color:var(--ink)}
+  .qa{font-size:clamp(3.4rem,11vw,7.5rem); font-weight:900; letter-spacing:-.04em; text-align:center; line-height:.9}
+  .qa .o{color:var(--accent)}
+  .qasub{margin:1.2rem auto 0; text-align:center; font-size:clamp(1rem,1.7vw,1.3rem); color:var(--muted); max-width:44ch}
+
+  /* chrome */
+  .chrome{position:fixed; left:0; right:0; bottom:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:.85rem clamp(1rem,3vw,2rem); pointer-events:none}
+  .chrome>*{pointer-events:auto}
+  .counter{font-family:var(--mono); font-size:.76rem; letter-spacing:.14em; color:var(--muted)}
+  .counter .cur{color:var(--ink)}
+  .slug{font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); position:fixed; top:clamp(1rem,3vw,1.7rem); left:clamp(1rem,3vw,2rem); z-index:20}
+  .slug b{color:var(--accent2)}
+  .dots{display:flex; gap:.4rem; align-items:center; flex-wrap:wrap; max-width:60vw; justify-content:center}
+  .dots button{width:8px; height:8px; padding:0; border:0; border-radius:50%; background:var(--edge2); cursor:pointer; transition:background .2s, transform .2s}
+  .dots button:hover{background:var(--muted)}
+  .dots button[aria-current="true"]{background:var(--accent); transform:scale(1.3)}
+  .arrows{display:flex; gap:.5rem}
+  .arrows button{width:38px; height:38px; border-radius:10px; border:1px solid var(--edge); background:var(--panel); color:var(--ink); font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .2s, background .2s}
+  .arrows button:hover{border-color:var(--accent); background:var(--panel2)}
+  .arrows button:disabled{opacity:.32; cursor:default}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
+  .toprail{position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); z-index:30; transition:width .45s cubic-bezier(.2,.7,.2,1); width:0}
+  .hint{position:fixed; bottom:.9rem; left:50%; transform:translateX(-50%); z-index:20; font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); transition:opacity .6s}
+  @media(prefers-reduced-motion:reduce){.slide,.slide.active,.rise,.slide.active .rise,.toprail{transition:none !important; transform:none !important}}
+</style>
+
+<div class="toprail" id="toprail"></div>
+<div class="slug" id="slug"><b>Silica AI</b> &middot; agentic workforce</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 TITLE -->
+  <section class="slide" id="s1" data-slug="Title">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Zoho Hackathon 2026 &middot; Best Use of AI</div>
+      <h1 class="cover-title rise" style="--i:1">Silica<span class="o">.</span>AI</h1>
+      <p class="cover-thesis rise" style="--i:2">An agentic workforce for glass operations. Eight agents that work together.</p>
+      <div class="teamline rise" style="--i:3">
+        <div class="tn">Built by <span class="accent">The Autopilots</span></div>
+        <div class="ts">Six enthusiasts building an agentic workforce</div>
+        <div class="members">
+          <span class="member">Member 1</span><span class="member">Member 2</span><span class="member">Member 3</span>
+          <span class="member">Member 4</span><span class="member">Member 5</span><span class="member">Member 6</span>
+        </div>
+      </div>
+      <div class="badge rise" style="--i:4"><span class="dot"></span>Eight agents, one workforce</div>
+    </div>
+  </section>
+
+  <!-- 2 BEST USE OF AI -->
+  <section class="slide" id="s2" data-slug="Best Use of AI">
+    <div class="stage split">
+      <div>
+        <div class="eyebrow rise" style="--i:0">Category &middot; Best Use of AI</div>
+        <h2 class="rise" style="--i:1">Eight agents.<br>One workforce.</h2>
+        <p class="lead rise" style="--i:2; margin-top:1.2rem">Not a chatbot bolted onto a process. A set of agents that <b>own the process end to end</b>, and their reach compounds as they share context.</p>
+        <div class="badge rise" style="--i:3"><span class="dot"></span>AI that grows into the operation</div>
+      </div>
+      <div class="growcard rise" style="--i:2">
+        <svg viewBox="0 0 460 260" role="img" aria-label="A chart of AI capability growing steeply over time">
+          <defs>
+            <linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="var(--accent)" stop-opacity=".38"/>
+              <stop offset="1" stop-color="var(--accent)" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g stroke="var(--edge)" stroke-width="1">
+            <line x1="40" y1="30" x2="40" y2="220"/><line x1="40" y1="220" x2="440" y2="220"/>
+            <line x1="40" y1="170" x2="440" y2="170" stroke-dasharray="3 5"/>
+            <line x1="40" y1="120" x2="440" y2="120" stroke-dasharray="3 5"/>
+            <line x1="40" y1="70"  x2="440" y2="70"  stroke-dasharray="3 5"/>
+          </g>
+          <path d="M40,214 C150,206 210,180 280,130 C330,94 380,60 440,34 L440,220 L40,220 Z" fill="url(#gfill)"/>
+          <path d="M40,214 C150,206 210,180 280,130 C330,94 380,60 440,34" fill="none" stroke="var(--accent)" stroke-width="3"/>
+          <circle cx="440" cy="34" r="6" fill="var(--accent2)"/>
+          <circle cx="440" cy="34" r="12" fill="none" stroke="var(--accent2)" stroke-opacity=".4" stroke-width="2"/>
+          <text x="48" y="48" font-family="var(--mono)" font-size="12" fill="var(--muted)">agent leverage</text>
+          <text x="360" y="245" font-family="var(--mono)" font-size="12" fill="var(--muted)">shared context &rarr;</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 GLASS PROCESS FLOW -->
+  <section class="slide" id="s3" data-slug="How glass is made">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">The industry</div>
+      <h2 class="rise" style="--i:1">How glass actually gets made.</h2>
+      <p class="lead rise" style="--i:2; margin-top:1rem">Six stages, each with its own paperwork, approvals and handoffs.</p>
+      <div class="flow">
+        <div class="fnode rise" style="--i:3"><div class="fn">01</div><div class="ft">Batching</div><div class="fd">Silica, soda ash, lime weighed and mixed</div></div>
+        <div class="farr rise" style="--i:3">&rarr;</div>
+        <div class="fnode rise" style="--i:4"><div class="fn">02</div><div class="ft">Melting</div><div class="fd">Furnace at 1,500&deg;C, continuous feed</div></div>
+        <div class="farr rise" style="--i:4">&rarr;</div>
+        <div class="fnode rise" style="--i:5"><div class="fn">03</div><div class="ft">Forming</div><div class="fd">Float bath, rolling or blowing</div></div>
+        <div class="farr rise" style="--i:5">&rarr;</div>
+        <div class="fnode rise" style="--i:6"><div class="fn">04</div><div class="ft">Annealing</div><div class="fd">Controlled cool-down through the lehr</div></div>
+        <div class="farr rise" style="--i:6">&rarr;</div>
+        <div class="fnode rise" style="--i:7"><div class="fn">05</div><div class="ft">Inspection</div><div class="fd">Cutting, defect scan, tolerance check</div></div>
+        <div class="farr rise" style="--i:7">&rarr;</div>
+        <div class="fnode rise" style="--i:8"><div class="fn">06</div><div class="ft">Dispatch</div><div class="fd">Crating, load planning, delivery</div></div>
+      </div>
+      <p class="lead rise" style="--i:9; margin-top:1.5rem">Every stage generates a decision someone has to chase. <b class="accent">That is where our agents sit.</b></p>
+    </div>
+  </section>
+
+  <!-- 4 AGENT MESH -->
+  <section class="slide" id="s4" data-slug="The agent mesh">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">The architecture</div>
+      <h2 class="rise" style="--i:1">Silica AI, the agent mesh.</h2>
+      <div class="hub rise" style="--i:2">
+        <div class="hubnode"><span class="hd"></span>Silica AI</div>
+        <div class="hubstem"></div>
+      </div>
+      <div class="mesh">
+        <div class="amini rise" style="--i:3"><div class="an">01</div><div class="at">Onboarder Meta</div><div class="ar">Sets up every new account</div></div>
+        <div class="amini rise" style="--i:3"><div class="an">02</div><div class="at">Pre-Sales Advisor</div><div class="ar">Answers inbound instantly</div></div>
+        <div class="amini rise" style="--i:4"><div class="an">03</div><div class="at">Resource Allocation</div><div class="ar">Matches jobs to capacity</div></div>
+        <div class="amini rise" style="--i:4"><div class="an">04</div><div class="at">Ambient Agent</div><div class="ar">Watches the inbox, acts</div></div>
+        <div class="amini rise" style="--i:5"><div class="an">05</div><div class="at">Day Planner</div><div class="ar">Builds the schedule daily</div></div>
+        <div class="amini rise" style="--i:5"><div class="an">06</div><div class="at">Productivity</div><div class="ar">Reads across every system</div></div>
+        <div class="amini rise" style="--i:6"><div class="an">07</div><div class="at">Churn Agent</div><div class="ar">Flags accounts going quiet</div></div>
+        <div class="amini rise" style="--i:6"><div class="an">08</div><div class="at">Zia Ops Prism</div><div class="ar">One signal, seven views</div></div>
+      </div>
+      <p class="lead rise" style="--i:7; margin-top:1.4rem">Eight specialists sharing one context, <b class="accent">not eight separate bots.</b></p>
+    </div>
+  </section>
+
+  <!-- 5 ONBOARDER META (agent intro) -->
+  <section class="slide" id="s5" data-slug="Onboarder Meta">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 01 of 08</div>
+        <div class="agentname rise" style="--i:1">Onboarder Meta</div>
+        <p class="agentdesc rise" style="--i:2">Stands up a new customer account end to end: records, approvals, credentials and the first production plan, <b>without a kickoff call.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Onboarder Meta &middot; <b>drop bot render here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 WHAT ONBOARDER REPLACES (stats) -->
+  <section class="slide" id="s6" data-slug="What it replaces">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">What the Onboarder replaces</div>
+      <h2 class="rise" style="--i:1">One agent, a whole runbook gone.</h2>
+      <div class="stats">
+        <div class="stat rise" style="--i:2"><div class="n">53</div><div class="k">Tools orchestrated</div><div class="d">Every system the agent touches to complete an onboarding.</div></div>
+        <div class="stat rise" style="--i:3"><div class="n">3<span class="u"> days</span></div><div class="k">Manual time saved</div><div class="d">Per account, measured against our current runbook.</div></div>
+        <div class="stat ph rise" style="--i:4"><div class="n">$XX,XXX</div><div class="k">Implementation cost saved</div><div class="d">Setup effort we no longer bill against each account. Confirm the figure before presenting.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 DEMO ONBOARDER (blank rec) -->
+  <section class="slide" id="s7" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Onboarder Meta, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 8 PRE-SALES ADVISOR (agent intro) -->
+  <section class="slide" id="s8" data-slug="Pre-Sales Advisor">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 02 of 08</div>
+        <div class="agentname rise" style="--i:1">Pre-Sales Advisor</div>
+        <p class="agentdesc rise" style="--i:2">Reads every inbound enquiry, qualifies it against live capacity and pricing, and replies with a real answer <b>before anyone opens the queue.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Pre-Sales Advisor &middot; <b>drop display image here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 PRE-SALES STATS -->
+  <section class="slide" id="s9" data-slug="Pre-sales, no shift">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Pre-sales, with nobody on shift</div>
+      <h2 class="rise" style="--i:1">Every enquiry answered. No rota.</h2>
+      <div class="stats">
+        <div class="stat rise" style="--i:2"><div class="n">0</div><div class="k">Employees needed</div><div class="d">No pre-sales rota, no follow-the-sun coverage.</div></div>
+        <div class="stat rise" style="--i:3"><div class="n">0</div><div class="k">Leads missed</div><div class="d">Every enquiry is acknowledged and qualified.</div></div>
+        <div class="stat rise" style="--i:4"><div class="n">&lt;1<span class="u"> min</span></div><div class="k">Response time</div><div class="d">From enquiry landing to a substantive reply.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 DEMO PRE-SALES -->
+  <section class="slide" id="s10" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Pre-Sales Advisor, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 11 RESOURCE ALLOCATION (agent intro) -->
+  <section class="slide" id="s11" data-slug="Resource Allocation">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 03 of 08</div>
+        <div class="agentname rise" style="--i:1">Resource Allocation</div>
+        <p class="agentdesc rise" style="--i:2">Assigns every job to the right vendor, line and crew, scoring on <b>evidence rather than on who shouted loudest.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Resource Allocation &middot; <b>drop display image here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 ALLOCATION POINTS -->
+  <section class="slide" id="s12" data-slug="Allocation you can defend">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Allocation you can defend</div>
+      <h2 class="rise" style="--i:1">Every job assigned on evidence.</h2>
+      <div class="points">
+        <div class="point rise" style="--i:2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Vendor verified</h3><p>Credentials, capacity and compliance checked before a job is offered.</p>
+        </div>
+        <div class="point rise" style="--i:3">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19a8 8 0 0 1 16 0"/><line x1="12" y1="19" x2="16.5" y2="10.5"/><circle cx="12" cy="19" r="1.6" fill="var(--accent2)" stroke="none"/></svg></div>
+          <h3>Bias-free advocate</h3><p>Every vendor scored on the same measured criteria, weighted openly.</p>
+        </div>
+        <div class="point rise" style="--i:4">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l2 2 3-3"/><path d="M4 13l2 2 3-3"/><path d="M4 20l2 2 3-3"/><line x1="13" y1="6" x2="21" y2="6"/><line x1="13" y1="13" x2="21" y2="13"/><line x1="13" y1="20" x2="21" y2="20"/></svg></div>
+          <h3>Checklist never missed</h3><p>The pre-allocation checklist runs the same way on every single job.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 DEMO RESOURCE ALLOCATION -->
+  <section class="slide" id="s13" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Resource Allocation, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 14 AMBIENT AGENT (agent intro) -->
+  <section class="slide" id="s14" data-slug="Ambient Agent">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 04 of 08</div>
+        <div class="agentname rise" style="--i:1">Ambient Agent</div>
+        <p class="agentdesc rise" style="--i:2">Lives in the inbox. Reads what arrives, extracts what matters, and acts. <b>No prompt, no ticket, no reminder.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Ambient Agent &middot; <b>drop bot image here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 EVERY EMAIL IS A FORM (scene) -->
+  <section class="slide" id="s15" data-slug="Every email is a form">
+    <div class="stage split">
+      <div>
+        <div class="eyebrow rise" style="--i:0">The before state</div>
+        <h2 class="rise" style="--i:1">Every email is a form someone has to fill.</h2>
+        <p class="lead rise" style="--i:2; margin-top:1rem">Mail arrives faster than anyone can read it, and each one hides the same handful of fields.</p>
+        <div class="fields rise" style="--i:3">
+          <span class="field"><span class="fx">&middot;</span> Delivery date</span>
+          <span class="field"><span class="fx">&middot;</span> PO number</span>
+          <span class="field"><span class="fx">&middot;</span> Quantity</span>
+          <span class="field"><span class="fx">&middot;</span> Ship-to address</span>
+          <span class="field"><span class="fx">&middot;</span> Batch number</span>
+          <span class="field"><span class="fx">&middot;</span> Freight terms</span>
+        </div>
+        <p class="scenecap rise" style="--i:4"><b>Extracted, validated and filed automatically.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 72 64" fill="none" stroke="var(--accent2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="10" width="52" height="34" rx="3"/><line x1="10" y1="50" x2="62" y2="50"/><line x1="30" y1="44" x2="30" y2="50"/><line x1="42" y1="44" x2="42" y2="50"/><rect x="18" y="4" width="26" height="18" rx="2" fill="var(--panel)"/><path d="M18 6l13 9 13-9"/></svg>
+        <div class="cap">Scene &middot; <b>inbox flooding a frustrated desk</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 HAND IT OVER (scene + checklist) -->
+  <section class="slide" id="s16" data-slug="Hand it over">
+    <div class="stage split">
+      <div>
+        <div class="eyebrow rise" style="--i:0">The after state</div>
+        <h2 class="rise" style="--i:1">Hand it over and walk away.</h2>
+        <p class="lead rise" style="--i:2; margin-top:1rem"><b>You delegate once.</b> The agent keeps working after you close the laptop, drafting, slotting and booking in the systems you already use.</p>
+        <div class="donelist rise" style="--i:3">
+          <div class="donerow"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Emails drafted and sent</div>
+          <div class="donerow"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Tasks created and assigned</div>
+          <div class="donerow"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Meetings slotted and booked</div>
+        </div>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="20" r="7"/><path d="M12 46c0-7 5.4-12 12-12s12 5 12 12"/><rect x="40" y="26" width="16" height="20" rx="5"/><circle cx="45" cy="34" r="1.6" fill="var(--accent2)" stroke="none"/><circle cx="51" cy="34" r="1.6" fill="var(--accent2)" stroke="none"/><line x1="48" y1="22" x2="48" y2="26"/></svg>
+        <div class="cap">Scene &middot; <b>a hand resting on the agent</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 DEMO AMBIENT -->
+  <section class="slide" id="s17" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Ambient Agent, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 18 DAY PLANNER (agent intro) -->
+  <section class="slide" id="s18" data-slug="Day Planner">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 05 of 08</div>
+        <div class="agentname rise" style="--i:1">Day Planner</div>
+        <p class="agentdesc rise" style="--i:2">Builds each person's day from what is actually on their plate, then <b>adjusts it as the day moves.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Day Planner &middot; <b>drop bot image here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 A DAY THAT PLANS ITSELF -->
+  <section class="slide" id="s19" data-slug="A day that plans itself">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">A day that plans itself</div>
+      <h2 class="rise" style="--i:1">Nobody starts the morning deciding what to start.</h2>
+      <p class="lead rise" style="--i:2; margin-top:1rem">Individual plans that respect team capacity and shared deadlines, revised three times a day.</p>
+      <div class="touch">
+        <div class="tp rise" style="--i:3"><div class="tt">Touchpoint 1</div><div class="th">Morning briefing</div><div class="tps">The plan is waiting before the shift starts.</div></div>
+        <div class="tp rise" style="--i:4"><div class="tt">Touchpoint 2</div><div class="th">Midday re-plan</div><div class="tps">Reality has moved, so the schedule moves with it.</div></div>
+        <div class="tp rise" style="--i:5"><div class="tt">Touchpoint 3</div><div class="th">End-of-day review</div><div class="tps">What slipped rolls forward, cleanly.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 DEMO DAY PLANNER -->
+  <section class="slide" id="s20" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Day Planner, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 21 PRODUCTIVITY (agent intro) -->
+  <section class="slide" id="s21" data-slug="Productivity Agent">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 06 of 08</div>
+        <div class="agentname rise" style="--i:1">Productivity Agent</div>
+        <p class="agentdesc rise" style="--i:2">Reads across every system of record and tells you <b>what is actually slowing the floor down.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Productivity Agent &middot; <b>drop bot image here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22 ANALYSIS YOU CAN ACT ON -->
+  <section class="slide" id="s22" data-slug="Analysis you can act on">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Analysis you can act on</div>
+      <h2 class="rise" style="--i:1">One view, from every system, with the reasoning shown.</h2>
+      <div class="points">
+        <div class="point rise" style="--i:2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></div>
+          <h3>Unified analysis</h3><p>One view stitched from CRM, ERP, floor data and inbox, with no exports.</p>
+        </div>
+        <div class="point rise" style="--i:3">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></div>
+          <h3>Smart decisions</h3><p>Recommends the next action and shows the reasoning behind it.</p>
+        </div>
+        <div class="point rise" style="--i:4">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3.2"/><path d="M5 21c0-4 3.1-7 7-7s7 3 7 7"/><path d="M16.5 4.5l1.8-1.8"/></svg></div>
+          <h3>Human in the loop</h3><p>Nothing executes without an approval. Every decision is reversible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23 DEMO PRODUCTIVITY -->
+  <section class="slide" id="s23" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Productivity Agent, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 24 CHURN (agent intro) -->
+  <section class="slide" id="s24" data-slug="Churn Agent">
+    <div class="stage split">
+      <div>
+        <div class="agentnum rise" style="--i:0">Agent 07 of 08</div>
+        <div class="agentname rise" style="--i:1">Churn Agent</div>
+        <p class="agentdesc rise" style="--i:2">Spots the accounts going quiet <b>while there is still time to do something about it.</b></p>
+      </div>
+      <div class="imgph rise" style="--i:2">
+        <svg viewBox="0 0 64 64" fill="none" stroke="var(--accent2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="6.5" r="2.5" fill="var(--accent2)" stroke="none"/><line x1="32" y1="9" x2="32" y2="15"/><rect x="12" y="15" width="40" height="32" rx="10"/><circle cx="24" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><circle cx="40" cy="30" r="3.4" fill="var(--accent2)" stroke="none"/><line x1="25" y1="39" x2="39" y2="39"/><line x1="20" y1="47" x2="20" y2="54"/><line x1="44" y1="47" x2="44" y2="54"/></svg>
+        <div class="cap">Churn Agent &middot; <b>drop bot image here</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25 THE ROAD LOOKS FINE -->
+  <section class="slide" id="s25" data-slug="Churn lens">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">The road looks fine until you look properly</div>
+      <h2 class="rise" style="--i:1">The naked eye sees a clear road. The churn lens sees the cracks early.</h2>
+      <div class="points">
+        <div class="point rise" style="--i:2"><h3>Revenue retained</h3><p>Accounts saved before they lapse compound into next quarter.</p></div>
+        <div class="point rise" style="--i:3"><h3>Customers keep arriving</h3><p>Glass ops grows on repeat orders, not on replacing lost ones.</p></div>
+        <div class="point rise" style="--i:4"><h3>Cracks show up early</h3><p>The signal appears while the relationship is still saveable.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26 ZIA OPS PRISM (agent intro) -->
+  <section class="slide" id="s26" data-slug="Zia Ops Prism">
+    <div class="stage">
+      <div class="agentnum rise" style="--i:0">Agent 08 of 08</div>
+      <div class="agentname rise" style="--i:1">Zia Ops Prism</div>
+      <p class="agentdesc rise" style="--i:2; max-width:56ch">One operational signal in. <b class="accent">Seven views out.</b></p>
+      <div class="views rise" style="--i:3">
+        <span class="view">Floor</span><span class="view">Quality</span><span class="view">Cost</span><span class="view">Delivery</span><span class="view">Vendor</span><span class="view">Customer</span><span class="view">Risk</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27 WHAT COMES OUT -->
+  <section class="slide" id="s27" data-slug="What comes out">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">What comes out the other side</div>
+      <h2 class="rise" style="--i:1">Right the first time, not the third.</h2>
+      <div class="points">
+        <div class="point rise" style="--i:2"><h3>CSAT climbs</h3><p>Customers get answers that are right the first time, not escalations.</p></div>
+        <div class="point rise" style="--i:3"><h3>Time spent drops</h3><p>The same question no longer costs three people half a morning.</p></div>
+        <div class="point rise" style="--i:4"><h3>Accurate solutions</h3><p>The recommendation lands on the actual cause, with evidence attached.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 28 DEMO OPS PRISM -->
+  <section class="slide" id="s28" data-slug="Live demo">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">Live demo</div>
+      <h2 class="rise" style="--i:1">Zia Ops Prism, in motion.</h2>
+      <div class="recwrap rise" style="--i:2"><div class="rec"><span class="recdot"><i></i>Rec</span><span class="play"></span><span class="rc">Drop the screen recording here</span></div></div>
+    </div>
+  </section>
+
+  <!-- 29 NOT AN AGENT, A WORKFORCE -->
+  <section class="slide" id="s29" data-slug="A workforce">
+    <div class="stage">
+      <div class="eyebrow rise" style="--i:0">The takeaway</div>
+      <h2 class="rise" style="--i:1">We have not built an agent. <span class="accent">We have built a workforce.</span></h2>
+      <div class="roll rise" style="--i:2">
+        <span><span class="n">01</span> Onboarder</span><span><span class="n">02</span> Pre-Sales</span><span><span class="n">03</span> Resources</span><span><span class="n">04</span> Ambient</span>
+        <span><span class="n">05</span> Day Planner</span><span><span class="n">06</span> Productivity</span><span><span class="n">07</span> Churn</span><span><span class="n">08</span> Ops Prism</span>
+      </div>
+      <p class="lead rise" style="--i:3; margin-top:1.5rem">Eight specialists, one shared context, <b>working the same shift as everyone else.</b></p>
+    </div>
+  </section>
+
+  <!-- 30 CLOSE -->
+  <section class="slide" id="s30" data-slug="Silica AI">
+    <div class="stage">
+      <h2 class="closebig rise" style="--i:0">Silica<span class="o">.</span>AI</h2>
+      <p class="closesub rise" style="--i:1">An agentic workforce for glass operations.</p>
+      <div class="closefoot rise" style="--i:2">Built by <b>The Autopilots</b></div>
+    </div>
+  </section>
+
+  <!-- 31 Q&A -->
+  <section class="slide" id="s31" data-slug="Q&amp;A">
+    <div class="stage">
+      <h2 class="qa rise" style="--i:0">Q<span class="o">&amp;</span>A</h2>
+      <p class="qasub rise" style="--i:1">Ask us anything about the mesh, the tooling or the numbers.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">31</span></div>
+  <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
+  <div class="arrows">
+    <button id="prev" aria-label="Previous slide">&lsaquo;</button>
+    <button id="next" aria-label="Next slide">&rsaquo;</button>
+  </div>
+</div>
+<div class="hint" id="hint">&larr; &rarr; to navigate</div>
+
+<script>
+  (function(){
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    var n = slides.length, i = 0;
+    var cur = document.getElementById('cur'), tot = document.getElementById('tot');
+    var prev = document.getElementById('prev'), next = document.getElementById('next');
+    var dotsWrap = document.getElementById('dots'), rail = document.getElementById('toprail');
+    var slug = document.getElementById('slug'), hint = document.getElementById('hint');
+    tot.textContent = String(n).padStart(2,'0');
+    var dots = slides.map(function(s, idx){
+      var b = document.createElement('button');
+      b.setAttribute('role','tab'); b.setAttribute('aria-label','Go to slide ' + (idx+1));
+      b.addEventListener('click', function(){ go(idx); });
+      dotsWrap.appendChild(b); return b;
+    });
+    function go(k){
+      i = Math.max(0, Math.min(n-1, k));
+      slides.forEach(function(s, idx){ s.classList.toggle('active', idx===i); });
+      dots.forEach(function(d, idx){ d.setAttribute('aria-current', idx===i ? 'true':'false'); });
+      cur.textContent = String(i+1).padStart(2,'0');
+      rail.style.width = ((i+1)/n*100) + '%';
+      prev.disabled = i===0; next.disabled = i===n-1;
+      slug.innerHTML = '<b>Silica AI</b> &middot; ' + (slides[i].getAttribute('data-slug') || '');
+    }
+    function step(d){ go(i+d); }
+    prev.addEventListener('click', function(){ step(-1); });
+    next.addEventListener('click', function(){ step(1); });
+    document.addEventListener('keydown', function(e){
+      if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); step(1); }
+      else if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); step(-1); }
+      else if(e.key==='Home'){ e.preventDefault(); go(0); }
+      else if(e.key==='End'){ e.preventDefault(); go(n-1); }
+    });
+    var x0=null;
+    document.addEventListener('touchstart', function(e){ x0=e.touches[0].clientX; }, {passive:true});
+    document.addEventListener('touchend', function(e){ if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>50) step(dx<0?1:-1); x0=null; }, {passive:true});
+    setTimeout(function(){ if(hint) hint.style.opacity='0'; }, 4200);
+    go(0);
+  })();
+</script>
