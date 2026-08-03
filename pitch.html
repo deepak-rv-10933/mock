@@ -49,7 +49,7 @@
   .eyebrow::before{content:""; width:26px; height:1px; background:var(--glass); opacity:.7}
   h1,h2{margin:0; text-wrap:balance; font-weight:800; letter-spacing:-.025em; line-height:1.02}
   h2{font-size:clamp(1.55rem,3.5vw,2.75rem); line-height:1.06}
-  .lead{font-size:clamp(1.02rem,1.55vw,1.24rem); line-height:1.55; color:var(--muted); max-width:60ch}
+  .lead{font-size:clamp(1.02rem,1.55vw,1.24rem); line-height:1.55; color:var(--muted); max-width:62ch}
   .lead b{color:var(--ink); font-weight:600}
   .amber{color:var(--molten)} .cyan{color:var(--glass)}
   .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
@@ -61,7 +61,7 @@
   .cover-title{font-size:clamp(3.4rem,10vw,7.2rem); line-height:.92; letter-spacing:-.045em}
   .cover-title .o{color:var(--molten)}
   .cover-thesis{font-size:clamp(1.3rem,2.7vw,2.05rem); font-weight:600; letter-spacing:-.02em;
-    line-height:1.25; color:var(--ink); max-width:22ch; margin:1.5rem 0 0}
+    line-height:1.25; color:var(--ink); max-width:24ch; margin:1.5rem 0 0}
   .cover-thesis em{font-style:normal; color:var(--molten)}
   .metarow{display:flex; flex-wrap:wrap; gap:.6rem 1.1rem; margin-top:2.2rem;
     font-family:var(--mono); font-size:clamp(.66rem,1.1vw,.8rem); letter-spacing:.14em;
@@ -86,36 +86,34 @@
   .src{border:1px solid var(--edge); background:var(--panel); border-radius:12px; padding:1rem 1.15rem}
   .src .sh{font-family:var(--mono); font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--glass); margin-bottom:.35rem}
   .src .sb{font-size:.96rem; color:var(--muted); line-height:1.4}
+  .src .sb b{color:var(--ink); font-weight:600}
 
-  /* ============================ slide 3 - silo tiles ============================ */
-  .tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.8rem,1.8vw,1.3rem); margin-top:.4rem}
-  @media(max-width:820px){.tiles{grid-template-columns:1fr}}
-  .tile{border:1px solid var(--edge); background:var(--panel); border-radius:14px; padding:1.3rem 1.25rem; position:relative; overflow:hidden}
-  .tile::after{content:""; position:absolute; inset:0 0 auto 0; height:2px; background:var(--edge-strong)}
-  .tile .tl{font-family:var(--mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted)}
-  .tile .tv{font-size:clamp(1.25rem,2.4vw,1.7rem); font-weight:700; letter-spacing:-.02em; color:var(--ink); margin:.7rem 0 .2rem}
-  .tile .tn{font-size:.86rem; color:var(--faint); font-style:italic}
-  .shrug{margin-top:1.7rem; font-size:clamp(1rem,1.6vw,1.2rem); color:var(--muted); line-height:1.5; max-width:70ch}
+  /* ============================ slide 3 - blame cycle ============================ */
+  .cycle{display:flex; flex-wrap:wrap; align-items:center; gap:.65rem .9rem; margin-top:1.7rem}
+  .team{border:1px solid var(--edge-strong); background:var(--panel); border-radius:12px;
+    padding:.7rem 1.05rem; font-weight:700; font-size:clamp(1rem,1.9vw,1.3rem); letter-spacing:-.01em; color:var(--ink)}
+  .blame{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--molten)}
+  .loop{flex-basis:100%; margin-top:.7rem; display:flex; align-items:center; gap:.6rem;
+    font-family:var(--mono); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+  .loop .arc{color:var(--molten); font-size:1.1rem}
+  .loop b{color:var(--molten)}
+  .shrug{margin-top:1.7rem; font-size:clamp(1rem,1.6vw,1.2rem); color:var(--muted); line-height:1.5; max-width:72ch}
   .shrug b{color:var(--ink); font-weight:600}
 
-  /* ============================ concept slides (lead + highlight) ============================ */
-  .rule{margin-top:1.8rem; border-left:2px solid var(--glass); background:var(--glass-dim); padding:.9rem 1.2rem; border-radius:0 10px 10px 0; font-size:1rem; line-height:1.5; color:var(--muted); max-width:72ch}
-  .rule b{color:var(--ink)}
-  .rule.amber-rule{border-left-color:var(--molten); background:var(--molten-dim)}
+  /* ============================ slide 5 - the knot (cross-app) ============================ */
+  .knot{display:flex; flex-wrap:wrap; align-items:stretch; gap:.6rem; margin-top:1.6rem}
+  .app{flex:1 1 210px; border:1px solid var(--edge); background:var(--panel); border-radius:14px; padding:1.15rem 1.2rem; position:relative}
+  .app::after{content:""; position:absolute; inset:0 0 auto 0; height:2px; background:var(--edge-strong)}
+  .app.root{border-color:rgba(255,138,61,.42); background:linear-gradient(180deg,var(--molten-dim),var(--panel))}
+  .app.root::after{background:var(--molten)}
+  .app .an{font-family:var(--mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--glass); margin-bottom:.55rem}
+  .app.root .an{color:var(--molten)}
+  .app .ad{font-size:1rem; line-height:1.4; color:var(--ink); font-weight:600}
+  .app .atag{margin-top:.7rem; font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .karr{align-self:center; font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--molten); white-space:nowrap; padding:0 .1rem}
+  @media(max-width:820px){.knot{flex-direction:column}.karr{transform:none; text-align:center}}
 
-  /* ============================ comparison table ============================ */
-  .tbl-scroll{overflow-x:auto; margin-top:.5rem}
-  table.cmp{width:100%; border-collapse:collapse; min-width:560px}
-  table.cmp th,table.cmp td{text-align:left; padding:.85rem 1rem; border-bottom:1px solid var(--edge); vertical-align:top}
-  table.cmp thead th{font-family:var(--mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--edge-strong)}
-  table.cmp thead th.agent{color:var(--glass)}
-  table.cmp td.k{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); width:22%}
-  table.cmp td.dash{color:var(--muted); width:39%}
-  table.cmp td.agent{color:var(--ink); width:39%; font-weight:500}
-  table.cmp td.agent b{color:var(--glass-2); font-weight:700}
-  table.cmp tbody tr:hover{background:rgba(120,160,155,.04)}
-
-  /* ============================ pipeline ============================ */
+  /* ============================ slide 6 - pipeline ============================ */
   .flow{display:flex; align-items:stretch; gap:.6rem; margin-top:.6rem; flex-wrap:wrap}
   .node{flex:1 1 150px; min-width:140px; border:1px solid var(--edge); background:var(--panel); border-radius:12px; padding:1rem 1rem}
   .node.compute{border-color:rgba(255,138,61,.3)}
@@ -129,23 +127,26 @@
   .legend span{display:flex; align-items:center; gap:.5rem}
   .legend i{width:10px; height:10px; border-radius:3px; display:inline-block}
   .legend .c-cat{background:var(--molten)} .legend .c-zia{background:var(--glass)}
+  .rule{margin-top:1.8rem; border-left:2px solid var(--glass); background:var(--glass-dim); padding:.95rem 1.2rem; border-radius:0 10px 10px 0; font-size:clamp(1rem,1.5vw,1.18rem); line-height:1.5; color:var(--muted); max-width:74ch}
+  .rule b{color:var(--ink)}
 
-  /* ============================ proof KPIs ============================ */
-  .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.7rem,1.6vw,1.15rem); margin-top:.3rem}
-  @media(max-width:820px){.kpis{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.kpis{grid-template-columns:1fr}}
+  /* ============================ slide 7 - capability cards ============================ */
+  .caps{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:clamp(.7rem,1.6vw,1rem); margin-top:1.6rem}
+
+  /* ============================ slide 8 - proof KPIs ============================ */
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:clamp(.7rem,1.6vw,1.15rem); margin-top:.3rem}
   .kpi{border:1px solid var(--edge); background:var(--panel); border-radius:14px; padding:1.25rem 1.2rem}
-  .kpi .n{font-family:var(--mono); font-size:clamp(1.7rem,3.4vw,2.5rem); font-weight:600; letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1}
+  .kpi .n{font-family:var(--mono); font-size:clamp(1.6rem,3.2vw,2.4rem); font-weight:600; letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1}
   .kpi .l{margin-top:.6rem; font-size:.9rem; line-height:1.35; color:var(--muted)}
-  .kpi.k-good .n{color:var(--glass)} .kpi.k-risk .n{color:var(--molten)} .kpi.k-plain .n{color:var(--ink)}
+  .kpi.k-good .n{color:var(--glass)} .kpi.k-plain .n{color:var(--ink)}
   .proof-foot{margin-top:1.7rem; font-family:var(--mono); font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
   .proof-foot b{color:var(--glass)}
 
-  /* ============================ close / cliffhanger ============================ */
+  /* ============================ slide 9 - close / cliffhanger ============================ */
   #s9{background:radial-gradient(110% 90% at 50% 30%, var(--molten-dim), transparent 60%)}
   .closeq{font-size:clamp(1.9rem,5.5vw,4rem); font-weight:800; letter-spacing:-.03em; line-height:1.08; text-wrap:balance; max-width:16ch; margin:0 auto; text-align:center}
   .closeq .amber{color:var(--molten)} .closeq .cyan{color:var(--glass)}
-  .closesub{margin:1.5rem auto 0; text-align:center; font-size:clamp(1rem,1.7vw,1.28rem); line-height:1.5; color:var(--muted); max-width:52ch}
+  .closesub{margin:1.5rem auto 0; text-align:center; font-size:clamp(1rem,1.7vw,1.28rem); line-height:1.5; color:var(--muted); max-width:54ch}
   .closesub b{color:var(--ink); font-weight:600}
   .cta{margin:2.3rem auto 0; display:flex; justify-content:center}
   .cta a{display:inline-flex; align-items:center; gap:.7rem; text-decoration:none;
@@ -202,93 +203,102 @@
     </div>
   </section>
 
-  <!-- 2 &middot; THE SETUP -->
+  <!-- 2 &middot; THE SETUP (what data lives in which app) -->
   <section class="slide" id="s2" data-slug="The setup">
     <div class="stage split">
       <div>
         <div class="eyebrow rise" style="--i:0">The setup</div>
-        <h2 class="rise" style="--i:1">One owner.<br>Many moving parts.</h2>
-        <p class="lead rise" style="--i:2; margin-top:1.3rem">Plants in <b>Chennai, Pune and Vadodara</b>. A <b>region head</b> in every market, a <b>plant head</b> on every floor. The numbers live across <b>five separate Zoho systems</b>.</p>
+        <h2 class="rise" style="--i:1">One owner.<br>Five apps.<br>Five versions of the truth.</h2>
+        <p class="lead rise" style="--i:2; margin-top:1.3rem">Plants in <b>Chennai, Pune and Vadodara</b>. A <b>region head</b> in every market, a <b>plant head</b> on every floor. Every team lives in its own Zoho app &mdash; and each holds only <b>one piece</b> of the picture.</p>
         <div class="qbox rise" style="--i:3">
           <div class="qs">The question on the owner's desk</div>
           <div class="q">&ldquo;Why is sales down this month?&rdquo;</div>
         </div>
       </div>
       <div class="srclist">
-        <div class="src rise" style="--i:2"><div class="sh">Zoho CRM</div><div class="sb">Deals, accounts, approvals, churn: the sales side.</div></div>
-        <div class="src rise" style="--i:3"><div class="sh">Zoho Desk</div><div class="sb">Warranty claims &amp; complaints: the customer's voice.</div></div>
-        <div class="src rise" style="--i:4"><div class="sh">Zoho Books</div><div class="sb">Invoices, receivables, margins: the money.</div></div>
-        <div class="src rise" style="--i:5"><div class="sh">Zoho Inventory</div><div class="sb">Stock, warehouses and movements across regions.</div></div>
-        <div class="src rise" style="--i:6"><div class="sh">Zoho Creator (MES)</div><div class="sb">Production, downtime, QC, dispatch: the factory floor.</div></div>
+        <div class="src rise" style="--i:2"><div class="sh">Zoho CRM</div><div class="sb"><b>Sales</b> &mdash; deals, accounts, approvals, churn signals.</div></div>
+        <div class="src rise" style="--i:3"><div class="sh">Zoho Creator (MES)</div><div class="sb"><b>The factory floor</b> &mdash; production, downtime, stock, QC, dispatch.</div></div>
+        <div class="src rise" style="--i:4"><div class="sh">Zoho Desk</div><div class="sb"><b>The customer's voice</b> &mdash; complaints &amp; warranty claims.</div></div>
+        <div class="src rise" style="--i:5"><div class="sh">Zoho Books</div><div class="sb"><b>The money</b> &mdash; invoices, receivables, margins.</div></div>
+        <div class="src rise" style="--i:6"><div class="sh">Zoho Inventory</div><div class="sb"><b>Movement</b> &mdash; stock &amp; warehouses across regions.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- 3 &middot; THREE SHRUGS (generic, no specifics) -->
-  <section class="slide" id="s3" data-slug="The everyday">
+  <!-- 3 &middot; THE BLAME CYCLE -->
+  <section class="slide" id="s3" data-slug="The blame cycle">
     <div class="stage">
-      <div class="eyebrow rise" style="--i:0">The everyday</div>
-      <h2 class="rise" style="--i:1">Three teams. Three screens. Three shrugs.</h2>
-      <div class="tiles" style="margin-top:1.7rem">
-        <div class="tile rise" style="--i:2"><div class="tl">Sales &middot; CRM</div><div class="tv">a number dips</div><div class="tn">&ldquo;seasonal?&rdquo;</div></div>
-        <div class="tile rise" style="--i:3"><div class="tl">Production &middot; Creator</div><div class="tv">a line stalls</div><div class="tn">&ldquo;we'll catch up.&rdquo;</div></div>
-        <div class="tile rise" style="--i:4"><div class="tl">Procurement &middot; Creator</div><div class="tv">a vendor slips</div><div class="tn">&ldquo;minor.&rdquo;</div></div>
+      <div class="eyebrow rise" style="--i:0">The blame cycle</div>
+      <h2 class="rise" style="--i:1">Everyone's pointing. <span class="amber">No one's connecting.</span></h2>
+      <div class="cycle">
+        <span class="team rise" style="--i:2">Sales</span><span class="blame rise" style="--i:2">blames &rarr;</span>
+        <span class="team rise" style="--i:3">Production</span><span class="blame rise" style="--i:3">blames &rarr;</span>
+        <span class="team rise" style="--i:4">Procurement</span><span class="blame rise" style="--i:4">blames &rarr;</span>
+        <span class="team rise" style="--i:5">Logistics</span><span class="blame rise" style="--i:5">blames &rarr;</span>
+        <span class="team rise" style="--i:6">Quality</span>
+        <span class="loop rise" style="--i:7"><span class="arc">&#8630;</span> &hellip;and Quality blames Sales. <b>Round and round.</b></span>
       </div>
-      <p class="shrug rise" style="--i:5">Three systems, three shrugs &mdash; and <b>nothing tells them it's the same problem.</b> To connect the dots you'd have to already suspect a question that spans five systems and five departments. So no one ever asks it.</p>
+      <p class="shrug rise" style="--i:8">Each team is looking at its own app, and each is <b>a little bit right</b>. The real problem is the thread running through all of them &mdash; and no one can see the whole thread, so no one owns it.</p>
     </div>
   </section>
 
-  <!-- 4 &middot; THE BLIND SPOT (concept, no reveal) -->
+  <!-- 4 &middot; THE BLIND SPOT -->
   <section class="slide" id="s4" data-slug="The blind spot">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">The blind spot</div>
-      <h2 class="rise" style="--i:1">The problem never lives on <span class="amber">one</span> screen.</h2>
-      <p class="lead rise" style="--i:2; margin-top:1.3rem">It hides in the seams <b>between</b> systems &mdash; a small, forgivable signal in each, invisible as a whole. A dashboard can only surface it if you already knew to ask. So the question that matters never gets asked&hellip;</p>
+      <h2 class="rise" style="--i:1">The problem never lives in <span class="amber">one</span> app.</h2>
+      <p class="lead rise" style="--i:2; margin-top:1.3rem">It hides in the seams <b>between</b> them &mdash; a small, forgivable signal in each, invisible as a whole. To catch it, someone would have to already suspect a question that spans five apps and five departments&hellip;</p>
       <div class="qbox rise" style="--i:3">
         <div class="qs">The question no one asks</div>
-        <div class="q">&ldquo;Which five small things, in five systems, are actually <em style="font-style:normal;color:var(--molten)">one</em> problem?&rdquo;</div>
+        <div class="q">&ldquo;Which five small things, in five apps, are actually <em style="font-style:normal;color:var(--molten)">one</em> problem?&rdquo;</div>
       </div>
-      <p class="lead rise" style="--i:4; margin-top:1.3rem">&hellip;and it compounds &mdash; quietly &mdash; until a customer walks.</p>
+      <p class="lead rise" style="--i:4; margin-top:1.3rem">&hellip;so it never gets asked &mdash; and the problem compounds, quietly, until a customer walks.</p>
     </div>
   </section>
 
-  <!-- 5 &middot; A DIFFERENT IDEA (the turn + autonomy hype) -->
-  <section class="slide" id="s5" data-slug="A different idea">
+  <!-- 5 &middot; THE KNOT (one agent ties app to app) -->
+  <section class="slide" id="s5" data-slug="The knot">
     <div class="stage">
-      <div class="eyebrow rise" style="--i:0">A different idea</div>
-      <h2 class="rise" style="--i:1">Don't add another screen.<br><span class="cyan">Put an agent on top of all of them.</span></h2>
-      <p class="lead rise" style="--i:2; margin-top:1.3rem">Every morning, <b>before anyone logs in</b>, one Zia agent reads across all five systems, follows the trail to the root cause, and writes <b>one decision for each owner</b> &mdash; then quietly handles the routine ones itself.</p>
-      <div class="rule rise" style="--i:3">You don't open a chart and go looking. <b>You wake up to answers</b> &mdash; ranked by money at risk, each already routed to the person who can act.</div>
+      <div class="eyebrow rise" style="--i:0">The idea</div>
+      <h2 class="rise" style="--i:1">One agent, over every app &mdash; <span class="cyan">tying the symptom to its cause.</span></h2>
+      <div class="knot">
+        <div class="app rise" style="--i:2"><div class="an">Zoho CRM</div><div class="ad">A deal slips. Churn creeps up.</div><div class="atag">the symptom you see</div></div>
+        <div class="karr rise" style="--i:2">&larr; caused by</div>
+        <div class="app rise" style="--i:3"><div class="an">Zoho Creator</div><div class="ad">A line sat idle. Stock ran thin.</div><div class="atag">the cause you don't</div></div>
+        <div class="karr rise" style="--i:3">&larr; caused by</div>
+        <div class="app root rise" style="--i:4"><div class="an">Procurement</div><div class="ad">A supplier slipped &mdash; weeks ago.</div><div class="atag">the root, hidden upstream</div></div>
+      </div>
+      <p class="shrug rise" style="--i:5">The agent reads every app at once and <b>ties a symptom in one to its cause in another</b> &mdash; the sales dip in CRM back to the idle line in Creator, back to the vendor who slipped. One thread, drawn under all the blame.</p>
     </div>
   </section>
 
-  <!-- 6 &middot; ZIA + CATALYST (the tech power) -->
-  <section class="slide" id="s6" data-slug="Zia + Catalyst">
+  <!-- 6 &middot; THE MAGIC: ZIA + CATALYST -->
+  <section class="slide" id="s6" data-slug="The magic">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">The magic &middot; Zia + Catalyst</div>
       <h2 class="rise" style="--i:1">Zia is already a wonder. With <span class="amber">Catalyst</span>, it becomes <span class="cyan">magic</span>.</h2>
-      <p class="lead rise" style="--i:2; margin-top:1.2rem; max-width:76ch">Zia Agent reads, reasons and decides &mdash; a wonder on its own. Catalyst gives it a heartbeat: it wakes on its own, reaches into every system, grounds every number and serves the answer live. <b>One reasons, one runs</b> &mdash; and your business starts fixing itself before anyone logs in.</p>
+      <p class="lead rise" style="--i:2; margin-top:1.2rem; max-width:78ch">A Zia agent reads, reasons and decides &mdash; a wonder on its own. Catalyst gives it a heartbeat: it wakes on its own, reaches into every app, and serves the answer live. <b>One reasons, one runs.</b></p>
       <div class="flow" style="margin-top:1.4rem">
-        <div class="node compute rise" style="--i:2"><div class="nh">Catalyst &middot; Cron</div><div class="nb">Wakes at dawn, every day &mdash; no one presses go</div></div>
-        <div class="arrow rise" style="--i:2">&rarr;</div>
-        <div class="node compute rise" style="--i:3"><div class="nh">Catalyst &middot; Pull + Detectors</div><div class="nb">Reads CRM, Creator &amp; Desk; computes every number, deterministically</div></div>
+        <div class="node compute rise" style="--i:3"><div class="nh">Catalyst &middot; Cron</div><div class="nb">Wakes at dawn, every day &mdash; no one presses go</div></div>
         <div class="arrow rise" style="--i:3">&rarr;</div>
-        <div class="node judge rise" style="--i:4"><div class="nh">Zia &middot; Agent</div><div class="nb">Reasons the cause-chain, picks the root, writes one decision per owner</div></div>
+        <div class="node compute rise" style="--i:4"><div class="nh">Catalyst &middot; Reaches every app</div><div class="nb">Pulls the pieces from CRM, Creator &amp; Desk into one place</div></div>
         <div class="arrow rise" style="--i:4">&rarr;</div>
-        <div class="node compute rise" style="--i:5"><div class="nh">Catalyst &middot; Store + Host</div><div class="nb">Validates, saves the decisions, serves the live board</div></div>
+        <div class="node judge rise" style="--i:5"><div class="nh">Zia &middot; Agent</div><div class="nb">Ties symptom to cause, picks the root, writes a decision per owner</div></div>
+        <div class="arrow rise" style="--i:5">&rarr;</div>
+        <div class="node compute rise" style="--i:6"><div class="nh">Catalyst &middot; Serves it live</div><div class="nb">Saves the decisions and hosts the board the teams open</div></div>
       </div>
-      <div class="legend rise" style="--i:6"><span><i class="c-cat"></i>Catalyst &mdash; runtime, data &amp; hosting</span><span><i class="c-zia"></i>Zia &mdash; reasoning</span></div>
-      <div class="rule rise" style="--i:7">The agent <b>never does arithmetic</b> &mdash; every number comes from the detectors, so it can't be invented. And it runs on a <b>Zoho-hosted model</b>: no API key, your data never leaves Zoho.</div>
+      <div class="legend rise" style="--i:7"><span><i class="c-cat"></i>Catalyst &mdash; the runtime, data &amp; hosting</span><span><i class="c-zia"></i>Zia &mdash; the reasoning</span></div>
+      <div class="rule rise" style="--i:8">Alone, an agent is clever. Wired into Catalyst &mdash; its dawn cron, its reach into every app, its live board &mdash; it becomes an operator that <b>never sleeps</b>. That combination is the magic: <b>your business quietly untangling itself</b> before anyone logs in.</div>
     </div>
   </section>
 
-  <!-- 7 &middot; WHAT THE AGENT DOES (positive, no comparison) -->
+  <!-- 7 &middot; WHAT THE AGENT DOES -->
   <section class="slide" id="s7" data-slug="What the agent does">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">What the agent does</div>
       <h2 class="rise" style="--i:1">It doesn't just <span class="amber">show</span> you the problem. <span class="cyan">It solves it.</span></h2>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:clamp(.7rem,1.6vw,1rem); margin-top:1.6rem">
-        <div class="src rise" style="--i:2"><div class="sh">Follows the trail</div><div class="sb">Links CRM, Creator &amp; Desk into one causal chain &mdash; the story no single screen tells.</div></div>
+      <div class="caps">
+        <div class="src rise" style="--i:2"><div class="sh">Follows the trail</div><div class="sb">Ties CRM, Creator &amp; Desk into one causal chain &mdash; the story no single app tells.</div></div>
         <div class="src rise" style="--i:3"><div class="sh">Names the why</div><div class="sb">Not just the number that moved &mdash; the root cause behind it.</div></div>
         <div class="src rise" style="--i:4"><div class="sh">Comes to you</div><div class="sb">Surfaces the one thing that matters each morning, unasked.</div></div>
         <div class="src rise" style="--i:5"><div class="sh">Ranks by money</div><div class="sb">Every finding prioritised by rupees at risk, across the whole org.</div></div>
@@ -298,20 +308,19 @@
     </div>
   </section>
 
-  <!-- 8 &middot; PROOF (no spoiler numbers) -->
+  <!-- 8 &middot; PROOF -->
   <section class="slide" id="s8" data-slug="Proven on real data">
     <div class="stage">
       <div class="eyebrow rise" style="--i:0">Proven on real data, not a mockup</div>
       <h2 class="rise" style="--i:1">It runs end to end &mdash; today.</h2>
       <div class="kpis" style="margin-top:1.5rem">
         <div class="kpi k-plain rise" style="--i:2"><div class="n">6,204</div><div class="l">records across 22 tables, read every morning</div></div>
-        <div class="kpi k-plain rise" style="--i:3"><div class="n">5 &rarr; 1</div><div class="l">CRM &middot; Desk &middot; Books &middot; Inventory &middot; Creator, unified on one board</div></div>
+        <div class="kpi k-plain rise" style="--i:3"><div class="n">5 &rarr; 1</div><div class="l">five apps, tied together on one board</div></div>
         <div class="kpi k-good rise" style="--i:4"><div class="n">11</div><div class="l">cross-department decisions, each routed to an owner</div></div>
-        <div class="kpi k-good rise" style="--i:5"><div class="n">10/11</div><div class="l">grounded &amp; written by the agent (1 safe fallback)</div></div>
-        <div class="kpi k-good rise" style="--i:6"><div class="n">0</div><div class="l">hallucinated numbers &mdash; the guardrail rejects every ungrounded figure</div></div>
-        <div class="kpi k-plain rise" style="--i:7"><div class="n">Qwen-122B</div><div class="l">Zoho-hosted, no external key, data stays in Zoho</div></div>
+        <div class="kpi k-good rise" style="--i:5"><div class="n">10/11</div><div class="l">written by the agent, ready to act (1 safe fallback)</div></div>
+        <div class="kpi k-plain rise" style="--i:6"><div class="n">every&nbsp;dawn</div><div class="l">runs unattended, before anyone logs in</div></div>
       </div>
-      <div class="proof-foot rise" style="--i:8">Built on <b>Zoho Zia Agents</b> + <b>Zoho Catalyst</b></div>
+      <div class="proof-foot rise" style="--i:7">Built on <b>Zoho Zia Agents</b> + <b>Zoho Catalyst</b></div>
     </div>
   </section>
 
@@ -319,7 +328,7 @@
   <section class="slide" id="s9" data-slug="See it live">
     <div class="stage">
       <p class="closeq rise" style="--i:0">So &mdash; what did it find <span class="amber">this morning</span>?</p>
-      <p class="closesub rise" style="--i:1">One problem, hiding across five systems. <b>Eleven decisions, already routed</b> to their owners before anyone logged in. BI would still be waiting for someone to ask the right question.</p>
+      <p class="closesub rise" style="--i:1">One problem, hiding across five apps. <b>Eleven decisions, already routed</b> to their owners before anyone logged in. Let's open the board and see what it found.</p>
       <div class="cta rise" style="--i:2"><a href="/">Open the live board <span class="ar">&rarr;</span></a></div>
       <div class="closefoot rise" style="--i:3">GlassOps &middot; <b>the board is live</b></div>
     </div>
