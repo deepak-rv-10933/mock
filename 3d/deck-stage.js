@@ -364,6 +364,15 @@
        for the 200ms around the toggle — so window-resize and rail-width
        drag (which also call _fit) don't lag behind the cursor. */
     .rail[data-user-hidden] { transform: translateX(-100%); }
+    /* Auto-hide (viewer): rail parked off-screen with a small left-edge
+       peek that slides fully in on hover. _railWidth() returns 0 under
+       [rail-autohide] so the stage is full width and the rail overlays
+       it. Rail stays interactive (not inert), so the peek is hoverable. */
+    :host([rail-autohide]) .rail {
+      transform: translateX(calc(-100% + 14px));
+      transition: transform 200ms cubic-bezier(.3,.7,.4,1);
+    }
+    :host([rail-autohide]) .rail:hover { transform: translateX(0); }
     :host([data-rail-anim]) .rail { transition: transform 200ms cubic-bezier(.3,.7,.4,1); }
     :host([data-rail-anim]) .stage { transition: left 200ms cubic-bezier(.3,.7,.4,1); }
     :host([data-rail-anim]) .canvas { transition: transform 200ms cubic-bezier(.3,.7,.4,1); }
@@ -1571,7 +1580,7 @@
       // rail has had layout on some load paths, and a 0 there paints the
       // slide full-width for one frame before the post-slotchange _fit()
       // corrects it.
-      if (!this._railEnabled || !this._railVisible || this.hasAttribute('no-rail')
+      if (!this._railEnabled || !this._railVisible || this.hasAttribute('no-rail') || this.hasAttribute('rail-autohide')
           || this.hasAttribute('noscale') || this._presenting || this._previewMode
           || NARROW_MQ.matches) return 0;
       return this._railPx || 0;

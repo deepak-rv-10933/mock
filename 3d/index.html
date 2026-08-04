@@ -780,31 +780,28 @@
 
 
 <script>
-/* Auto-hide the slide-thumbnail rail while the deck is in fullscreen.
-   deck-stage.js hard-hides its rail on the {__omelette_presenting:true}
-   window message; on a raw deploy there is no host to send it, so tie it
-   to fullscreen state here. Covers both the Fullscreen API and F11
-   (which reports no fullscreenElement) via a screen-size check. Stays
-   inert when a design-tool host is present so we never fight it. */
+/* Hover-reveal the slide-thumbnail rail: it sits off-screen with a small
+   left-edge peek and slides in on hover. The behaviour lives in
+   deck-stage.js under the [rail-autohide] attribute; here we just set that
+   attribute on the <deck-stage> host once it exists and nudge a re-fit so
+   the stage takes the full width. */
 (function () {
-  function hosted() { return !!(window.__dcUpdate || window.__omeletteHost); }
-  function isFullscreen() {
-    if (document.fullscreenElement || document.webkitFullscreenElement) return true;
-    try { return window.innerHeight >= screen.height - 2 && window.innerWidth >= screen.width - 2; }
-    catch (e) { return false; }
+  function apply(el) {
+    if (!el || el.__railAutohide) return;
+    el.__railAutohide = true;
+    el.setAttribute("rail-autohide", "");
+    try { window.dispatchEvent(new Event("resize")); } catch (e) {}
   }
-  var last = null;
-  function sync() {
-    if (hosted()) return;
-    var fs = isFullscreen();
-    if (fs === last) return;
-    last = fs;
-    try { window.postMessage({ __omelette_presenting: fs }, "*"); } catch (e) {}
+  function scan() {
+    var list = document.querySelectorAll("deck-stage");
+    for (var i = 0; i < list.length; i++) apply(list[i]);
   }
-  document.addEventListener("fullscreenchange", sync);
-  document.addEventListener("webkitfullscreenchange", sync);
-  window.addEventListener("resize", sync);
-  sync();
+  scan();
+  try {
+    var mo = new MutationObserver(scan);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (e) {}
+  window.addEventListener("load", scan);
 })();
 </script>
 </body></html>
